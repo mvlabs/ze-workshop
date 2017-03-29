@@ -1,0 +1,74 @@
+version: '2'
+services:
+  nginx:
+    build:
+      dockerfile: docker/nginx/Dockerfile
+      context: .
+    container_name: ze-workshop-nginx
+    ports:
+        - 8000:80
+    depends_on:
+      - php-7
+    volumes_from:
+      - data:ro
+    entrypoint: "sh -c 'cp /etc/nginx/sites-available/* /etc/nginx/sites-enabled/ && nginx -g \"daemon off;\"'"
+    networks:
+      - default
+  php-7:
+    build:
+      dockerfile: docker/php/Dockerfile
+      context: .
+    container_name: ze-workshop-php
+    depends_on:
+      - postgres
+      - data
+    volumes_from:
+      - data:rw
+    networks:
+      - default
+    working_dir: /app
+
+  data:
+    dns: 8.8.8.8
+    image: composer
+    container_name: ze-workshop-data
+    entrypoint: "sh -c 'cd /app && composer install --ansi --dev'"
+    volumes:
+      - ./app:/app
+    networks:
+      - default
+    user: $UID:$GID
+    environment:
+      - COMPOSER_HOME=/tmp/composer
+
+  postgres:
+    image: mdillon/postgis:9.5
+    container_name: ze-workshop-postgres
+    environment:
+      - POSTGRES_USER=mvlabs
+      - POSTGRES_PASSWORD=mvlabs
+      - POSTGRES_DB=ze-workshop
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    ports:
+      - 5432:5432
+    networks:
+      - default
+
+  pgadmin:
+    image: fenglc/pgadmin4:1.1
+    container_name: ze-workshop-pgadmin4
+    depends_on:
+      - postgres
+    ports:
+      - 8001:5050
+    networks:
+      - default
+
+volumes:
+  postgres-data:
+    driver: local
+
+networks:
+  default:
+    driver: bridge
