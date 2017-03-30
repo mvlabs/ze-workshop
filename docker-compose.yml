@@ -1,0 +1,43 @@
+version: '2'
+services:
+  nginx:
+    image: nginx
+    container_name: ze-workshop-nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./app:/app
+      - ./docker/nginx/ze-workshop.conf:/etc/nginx/conf.d/ze-workshop.conf
+    networks:
+      - base
+
+  php:
+    build: ./docker/php
+    container_name: ze-workshop-php
+    volumes:
+      - ./app:/app
+    networks:
+      - base
+
+  postgres:
+    image: postgres
+    container_name: ze-workshop-postgres
+    environment:
+      - POSTGRES_USER=mvlabs
+      - POSTGRES_PASSWORD=mvlabs
+      - POSTGRES_DB=ze-workshop
+    ports:
+      - 5432:5432
+    networks:
+      - base
+
+  pgadmin:
+    image: fenglc/pgadmin4
+    container_name: ze-workshop-pgadmin4
+    ports:
+      - 5050:5050
+    networks:
+      - base
+
+networks:
+  base:
