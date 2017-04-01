@@ -1,4 +1,4 @@
-FROM php:fpm
+FROM php:fpm-alpine
 
-RUN apt-get update && apt-get install libpq-dev libicu-dev -y
+RUN apk --no-cache --update add postgresql-dev icu-dev
 RUN docker-php-ext-install pdo pgsql pdo_pgsql intl zip bcmath

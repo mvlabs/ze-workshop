@@ -1,7 +1,7 @@
 version: '2'
 services:
   nginx:
-    image: nginx
+    image: nginx:alpine
     container_name: ze-workshop-nginx
     ports:
       - 80:80
@@ -20,7 +20,7 @@ services:
       - base
 
   postgres:
-    image: postgres
+    image: postgres:alpine
     container_name: ze-workshop-postgres
     environment:
       - POSTGRES_USER=mvlabs
