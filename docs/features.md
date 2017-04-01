@@ -2,33 +2,29 @@
 
 ## DOMAIN
 
-Our domain regards a collection of `things`, where a `thing` could be one of the following thigs:
-
-- conferences/events
-- middleware
-- chocolate wrappers
+Our domain regards a shared collection of chocolate wrappers
 
 ## FEATURES
 
-### LIST OF `THINGS`
+### LIST OF `CHOCOLATE WRAPPERS`
 
-Without authentication a user will be able to see the list of all the `things`.
+Without authentication a user will be able to see the list of all the `chocolate wrappers`.
 
-### `THING` DETAIL
+### `CCHOCOLATE WRAPPER` DETAIL
 
-Without authentication a user will be able to see the detail of a `thing`.
+Without authentication a user will be able to see the detail of a `chocolate wrapper`.
 
-### SUBMIT A NEW `THING`
+### SUBMIT A NEW `CHOCOLATE WRAPPER`
 
-A user needs to be authenticated to propose a new `thing`.
+A user needs to be authenticated to propose a new `chocolate wrapper`.
 
 The data submitted by the user needs to be filtered and validated.
 
-### ACCEPT A NEW `THING`
+### ACCEPT A NEW `CHOCOLATE WRAPPER`
 
-A user needs to be authorized to accept a new `thing`.
+A user needs to be authorized to accept a new `chocolate wrapper`.
 
-Only after approval the `thing` will be added to the public list
+Only after approval the `chocolate wrapper` will be added to the public list
 
 ### MULTILANGUAGE
 
