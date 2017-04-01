@@ -1,4 +1,4 @@
-# Middleware architectures in PHP with Zend Expressive
+# Sweet APIs with Middleware and Zend Expressive
 
 Middleware has recently become a must-know concept for PHP developers. With the advent of PSR-7,
 which standardized HTTP messages, many frameworks embraced and fostered the spread of such an
