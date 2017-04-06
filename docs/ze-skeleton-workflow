@@ -2,40 +2,40 @@
 
 ## public/index.php
 
-	- create $container
+    - create $container
 
-		## config/container.php
+        ## config/container.php
 
-			- load configuration
+            - load configuration
 
-			## config/config.php
+            ## config/config.php
 
-				- merge configuration from
-					- Framework components ConfigProviders
-					- cached config
-					- User components ConfigProviders
-					- config/autoload configurations
-					- Development config
+                - merge configuration from
+                    - Framework components ConfigProviders
+                    - cached config
+                    - User components ConfigProviders
+                    - config/autoload configurations
+                    - Development config
 
-				- returns an array
+                - returns an array
 
-			- build container with dependencies
-			- inject configuration
-			- returns container
+            - build container with dependencies
+            - inject configuration
+            - returns container
 
-	- retrieves application from container
-	
-		## \Zend\Expressive\Container\ApplicationFactory
+    - retrieves application from container
 
-			- loads configuration
-			- retrieves RouterInterface from configuration/FastRoute default
-			- retrieves Delegate\DefaultDelegate from configuration/null default
-				- aliased to \Zend\Expressive\Delegate\NotFoundDelegate
-					- delegate that returns a NotFound page
-			- retrieves EmitterInterface from configuration/null default
-			- instantiates application
-			- if !zend-expressive:programmating_pipeline in config
-			    - adds routes from config
+        ## \Zend\Expressive\Container\ApplicationFactory
+
+            - loads configuration
+            - retrieves RouterInterface from configuration/FastRoute default
+            - retrieves Delegate\DefaultDelegate from configuration/null default
+                - aliased to \Zend\Expressive\Delegate\NotFoundDelegate
+                    - delegate that returns a NotFound page
+            - retrieves EmitterInterface from configuration/null default
+            - instantiates application
+            - if !zend-expressive:programmating_pipeline in config
+                - adds routes from config
 
                     # ApplicationConfigInjectionTrait
 
@@ -61,23 +61,103 @@
                             - create a priority queue from `middleware_pipeline`
                             - pipe elements of queue
 
-    	- adds pipeline
+    - adds pipeline
 
-        	- pipe `ErrorHandler`
-		- pipe `ServerUrlMiddleware`
-		- pipe routing middleware
-		- pipe `ImplicitHeadMiddleware`
-		- pipe `ImplicitOptionsMiddleware`
-		- pipe `UrlHelperMiddleware`
-		- pipe dispatch middleware
-		- pipe `NotFoundHandler`
+        - pipe `ErrorHandler`
+        - pipe `ServerUrlMiddleware`
+        - pipe routing middleware
+        - pipe `ImplicitHeadMiddleware`
+        - pipe `ImplicitOptionsMiddleware`
+        - pipe `UrlHelperMiddleware`
+        - pipe dispatch middleware
+        - pipe `NotFoundHandler`
 
-	- adds routes
+    - adds routes
 
-		- add `/` route
-		- add `/api/ping` route
+        - add `/` route
+        - add `/api/ping` route
 
 
 # WHAT DOES `pipe` DO
 
-	- check if second argument is null => first argument is middleware for '/' route
+    - check if second argument is null => first argument is middleware for '/' route
+    - prepares middleware
+        - if `Application::ROUTING_MIDDLEWARE` returns `new Middleware\RouteMiddleware`
+            - injects the actual route as well as individual matched parameters
+        - if `Application::DISPATCH_MIDDLEWARE` returns `new Middleware\DispatchMiddleware`
+            - retrieves middleware associated to route and processes it
+        - if `ServerMiddlewareInterface`, is identity
+        - if `isCallableInteropMiddleware` returns `new CallableInteropMiddlewareWrapper`
+            - checks if it is a callable with InteropMiddleware signature
+        - if `callable` returns `new CallableMiddlewareWrapper`
+        - if `is_array` it marshals a middleware pipe
+            - pipes a list of prepared middleware
+        - if `is_string && $container->has($it)` returns `new Middleware\LazyLoadingMiddleware`
+            - retrieves lazily middleware from container
+        - if `is_string` it marshals an invokable middleware
+            - builds a middleware from a class name
+        - otherwise it throws an exception
+    - if duplicated `Middleware\RouteMiddleware` returns
+    - if duplicated `Middleware\DispatchMiddleware` returns
+    - stratigility/pipe
+        - check if second argument is null => first argument is middleware for '/' route
+        - if necessary, decorates Middleware as `ServerMiddlewareInterface`
+        - if not `ServerMiddlewareInterface` throws exception
+        - actually enqueues the middleware
+    - if `Middleware\RouteMiddleware`, sets flag to avoid duplication
+    - if `Middleware\DispatchMiddleware`, sets flag to avoid duplication
+
+# WHAT DOES `route` DO
+
+    - checks it has the data necessary to configure the route
+    - if it receives `Router\Route`, it computes `$path`, `$methods` and `$name`
+    - checks for duplicated routes
+        - searches for another route with same `$path` and `$method`
+    - if if receives `string`
+        - prepares middleware
+        - creates `new Router\Route`
+    - add route to class `routes`
+    - add route to `router`
+
+# `run`
+
+    - if request not passed, tries to build it from globals
+        - throws `InvalidArgumentException` if `$_FILES` has unrecognized values
+        - throws `UnexpectedValueException` if unrecognized protocol version
+    - catches exceptions and emits response
+        - if `Middleware\ErrorResponseGenerator` exists, uses it to generate response
+        - otherwise just adds a 500 response status
+    - adds `originalResponse` as request attribute
+    - retrieves `defaultDelegate`
+        - if container has `end\Expressive\Delegate\DefaultDelegate` uses it
+            - defined by the skeleton in `dependencies.global.php` as `NotFoundDelegate`
+        - else if container builds `NotFoundDelegate` via its factory and returns it
+        - else builds `NotFoundDelegate` and returns it
+    - processes itself
+        - creates `Next` with pipeline and delegate
+            - instance of `DelegateInterface`
+            - the delegate is used when the queue is exausted
+        - processes next
+            - reset path
+            - if queue is empty
+                - if `nextDelegate`, processes it
+                - else throws `MissingResponseException`
+        - dequeues a layer from the pipeline
+        - retrieves the path with default `/`
+        - retrieves route from layer
+        - skips the layer if the path does not match the layer route
+            - processes itself
+        - skips the layer if the match is not at a border (i.e. `/`, `.` or the end)
+        - trims off the part of the url that matches the layer route
+        - retrieves layer middleware
+        - processes layer middleware with `$this` as `DelegateInterface`
+            - returns a response
+        - if response is not `ResponseInterface` throws a `MissingResponseException`
+    - retrieves emitter
+        - if emitter stack empty, uses `SapiEmitter`
+    - emits response
+        - if headers already sent, throws `RuntimeException`
+        - emits status line
+        - emits headers
+        - flushes
+        - emits body
