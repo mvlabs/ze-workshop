@@ -10,7 +10,7 @@ Our domain regards a shared collection of chocolate wrappers
 
 Without authentication a user will be able to see the list of all the `chocolate wrappers`.
 
-### `CCHOCOLATE WRAPPER` DETAIL
+### `CHOCOLATE WRAPPER` DETAIL
 
 Without authentication a user will be able to see the detail of a `chocolate wrapper`.
 
@@ -25,6 +25,8 @@ The data submitted by the user needs to be filtered and validated.
 A user needs to be authorized to accept a new `chocolate wrapper`.
 
 Only after approval the `chocolate wrapper` will be added to the public list
+
+### DELETE A `CHOCOLATE WRAPPER`
 
 ### MULTILANGUAGE
 
