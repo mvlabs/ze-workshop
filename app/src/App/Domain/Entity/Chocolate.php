@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
+use App\App\Domain\Entity\User;
+use App\App\Domain\Value\ChocolateHistory;
 use App\App\Domain\Value\Exception\InvalidStatusTransitionException;
+use App\App\Domain\Value\Exception\UnauthorizedUserException;
 use App\App\Domain\Value\Percentage;
 use App\App\Domain\Value\Producer;
 use App\App\Domain\Value\Quantity;
 use App\App\Domain\Value\Status;
+use App\App\Domain\Value\StatusTransition;
 use App\App\Domain\Value\WrapperType;
 use App\Domain\Value\ChocolateId;
 
@@ -45,9 +49,9 @@ final class Chocolate
     private $quantity;
 
     /**
-     * @var Status
+     * @var ChocolateHistory
      */
-    private $status;
+    private $history;
 
     private function __construct(
         ChocolateId $id,
@@ -56,7 +60,7 @@ final class Chocolate
         Percentage $cacaoPercentage,
         WrapperType $wrapperType,
         Quantity $quantity,
-        Status $status
+        ChocolateHistory $history
     ) {
         $this->id = $id;
         $this->producer = $producer;
@@ -64,7 +68,7 @@ final class Chocolate
         $this->cacaoPercentage = $cacaoPercentage;
         $this->wrapperType = $wrapperType;
         $this->quantity = $quantity;
-        $this->status = $status;
+        $this->history = $history;
     }
 
     public static function submit(
@@ -73,7 +77,8 @@ final class Chocolate
         string $description,
         Percentage $cacaoPercentage,
         WrapperType $wrapperType,
-        Quantity $quantity
+        Quantity $quantity,
+        User $user
     ): self
     {
         return new self(
@@ -83,21 +88,49 @@ final class Chocolate
             $cacaoPercentage,
             $wrapperType,
             $quantity,
-            Status::get(Status::APPROVED)
+            ChocolateHistory::beginning(
+                StatusTransition::new(
+                    Status::get(Status::SUBMITTED),
+                    $user
+                )
+            )
         );
     }
 
-    public function approve(): void
+    public function approve(User $user): void
     {
-        if ($this->status->getValue() !== Status::SUBMITTED) {
+        if ($this->status()->getValue() !== Status::SUBMITTED) {
             throw InvalidStatusTransitionException::approveOnlyFromSubmittedStatus();
         }
 
-        $this->status = Status::get(Status::APPROVED);
+        if (!$user->isAdministrator()) {
+            throw UnauthorizedUserException::shouldBeAdminToApprove($user);
+        }
+
+        $this->history = $this->history->transition(
+            StatusTransition::new(
+                Status::get(Status::APPROVED),
+                $user
+            )
+        );
     }
 
-    public function delete(): void
+    public function delete(User $user): void
     {
-        $this->status = Status::get(Status::DELETED);
+        if (!$user->isAdministrator()) {
+            throw UnauthorizedUserException::shouldBeAdminToDelete($user);
+        }
+
+        $this->history = $this->history->transition(
+            StatusTransition::new(
+                Status::get(Status::DELETED),
+                $user
+            )
+        );
+    }
+
+    public function status(): Status
+    {
+        return $this->history->currentStatus();
     }
 }

@@ -52,4 +52,19 @@ final class User
 
         return new self($id, $name, $surname, true);
     }
+
+    public function isAdministrator(): bool
+    {
+        return $this->administrator;
+    }
+
+    public function name(): string
+    {
+        return $this->name;
+    }
+
+    public function surname(): string
+    {
+        return $this->surname;
+    }
 }
