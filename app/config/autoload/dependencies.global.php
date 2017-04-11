@@ -1,5 +1,7 @@
 <?php
 
+use App\Infrastructure\ConnectionFactory;
+use Doctrine\DBAL\Connection;
 use Zend\Expressive\Application;
 use Zend\Expressive\Container;
 use Zend\Expressive\Delegate;
@@ -34,6 +36,8 @@ return [
             Zend\Stratigility\Middleware\ErrorHandler::class => Container\ErrorHandlerFactory::class,
             Middleware\ErrorResponseGenerator::class         => Container\ErrorResponseGeneratorFactory::class,
             Middleware\NotFoundHandler::class                => Container\NotFoundHandlerFactory::class,
+
+            Connection::class => ConnectionFactory::class,
         ],
     ],
 ];

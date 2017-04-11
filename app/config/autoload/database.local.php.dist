@@ -1,0 +1,19 @@
+<?php
+
+declare(strict_types=1);
+
+return [
+    'doctrine' => [
+        'connection' => [
+            'default' => [
+                'driverClass' => \Doctrine\DBAL\Driver\PDOPgSql\Driver::class,
+                'host' => 'postgres',
+                'port' => '5432',
+                'user' => 'mvlabs',
+                'password' => 'mvlabs',
+                'dbname' => 'ze-workshop'
+            ],
+        ],
+    ],
+];
+
