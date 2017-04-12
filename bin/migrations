@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-docker run --rm -ti -v "$(pwd):/app:rw" -u "$(id -u):$(id -g)" --network zeworkshop_base zeworkshop_php php /app/bin/migrations.php migrations:migrate
+docker run --rm -ti -v "$(pwd):/app:rw" -u "$(id -u):$(id -g)" --network zeworkshop_base zeworkshop_php php /app/bin/migrations.php "$@"
