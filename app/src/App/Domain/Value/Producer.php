@@ -7,7 +7,7 @@ namespace App\App\Domain\Value;
 final class Producer
 {
     /**
-     * @var ProducerName
+     * @var string
      */
     private $name;
 
@@ -17,7 +17,7 @@ final class Producer
     private $address;
 
     private function __construct(
-        ProducerName $name,
+        string $name,
         Address $address
     ) {
         $this->name = $name;
