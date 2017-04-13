@@ -31,12 +31,28 @@ final class User
     private function __construct(
         UserId $id,
         string $name,
-        string $surname
+        string $surname,
+        bool $administrator
     ) {
         $this->id = $id;
         $this->name = $name;
         $this->surname = $surname;
-        $this->administrator = false;
+        $this->administrator = $administrator;
+    }
+
+    public static function fromNativeData(
+        string $id,
+        string $name,
+        string $surname,
+        bool $administrator
+    ): self
+    {
+        return new self(
+            UserId::fromString($id),
+            $name,
+            $surname,
+            $administrator
+        );
     }
 
     public static function new(string $name, string $surname): self

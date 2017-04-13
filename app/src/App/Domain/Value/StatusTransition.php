@@ -33,6 +33,27 @@ final class StatusTransition
         $this->dateTime = $dateTime;
     }
 
+    public static function fromNativeData(
+        string $status,
+        string $userId,
+        string $userName,
+        string $userSurname,
+        bool $userIsAdministrator,
+        \DateTimeImmutable $dateTime
+    ): self
+    {
+        return new self(
+            Status::get($status),
+            User::fromNativeData(
+                $userId,
+                $userName,
+                $userSurname,
+                $userIsAdministrator
+            ),
+            $dateTime
+        );
+    }
+
     public static function new(Status $status, User $user): self
     {
         return new self($status, $user, date_create_immutable());

@@ -71,6 +71,41 @@ final class Chocolate
         $this->history = $history;
     }
 
+    public static function fromNativeData(
+        string $id,
+        string $producerName,
+        string $producerStreet,
+        string $producerStreetNumber,
+        string $producerZipCode,
+        string $producerCity,
+        string $producerRegion,
+        string $producerCountry,
+        string $description,
+        int $cacaoPercentage,
+        string $wrapperType,
+        int $quantity,
+        array $history
+    ): self
+    {
+        return new self(
+            ChocolateId::fromString($id),
+            Producer::fromNativeData(
+                $producerName,
+                $producerStreet,
+                $producerStreetNumber,
+                $producerZipCode,
+                $producerCity,
+                $producerRegion,
+                $producerCountry
+            ),
+            $description,
+            Percentage::integer($cacaoPercentage),
+            WrapperType::get($wrapperType),
+            Quantity::integer($quantity),
+            ChocolateHistory::transitionsArray($history)
+        );
+    }
+
     public static function submit(
         ChocolateId $id,
         Producer $producer,

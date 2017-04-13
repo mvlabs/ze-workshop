@@ -25,4 +25,9 @@ final class Percentage
 
         $this->percentage = $percentage;
     }
+
+    public static function integer(int $percentage): self
+    {
+        return new self($percentage);
+    }
 }
