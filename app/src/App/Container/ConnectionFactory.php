@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure;
+namespace App\Container;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;

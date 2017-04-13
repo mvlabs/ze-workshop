@@ -1,6 +1,6 @@
 <?php
 
-use App\Infrastructure\ConnectionFactory;
+use App\Container\ConnectionFactory;
 use Doctrine\DBAL\Connection;
 use Zend\Expressive\Application;
 use Zend\Expressive\Container;
