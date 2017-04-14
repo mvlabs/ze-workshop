@@ -20,6 +20,7 @@ class Version20170411074250 extends AbstractMigration
         $userTable->addColumn('id', 'string', ['fixed' => true, 'length' => 36, 'notnull' => true]);
         $userTable->addColumn('name', 'string', ['length' => 1023, 'notnull' => true]);
         $userTable->addColumn('surname', 'string', ['length' => 1023, 'notnull' => true]);
+        $userTable->addColumn('admin', 'boolean');
 
         $userTable->setPrimaryKey(['id']);
     }
