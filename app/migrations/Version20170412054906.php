@@ -22,7 +22,7 @@ class Version20170412054906 extends AbstractMigration
         $producersTable->addColumn('id', 'integer', ['default' => 'nextval(\'producers_id_seq\')', 'notnull' => true]);
         $producersTable->addColumn('name', 'string', ['length' => 1023, 'notnull' => true]);
         $producersTable->addColumn('street', 'string', ['length' => 1023]);
-        $producersTable->addColumn('streetNumber', 'string', ['lenght' => 1023]);
+        $producersTable->addColumn('street_number', 'string', ['lenght' => 1023]);
         $producersTable->addColumn('zip_code', 'string', ['length' => 1023]);
         $producersTable->addColumn('city', 'string', ['length' => 1023]);
         $producersTable->addColumn('region', 'string', ['length' => 1023]);
