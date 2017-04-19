@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\App\Infrastructure\Repository;
 
+use App\App\Domain\Value\Status;
+use App\App\Domain\Value\UserId;
 use App\Domain\Entity\Chocolate;
 use App\Domain\Value\ChocolateId;
 use Doctrine\DBAL\Connection;
@@ -142,5 +144,34 @@ final class Chocolates
             $quantity,
             $history
         );
+    }
+
+    public function transition(
+        ChocolateId $id,
+        UserId $userId,
+        Status $status
+    ): void
+    {
+        $statement = $this->connection->executeQuery(
+            'INSERT INTO chocolates_history (
+                chocolate_id,
+                status,
+                user_id,
+                date_time
+            ) VALUES (
+                :chocolate_id,
+                :status,
+                :user_id,
+                :date_time
+            )',
+            [
+                'chocolate_id' => (string) $id,
+                'status' => $status->getValue(),
+                'user_id' => (string) $userId,
+                'date_time' => date_create_immutable()
+            ]
+        );
+
+        $statement->execute();
     }
 }
