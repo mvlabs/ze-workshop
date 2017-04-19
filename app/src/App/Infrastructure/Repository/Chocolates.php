@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\App\Infrastructure\Repository;
 
 use App\Domain\Entity\Chocolate;
+use App\Domain\Value\ChocolateId;
 use Doctrine\DBAL\Connection;
 
 final class Chocolates
@@ -19,6 +20,9 @@ final class Chocolates
         $this->connection = $connection;
     }
 
+    /**
+     * @return Chocolate[]
+     */
     public function all(): array
     {
         $allChocolatesStatement = $this->connection->executeQuery(
@@ -46,6 +50,52 @@ final class Chocolates
         return $allChocolatesStatement->fetchAll(
             \PDO::FETCH_FUNC,
             [self::class, 'createChocolate']
+        );
+    }
+
+    public function findById(ChocolateId $id): Chocolate
+    {
+        $chocolateStatement = $this->connection->executeQuery(
+            'SELECT ' .
+            '   c.id, ' .
+            '   p.name, ' .
+            '   p.street, ' .
+            '   p.street_number, ' .
+            '   p.zip_code, ' .
+            '   p.city, ' .
+            '   p.region, ' .
+            '   p.country, ' .
+            '   c.description, ' .
+            '   c.cacao_percentage, ' .
+            '   c.wrapper_type, ' .
+            '   c.quantity, ' .
+            '   array_agg(ARRAY[ch.status, u.id, u.name, u.surname, cast(u.admin as varchar), cast(ch.date_time as varchar)]) AS history ' .
+            'FROM chocolates c ' .
+            'JOIN producers p ON p.id = c.producer_id ' .
+            'JOIN chocolates_history ch ON ch.chocolate_id = c.id ' .
+            'JOIN users u ON u.id = ch.user_id ' .
+            'WHERE c.id = :id',
+            [
+                'id' => (string) $id
+            ]
+        );
+
+        $chocolateArray = $chocolateStatement->fetch(\PDO::FETCH_ASSOC);
+
+        return $this->createChocolate(
+            $chocolateArray['id'],
+            $chocolateArray['name'],
+            $chocolateArray['street'],
+            $chocolateArray['street_number'],
+            $chocolateArray['zip_code'],
+            $chocolateArray['city'],
+            $chocolateArray['region'],
+            $chocolateArray['country'],
+            $chocolateArray['description'],
+            $chocolateArray['cacao_percentage'],
+            $chocolateArray['wrapper_type'],
+            $chocolateArray['quantity'],
+            $chocolateArray['history']
         );
     }
 
