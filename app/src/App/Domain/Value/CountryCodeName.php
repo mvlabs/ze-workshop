@@ -253,13 +253,7 @@ class CountryCodeName
         'ZW' => 'Zimbabwe',
     ];
 
-    /**
-     * Returns country name
-     *
-     * @param  CountryCode $code
-     * @return string
-     */
-    public static function getName(CountryCode $code)
+    public static function getName(CountryCode $code): string
     {
         $codeValue = $code->getValue();
         $name = self::$names[$codeValue];

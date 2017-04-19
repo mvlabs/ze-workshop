@@ -6,6 +6,10 @@ namespace App\App\Domain\Value\Exception;
 
 final class InvalidChocolateHistoryException extends \RuntimeException implements ExceptionInterface
 {
+    /**
+     * @param mixed $statusTransition
+     * @return self
+     */
     public static function invalidStatusTransition($statusTransition): self
     {
         return new self(sprintf(

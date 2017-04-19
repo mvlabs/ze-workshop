@@ -8,7 +8,7 @@ use App\App\Domain\Entity\User;
 
 final class UnauthorizedUserException extends \DomainException implements ExceptionInterface
 {
-    public static function shouldBeAdminToApprove(User $user)
+    public static function shouldBeAdminToApprove(User $user): self
     {
         return new self(sprintf(
             'The user %s %s is not authorized to approve a submitted chocolate',
@@ -17,7 +17,7 @@ final class UnauthorizedUserException extends \DomainException implements Except
         ));
     }
 
-    public static function shouldBeAdminToDelete(User $user)
+    public static function shouldBeAdminToDelete(User $user): self
     {
         return new self(sprintf(
             'The user %s %s is not authorized to delete a chocolate',

@@ -9,7 +9,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class PingAction implements ServerMiddlewareInterface
 {
-    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    public function process(ServerRequestInterface $request, DelegateInterface $delegate): JsonResponse
     {
         return new JsonResponse(['ack' => time()]);
     }

@@ -22,7 +22,7 @@ final class Quantity
         $this->quantity = $quantity;
     }
 
-    public static function integer(int $quantity)
+    public static function integer(int $quantity): self
     {
         return new self($quantity);
     }
