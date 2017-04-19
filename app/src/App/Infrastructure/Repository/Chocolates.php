@@ -174,4 +174,9 @@ final class Chocolates
 
         $statement->execute();
     }
+
+    public function add(Chocolate $chocolate)
+    {
+        
+    }
 }
