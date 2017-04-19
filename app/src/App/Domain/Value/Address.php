@@ -67,7 +67,7 @@ final class Address
             $zipCode,
             $city,
             $region,
-            $country
+            Country::fromStringCode($country)
         );
     }
 }
