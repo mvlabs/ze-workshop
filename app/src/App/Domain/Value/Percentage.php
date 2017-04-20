@@ -30,4 +30,9 @@ final class Percentage
     {
         return new self($percentage);
     }
+
+    public function toInt(): int
+    {
+        return $this->percentage;
+    }
 }

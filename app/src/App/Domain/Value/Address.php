@@ -70,4 +70,34 @@ final class Address
             Country::fromStringCode($country)
         );
     }
+
+    public function street(): string
+    {
+        return $this->street;
+    }
+
+    public function streetNumber(): string
+    {
+        return $this->number;
+    }
+
+    public function zipCode(): string
+    {
+        return $this->zipCode;
+    }
+
+    public function city(): string
+    {
+        return $this->city;
+    }
+
+    public function region(): string
+    {
+        return $this->region;
+    }
+
+    public function countryCode(): CountryCode
+    {
+        return $this->country->code();
+    }
 }

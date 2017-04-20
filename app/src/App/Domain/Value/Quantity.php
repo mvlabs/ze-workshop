@@ -26,4 +26,9 @@ final class Quantity
     {
         return new self($quantity);
     }
+
+    public function toInt(): int
+    {
+        return $this->quantity;
+    }
 }

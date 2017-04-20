@@ -46,4 +46,39 @@ final class Producer
             )
         );
     }
+
+    public function name(): string
+    {
+        return $this->name;
+    }
+
+    public function street(): string
+    {
+        return $this->address->street();
+    }
+
+    public function streetNumber(): string
+    {
+        return $this->address->streetNumber();
+    }
+
+    public function zipCode(): string
+    {
+        return $this->address->zipCode();
+    }
+
+    public function city(): string
+    {
+        return $this->address->city();
+    }
+
+    public function region(): string
+    {
+        return $this->address->region();
+    }
+
+    public function countryCode(): CountryCode
+    {
+        return $this->address->countryCode();
+    }
 }

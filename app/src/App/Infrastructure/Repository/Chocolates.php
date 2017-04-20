@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\App\Infrastructure\Repository;
 
+use App\App\Domain\Value\Producer;
 use App\App\Domain\Value\Status;
 use App\App\Domain\Value\UserId;
 use App\Domain\Entity\Chocolate;
@@ -177,10 +178,95 @@ final class Chocolates
 
     public function add(Chocolate $chocolate): void
     {
+        $this->connection->beginTransaction();
+
+        $this->insertChocolate($chocolate);
+
         $this->transition(
             $chocolate->id(),
             $chocolate->lastTransitionUserId(),
-            Status::get(Status::SUBMITTED)
+            $chocolate->status()
         );
+
+        $this->connection->commit();
+    }
+
+    private function insertChocolate(Chocolate $chocolate): void
+    {
+        $producerId = $this->findOrCreateProducerId($chocolate->producer());
+
+        $statement = $this->connection->executeQuery(
+            'INSERT INTO chocolates (
+                id,
+                producer_id,
+                description,
+                cacao_percentage,
+                wrapper_type,
+                quantity
+            ) VALUES (
+                :chocolate_id,
+                :producer_id,
+                :description,
+                :cacao_percentage,
+                :wrapper_type,
+                :quantity
+            )',
+            [
+                'chocolate_id' => $chocolate->id(),
+                'producer_id' => $producerId,
+                'description' => $chocolate->description(),
+                'cacao_percentage' => $chocolate->cacaoPercentage()->toInt(),
+                'wrapper_type' => $chocolate->wrapperType()->getValue(),
+                'quantity' => $chocolate->quantity()->toInt()
+            ]
+        );
+    }
+
+    private function findOrCreateProducerId(Producer $producer): int
+    {
+        $statement = $this->connection->executeQuery(
+            'SELECT id FROM producers WHERE name = :name',
+            [
+                'name' => $producer->name()
+            ]
+        );
+
+        $producerId = $statement->fetchColumn();
+
+        if (false !== $producerId)
+        {
+            return (int) $producerId;
+        }
+
+        $statement = $this->connection->executeQuery(
+            'INSERT INTO producers (
+                name,
+                street,
+                street_number,
+                zip_code,
+                city,
+                region,
+                country
+            ) VALUES (
+                :name,
+                :street,
+                :street_number,
+                :zip_code,
+                :city,
+                :region,
+                :country
+            ) RETURNING id',
+            [
+                'name' => $producer->name(),
+                'street' => $producer->street(),
+                'street_number' => $producer->streetNumber(),
+                'zip_code' => $producer->zipCode(),
+                'city' => $producer->city(),
+                'region' => $producer->region(),
+                'country' => $producer->countryCode()->getValue()
+            ]
+        );
+
+        return (int) $statement->fetchColumn();
     }
 }

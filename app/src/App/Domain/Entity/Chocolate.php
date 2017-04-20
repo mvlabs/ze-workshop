@@ -187,4 +187,29 @@ final class Chocolate
     {
         return $this->history->lastTransitionUserId();
     }
+
+    public function producer(): Producer
+    {
+        return $this->producer;
+    }
+
+    public function description(): string
+    {
+        return $this->description;
+    }
+
+    public function cacaoPercentage(): Percentage
+    {
+        return $this->cacaoPercentage;
+    }
+
+    public function wrapperType(): WrapperType
+    {
+        return $this->wrapperType;
+    }
+
+    public function quantity(): Quantity
+    {
+        return $this->quantity;
+    }
 }
