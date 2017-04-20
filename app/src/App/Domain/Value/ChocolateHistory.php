@@ -72,4 +72,17 @@ final class ChocolateHistory
 
         return $instance;
     }
+
+    public function isEmpty(): bool
+    {
+        return $this->statusTransitions->isEmpty();
+    }
+
+    public function lastTransitionUserId(): UserId
+    {
+        /** @var StatusTransition $statusTransition */
+        $statusTransition = $this->statusTransitions->top();
+
+        return $statusTransition->userId();
+    }
 }

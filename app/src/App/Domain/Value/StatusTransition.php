@@ -63,4 +63,9 @@ final class StatusTransition
     {
         return $this->status;
     }
+
+    public function userId()
+    {
+        return $this->user->id();
+    }
 }

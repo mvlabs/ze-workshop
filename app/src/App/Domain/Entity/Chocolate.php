@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
+use App\App\Domain\Entity\Exception\InvalidHistoryException;
 use App\App\Domain\Entity\User;
 use App\App\Domain\Value\ChocolateHistory;
 use App\App\Domain\Value\Exception\InvalidStatusTransitionException;
@@ -13,6 +14,7 @@ use App\App\Domain\Value\Producer;
 use App\App\Domain\Value\Quantity;
 use App\App\Domain\Value\Status;
 use App\App\Domain\Value\StatusTransition;
+use App\App\Domain\Value\UserId;
 use App\App\Domain\Value\WrapperType;
 use App\Domain\Value\ChocolateId;
 
@@ -53,6 +55,9 @@ final class Chocolate
      */
     private $history;
 
+    /**
+     * @throws InvalidHistoryException
+     */
     private function __construct(
         ChocolateId $id,
         Producer $producer,
@@ -62,6 +67,10 @@ final class Chocolate
         Quantity $quantity,
         ChocolateHistory $history
     ) {
+        if ($history->isEmpty()) {
+            throw InvalidHistoryException::fromEmptyHistory();
+        }
+
         $this->id = $id;
         $this->producer = $producer;
         $this->description = $description;
@@ -167,5 +176,15 @@ final class Chocolate
     public function status(): Status
     {
         return $this->history->currentStatus();
+    }
+
+    public function id(): ChocolateId
+    {
+        return $this->id;
+    }
+
+    public function lastTransitionUserId(): UserId
+    {
+        return $this->history->lastTransitionUserId();
     }
 }

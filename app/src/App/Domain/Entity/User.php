@@ -83,4 +83,9 @@ final class User
     {
         return $this->surname;
     }
+
+    public function id(): UserId
+    {
+        return $this->id;
+    }
 }
