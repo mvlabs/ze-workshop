@@ -29,6 +29,7 @@ class Version20170412054906 extends AbstractMigration
         $producersTable->addColumn('country', 'string', ['length' => 2]);
 
         $producersTable->setPrimaryKey(['id']);
+        $producersTable->addUniqueIndex(['name']);
     }
 
     /**
