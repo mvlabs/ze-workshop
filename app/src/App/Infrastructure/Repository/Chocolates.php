@@ -146,7 +146,7 @@ final class Chocolates
         );
     }
 
-    public function transition(
+    private function transition(
         ChocolateId $id,
         UserId $userId,
         Status $status
@@ -175,8 +175,12 @@ final class Chocolates
         $statement->execute();
     }
 
-    public function add(Chocolate $chocolate)
+    public function add(Chocolate $chocolate): void
     {
-        
+        $this->transition(
+            $chocolate->id(),
+            $chocolate->lastTransitionUserId(),
+            Status::get(Status::SUBMITTED)
+        );
     }
 }
