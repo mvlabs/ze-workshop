@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\App\Domain\Value;
+namespace App\Domain\Value;
 
-use App\App\Domain\Entity\User;
+use App\Domain\Entity\User;
 
 final class StatusTransition
 {
@@ -64,12 +64,12 @@ final class StatusTransition
         return $this->status;
     }
 
-    public function userId()
+    public function userId(): UserId
     {
         return $this->user->id();
     }
 
-    public function time()
+    public function time(): \DateTimeImmutable
     {
         return $this->dateTime;
     }

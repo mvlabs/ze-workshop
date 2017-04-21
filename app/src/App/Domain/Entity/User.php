@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\App\Domain\Entity;
+namespace App\Domain\Entity;
 
-use App\App\Domain\Value\UserId;
+use App\Domain\Value\UserId;
 
 final class User
 {

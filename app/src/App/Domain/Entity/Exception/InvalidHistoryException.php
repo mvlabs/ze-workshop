@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\App\Domain\Entity\Exception;
+namespace App\Domain\Entity\Exception;
 
 final class InvalidHistoryException extends \InvalidArgumentException implements ExceptionInterface
 {
-    public static function fromEmptyHistory()
+    public static function fromEmptyHistory(): self
     {
         return new self('A chocolate can not be created with an empty history');
     }

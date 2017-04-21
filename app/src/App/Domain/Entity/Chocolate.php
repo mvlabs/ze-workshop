@@ -4,19 +4,18 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
-use App\App\Domain\Entity\Exception\InvalidHistoryException;
-use App\App\Domain\Entity\User;
-use App\App\Domain\Value\ChocolateHistory;
-use App\App\Domain\Value\Exception\InvalidStatusTransitionException;
-use App\App\Domain\Value\Exception\UnauthorizedUserException;
-use App\App\Domain\Value\Percentage;
-use App\App\Domain\Value\Producer;
-use App\App\Domain\Value\Quantity;
-use App\App\Domain\Value\Status;
-use App\App\Domain\Value\StatusTransition;
-use App\App\Domain\Value\UserId;
-use App\App\Domain\Value\WrapperType;
+use App\Domain\Entity\Exception\InvalidHistoryException;
+use App\Domain\Value\ChocolateHistory;
 use App\Domain\Value\ChocolateId;
+use App\Domain\Value\Exception\InvalidStatusTransitionException;
+use App\Domain\Value\Exception\UnauthorizedUserException;
+use App\Domain\Value\Percentage;
+use App\Domain\Value\Producer;
+use App\Domain\Value\Quantity;
+use App\Domain\Value\Status;
+use App\Domain\Value\StatusTransition;
+use App\Domain\Value\UserId;
+use App\Domain\Value\WrapperType;
 
 final class Chocolate
 {
@@ -218,7 +217,7 @@ final class Chocolate
         return $this->history->currentStatus();
     }
 
-    public function lastTransitionTime()
+    public function lastTransitionTime(): \DateTimeImmutable
     {
         return $this->history->lastTransitionTime();
     }

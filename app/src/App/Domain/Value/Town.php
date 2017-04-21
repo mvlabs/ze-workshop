@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\App\Domain\Value;
+namespace App\Domain\Value;
 
-use App\App\Domain\Value\Exception\EmptyTownNameException;
+use App\Domain\Value\Exception\EmptyTownNameException;
 
 final class Town
 {

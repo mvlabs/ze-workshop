@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\App\Domain\Service\Exception;
+namespace App\Domain\Service\Exception;
 
 final class InvalidStatusTransitionException extends \DomainException implements ExceptionInterface
 {

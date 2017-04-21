@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\App\Infrastructure\Repository;
+namespace App\Infrastructure\Repository;
 
-use App\App\Domain\Service\Exception\InvalidStatusTransitionException;
-use App\App\Domain\Value\Producer;
-use App\App\Domain\Value\Status;
-use App\App\Domain\Value\UserId;
+use App\Domain\Service\Exception\InvalidStatusTransitionException;
+use App\Domain\Value\Producer;
+use App\Domain\Value\Status;
+use App\Domain\Value\UserId;
 use App\Domain\Entity\Chocolate;
 use App\Domain\Value\ChocolateId;
 use Doctrine\DBAL\Connection;

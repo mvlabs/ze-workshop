@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\App\Domain\Value;
+namespace App\Domain\Value;
 
 class CountryCodeName
 {

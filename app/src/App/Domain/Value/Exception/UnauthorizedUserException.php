@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\App\Domain\Value\Exception;
+namespace App\Domain\Value\Exception;
 
-use App\App\Domain\Entity\User;
+use App\Domain\Entity\User;
 
 final class UnauthorizedUserException extends \DomainException implements ExceptionInterface
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\App\Domain\Value\Exception;
+namespace App\Domain\Value\Exception;
 
 final class InvalidChocolateHistoryException extends \RuntimeException implements ExceptionInterface
 {

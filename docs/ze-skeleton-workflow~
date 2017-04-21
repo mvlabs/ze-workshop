@@ -1,0 +1,81 @@
+# EXPRESSIVE SKELETON FLOW
+
+## public/index.php
+
+	- create $container
+
+		## config/container.php
+
+			- load configuration
+
+			## config/config.php
+
+				- merge configuration from
+					- Framework components ConfigProviders
+					- cached config
+					- User components ConfigProviders
+					- config/autoload configurations
+					- Development config
+
+				- returns an array
+
+			- build container with dependencies
+			- inject configuration
+			- returns container
+
+	- retrieves application from container
+	
+		## \Zend\Expressive\Container\ApplicationFactory
+
+			- loads configuration
+			- retrieves RouterInterface from configuration/FastRoute default
+			- retrieves Delegate\DefaultDelegate from configuration/null default
+				- aliased to \Zend\Expressive\Delegate\NotFoundDelegate
+					- delegate that returns a NotFound page
+			- retrieves EmitterInterface from configuration/null default
+			- instantiates application
+			- if !zend-expressive:programmating_pipeline in config
+			    - adds routes from config
+
+                    # ApplicationConfigInjectionTrait
+
+                        - retrieves routes from config
+                        - detect allowed methods
+                        - set route options
+                        - add Route to application
+
+                            # Application
+
+                                - checks if route is duplicated (same path, same method)
+                                - add route to router
+
+                - adds middleware_pipeline from config
+
+                    # ApplicationConfigInjectionTrait
+
+                        - if in config no `middleware_pipeline` and no `routes`, return
+                        - if no `middleware_pipeline` but `routes`
+                            - pipe routing middleware
+                            - pipe dispatch middleware
+                        if `middleware_pipeline`
+                            - create a priority queue from `middleware_pipeline`
+                            - pipe elements of queue
+
+    - adds pipeline
+
+        - pipe `ErrorHandler`
+        - pipe `ServerUrlMiddleware`
+        - pipe routing middleware
+        - pipe `ImplicitHeadMiddleware`
+        - pipe `ImplicitOptionsMiddleware`
+        - pipe `UrlHelperMiddleware`
+        - pipe dispatch middleware
+        - pipe `NotFoundHandler`
+
+    - adds routes
+
+        - add `/` route
+        - add `/api/ping` route
+
+
+# WHAT DOES `pipe` DO

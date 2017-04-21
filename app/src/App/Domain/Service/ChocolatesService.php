@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\App\Domain\Service;
+namespace App\Domain\Service;
 
-use App\App\Domain\Entity\User;
-use App\App\Domain\Service\Exception\ChocolateNotFoundException;
-use App\App\Domain\Value\Percentage;
-use App\App\Domain\Value\Producer;
-use App\App\Domain\Value\Quantity;
-use App\App\Domain\Value\WrapperType;
-use App\App\Infrastructure\Repository\Chocolates;
+use App\Domain\Entity\User;
+use App\Domain\Service\Exception\ChocolateNotFoundException;
+use App\Domain\Value\Percentage;
+use App\Domain\Value\Producer;
+use App\Domain\Value\Quantity;
+use App\Domain\Value\WrapperType;
+use App\Infrastructure\Repository\Chocolates;
 use App\Domain\Entity\Chocolate;
 use App\Domain\Value\ChocolateId;
 
