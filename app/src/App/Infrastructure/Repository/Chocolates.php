@@ -150,9 +150,14 @@ final class Chocolates
     private function transition(
         ChocolateId $id,
         UserId $userId,
-        Status $status
+        Status $status,
+        ?\DateTimeImmutable $time = null
     ): void
     {
+        if (null === $time) {
+            $time = date_create_immutable();
+        }
+
         $statement = $this->connection->executeQuery(
             'INSERT INTO chocolates_history (
                 chocolate_id,
@@ -169,7 +174,7 @@ final class Chocolates
                 'chocolate_id' => (string) $id,
                 'status' => $status->getValue(),
                 'user_id' => (string) $userId,
-                'date_time' => date_create_immutable()
+                'date_time' => $time
             ]
         );
 
@@ -268,5 +273,15 @@ final class Chocolates
         );
 
         return (int) $statement->fetchColumn();
+    }
+
+    public function approve(Chocolate $chocolate)
+    {
+        $this->transition(
+            $chocolate->id(),
+            $chocolate->lastTransitionUserId(),
+            $chocolate->currentStatus(),
+            $chocolate->lastTransitionTime()
+        );
     }
 }

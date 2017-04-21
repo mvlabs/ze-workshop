@@ -68,4 +68,9 @@ final class StatusTransition
     {
         return $this->user->id();
     }
+
+    public function time()
+    {
+        return $this->dateTime;
+    }
 }

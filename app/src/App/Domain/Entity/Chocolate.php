@@ -212,4 +212,14 @@ final class Chocolate
     {
         return $this->quantity;
     }
+
+    public function currentStatus(): Status
+    {
+        return $this->history->currentStatus();
+    }
+
+    public function lastTransitionTime()
+    {
+        return $this->history->lastTransitionTime();
+    }
 }

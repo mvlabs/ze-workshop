@@ -85,4 +85,12 @@ final class ChocolateHistory
 
         return $statusTransition->userId();
     }
+
+    public function lastTransitionTime(): \DateTimeImmutable
+    {
+        /** @var StatusTransition $statusTransition */
+        $statusTransition = $this->statusTransitions->top();
+
+        return $statusTransition->time();
+    }
 }

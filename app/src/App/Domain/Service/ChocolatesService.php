@@ -72,4 +72,11 @@ final class ChocolatesService
 
         $this->chocolates->add($chocolate);
     }
+
+    public function approve(Chocolate $chocolate, User $user): void
+    {
+        $chocolate->approve($user);
+
+        $this->chocolates->approve($chocolate);
+    }
 }
