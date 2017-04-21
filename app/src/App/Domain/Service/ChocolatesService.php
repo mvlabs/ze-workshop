@@ -79,4 +79,11 @@ final class ChocolatesService
 
         $this->chocolates->approve($chocolate);
     }
+
+    public function delete(Chocolate $chocolate, User $user): void
+    {
+        $chocolate->delete($user);
+
+        $this->chocolates->delete($chocolate);
+    }
 }

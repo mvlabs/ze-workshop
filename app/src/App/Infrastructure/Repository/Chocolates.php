@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\App\Infrastructure\Repository;
 
+use App\App\Domain\Service\Exception\InvalidStatusTransitionException;
 use App\App\Domain\Value\Producer;
 use App\App\Domain\Value\Status;
 use App\App\Domain\Value\UserId;
@@ -151,13 +152,9 @@ final class Chocolates
         ChocolateId $id,
         UserId $userId,
         Status $status,
-        ?\DateTimeImmutable $time = null
+        \DateTimeImmutable $time
     ): void
     {
-        if (null === $time) {
-            $time = date_create_immutable();
-        }
-
         $statement = $this->connection->executeQuery(
             'INSERT INTO chocolates_history (
                 chocolate_id,
@@ -190,7 +187,8 @@ final class Chocolates
         $this->transition(
             $chocolate->id(),
             $chocolate->lastTransitionUserId(),
-            $chocolate->status()
+            $chocolate->status(),
+            $chocolate->lastTransitionTime()
         );
 
         $this->connection->commit();
@@ -275,8 +273,26 @@ final class Chocolates
         return (int) $statement->fetchColumn();
     }
 
-    public function approve(Chocolate $chocolate)
+    public function approve(Chocolate $chocolate): void
     {
+        if ($chocolate->currentStatus()->getValue() !== Status::APPROVED) {
+            throw InvalidStatusTransitionException::approve();
+        }
+
+        $this->transition(
+            $chocolate->id(),
+            $chocolate->lastTransitionUserId(),
+            $chocolate->currentStatus(),
+            $chocolate->lastTransitionTime()
+        );
+    }
+
+    public function delete(Chocolate $chocolate): void
+    {
+        if ($chocolate->currentStatus()->getValue() !== Status::APPROVED) {
+            throw InvalidStatusTransitionException::delete();
+        }
+
         $this->transition(
             $chocolate->id(),
             $chocolate->lastTransitionUserId(),
