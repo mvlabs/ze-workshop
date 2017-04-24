@@ -227,4 +227,66 @@ final class ChocolateTest extends TestCase
         $approver = User::new('toni', 'Folpet');
         $chocolate->approve($approver);
     }
+
+    public function testDelete()
+    {
+        $chocolate = Chocolate::submit(
+            ChocolateId::new(),
+            Producer::fromNameAndAddress(
+                'name',
+                Address::fromStreetNumberZipCodeCityRegionCountry(
+                    'street',
+                    '1A',
+                    'AB123',
+                    'Treviso',
+                    'TV',
+                    Country::fromStringCode('it')
+                )
+            ),
+            'bittersweet symphony',
+            Percentage::integer(73),
+            WrapperType::get('box'),
+            Quantity::grams(100),
+            User::new('gigi', 'Zucon')
+        );
+
+        $deleter = User::newAdministrator('toni', 'Folpet');
+        $chocolate->delete($deleter);
+
+        self::assertSame(Status::DELETED, $chocolate->status()->getValue());
+        self::assertSame($deleter->id(), $chocolate->lastTransitionUserId());
+    }
+
+    public function testDeleteByNotAdministrator()
+    {
+        $this->expectException(UnauthorizedUserException::class);
+        $this->expectExceptionMessage(sprintf(
+            'The user %s %s is not authorized to delete a chocolate',
+            'toni',
+            'Folpet'
+        ));
+
+        $chocolate = Chocolate::submit(
+            ChocolateId::new(),
+            Producer::fromNameAndAddress(
+                'name',
+                Address::fromStreetNumberZipCodeCityRegionCountry(
+                    'street',
+                    '1A',
+                    'AB123',
+                    'Treviso',
+                    'TV',
+                    Country::fromStringCode('it')
+                )
+            ),
+            'bittersweet symphony',
+            Percentage::integer(73),
+            WrapperType::get('box'),
+            Quantity::grams(100),
+            User::new('gigi', 'Zucon')
+        );
+
+        $deleter = User::new('toni', 'Folpet');
+        $chocolate->delete($deleter);
+    }
 }
