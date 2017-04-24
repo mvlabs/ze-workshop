@@ -109,7 +109,7 @@ final class Chocolate
             $description,
             Percentage::integer($cacaoPercentage),
             WrapperType::get($wrapperType),
-            Quantity::integer($quantity),
+            Quantity::grams($quantity),
             ChocolateHistory::transitionsArray($history)
         );
     }
