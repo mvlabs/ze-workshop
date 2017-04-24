@@ -18,7 +18,7 @@ final class Country
 
     public static function fromStringCode(string $code): self
     {
-        return new self(CountryCode::byName($code));
+        return new self(CountryCode::byName(strtoupper($code)));
     }
 
     public function code(): CountryCode
