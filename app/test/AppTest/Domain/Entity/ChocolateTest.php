@@ -25,14 +25,18 @@ final class ChocolateTest extends TestCase
         $cacaoPercentage = 73;
         $wrapperType = 'box';
         $quantity = 100;
+
+        $status = 'submitted';
+        $userId = (string) UserId::new();
+        $dateTime = date_create_immutable();
         $history = [
             [
-                'status' => 'submitted',
-                'user_id' => (string) UserId::new(),
+                'status' => $status,
+                'user_id' => $userId,
                 'user_name' => 'Gigi',
                 'user_surname' => 'Zucon',
                 'user_is_administrator' => true,
-                'date_time' => date_create_immutable()
+                'date_time' => $dateTime
             ]
         ];
 
@@ -53,5 +57,19 @@ final class ChocolateTest extends TestCase
         );
 
         self::assertInstanceOf(Chocolate::class, $chocolate);
+        self::assertSame($id, (string) $chocolate->id());
+        self::assertSame($producerName, $chocolate->producer()->name());
+        self::assertSame($producerStreet, $chocolate->producer()->street());
+        self::assertSame($producerStreetNumber, $chocolate->producer()->streetNumber());
+        self::assertSame($producerCity, $chocolate->producer()->city());
+        self::assertSame($producerRegion, $chocolate->producer()->region());
+        self::assertSame($producerCountry, $chocolate->producer()->countryCode()->getValue());
+        self::assertSame($description, $chocolate->description());
+        self::assertSame($cacaoPercentage, $chocolate->cacaoPercentage()->toInt());
+        self::assertSame($wrapperType, $chocolate->wrapperType()->getValue());
+        self::assertSame($quantity, $chocolate->quantity()->toInt());
+        self::assertSame($status, $chocolate->status()->getValue());
+        self::assertSame($userId, (string) $chocolate->lastTransitionUserId());
+        self::assertSame($dateTime, $chocolate->lastTransitionTime());
     }
 }
