@@ -81,3 +81,19 @@ Select `Add new server` and use the following parameters:
     - `Host name/address`: `postgres`
     - `User name`: `mvlabs`
     - `Password`: `mvlabs`
+
+## Migrations
+
+Run the migrations using
+
+```bash
+bin/migrations migrations:migrate
+```
+
+## Test
+
+Run the tests using
+
+```bash
+bin/phpunit
+```
