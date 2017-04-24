@@ -24,6 +24,14 @@ final class Producer
         $this->address = $address;
     }
 
+    public static function fromNameAndAddress(
+        string $name,
+        Address $address
+    ): self
+    {
+        return new self($name, $address);
+    }
+
     public static function fromNativeData(
         string $name,
         string $street,
