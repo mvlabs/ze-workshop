@@ -52,6 +52,18 @@ final class Address
         $this->country = $country;
     }
 
+    public static function fromStreetNumberZipCodeCityRegionCountry(
+        string $street,
+        string $number,
+        string $zipCode,
+        string $city,
+        string $region,
+        Country $country
+    ): self
+    {
+        return new self($street, $number, $zipCode, $city, $region, $country);
+    }
+
     public static function fromNativeData(
         string $street,
         string $number,
