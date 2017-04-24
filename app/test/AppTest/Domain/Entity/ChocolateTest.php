@@ -5,8 +5,15 @@ declare(strict_types=1);
 namespace AppTest\Domain\Entity;
 
 use App\Domain\Entity\Chocolate;
+use App\Domain\Entity\User;
+use App\Domain\Value\Address;
 use App\Domain\Value\ChocolateId;
+use App\Domain\Value\Country;
+use App\Domain\Value\Percentage;
+use App\Domain\Value\Producer;
+use App\Domain\Value\Quantity;
 use App\Domain\Value\UserId;
+use App\Domain\Value\WrapperType;
 use PHPUnit\Framework\TestCase;
 
 final class ChocolateTest extends TestCase
@@ -71,5 +78,43 @@ final class ChocolateTest extends TestCase
         self::assertSame($status, $chocolate->status()->getValue());
         self::assertSame($userId, (string) $chocolate->lastTransitionUserId());
         self::assertSame($dateTime, $chocolate->lastTransitionTime());
+    }
+
+    public function testSubmit()
+    {
+        $id = ChocolateId::new();
+        $country = Country::fromStringCode('it');
+        $address = Address::fromStreetNumberZipCodeCityRegionCountry(
+            'street',
+            '1A',
+            'AB123',
+            'Treviso',
+            'TV',
+            $country
+        );
+        $producer = Producer::fromNameAndAddress('name',$address);
+        $description = 'bittersweet symphony';
+        $cacaoPercentage = Percentage::integer(73);
+        $wrapperType = WrapperType::get('box');
+        $quantity = Quantity::grams(100);
+        $user = User::new('gigi', 'Zucon');
+
+        $chocolate = Chocolate::submit(
+            $id,
+            $producer,
+            $description,
+            $cacaoPercentage,
+            $wrapperType,
+            $quantity,
+            $user
+        );
+
+        self::assertSame($id, $chocolate->id());
+        self::assertSame($producer, $chocolate->producer());
+        self::assertSame($description, $chocolate->description());
+        self::assertSame($cacaoPercentage, $chocolate->cacaoPercentage());
+        self::assertSame($wrapperType, $chocolate->wrapperType());
+        self::assertSame($quantity, $chocolate->quantity());
+        self::assertSame($user->id(), $chocolate->lastTransitionUserId());
     }
 }
