@@ -275,28 +275,28 @@ final class Chocolates
 
     public function approve(Chocolate $chocolate): void
     {
-        if ($chocolate->currentStatus()->getValue() !== Status::APPROVED) {
+        if ($chocolate->status()->getValue() !== Status::APPROVED) {
             throw InvalidStatusTransitionException::approve();
         }
 
         $this->transition(
             $chocolate->id(),
             $chocolate->lastTransitionUserId(),
-            $chocolate->currentStatus(),
+            $chocolate->status(),
             $chocolate->lastTransitionTime()
         );
     }
 
     public function delete(Chocolate $chocolate): void
     {
-        if ($chocolate->currentStatus()->getValue() !== Status::APPROVED) {
+        if ($chocolate->status()->getValue() !== Status::APPROVED) {
             throw InvalidStatusTransitionException::delete();
         }
 
         $this->transition(
             $chocolate->id(),
             $chocolate->lastTransitionUserId(),
-            $chocolate->currentStatus(),
+            $chocolate->status(),
             $chocolate->lastTransitionTime()
         );
     }
