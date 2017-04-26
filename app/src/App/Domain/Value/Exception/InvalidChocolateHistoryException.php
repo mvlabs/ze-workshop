@@ -17,4 +17,9 @@ final class InvalidChocolateHistoryException extends \RuntimeException implement
             get_class($statusTransition)
         ));
     }
+
+    public static function invalidEmptyHistoryException(): self
+    {
+        return new self('Chocolate history can not be empty');
+    }
 }

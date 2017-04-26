@@ -13,29 +13,31 @@ final class ChocolateHistory
      */
     private $statusTransitions;
 
-    private function __construct()
+    private function __construct(array $transitions)
     {
-        $this->statusTransitions = new \SplQueue();
-    }
+        if (empty($transitions)) {
+            throw InvalidChocolateHistoryException::invalidEmptyHistoryException();
+        }
 
-    public static function transitions(array $transitions): self
-    {
-        $history = new self();
+        $this->statusTransitions = new \SplQueue();
 
         foreach ($transitions as $transition) {
             if (!$transition instanceof StatusTransition) {
                 throw InvalidChocolateHistoryException::invalidStatusTransition($transition);
             }
 
-            $history->statusTransitions->enqueue($transition);
+            $this->statusTransitions->enqueue($transition);
         }
+    }
 
-        return $history;
+    public static function transitions(StatusTransition ...$transitions): self
+    {
+        return new self($transitions);
     }
 
     public static function transitionsArray(array $transitions): self
     {
-        return self::transitions(array_map(function (array $transition) {
+        return new self(array_map(function (array $transition) {
             return StatusTransition::fromNativeData(
                 $transition['status'],
                 $transition['user_id'],
@@ -49,11 +51,7 @@ final class ChocolateHistory
 
     public static function beginning(StatusTransition $firstStatus): self
     {
-        $instance = new self();
-
-        $instance->statusTransitions->enqueue($firstStatus);
-
-        return $instance;
+        return new self([$firstStatus]);
     }
 
     public function currentStatus(): Status
