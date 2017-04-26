@@ -43,4 +43,17 @@ final class UserTest extends TestCase
         self::assertSame($surname, $user->surname());
         self::assertFalse($user->isAdministrator());
     }
+
+    public function testNewAdministrator()
+    {
+        $name = 'Gigi';
+        $surname = 'Zucon';
+
+        $user = User::newAdministrator($name, $surname);
+
+        self::assertInstanceOf(UserId::class, $user->id());
+        self::assertSame($name, $user->name());
+        self::assertSame($surname, $user->surname());
+        self::assertTrue($user->isAdministrator());
+    }
 }
