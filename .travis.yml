@@ -1,0 +1,27 @@
+sudo: false
+
+language: php
+
+php:
+  - 7.1
+
+before_install:
+  - composer self-update
+
+install:
+  - composer require --dev satooshi/php-coveralls -d app
+
+before_script:
+  - composer install -d app --prefer-source --no-interaction
+
+script:
+  - cd app
+  - mkdir -p build/logs
+  - vendor/bin/phpunit --coverage-clover ../build/logs/clover.xml
+
+after_success:
+  - travis_retry php app/vendor/bin/coveralls -v
+
+notifications:
+  email:
+    - pasafama@gmail.com
