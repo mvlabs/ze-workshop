@@ -17,10 +17,10 @@ before_script:
 script:
   - cd app
   - mkdir -p build/logs
-  - vendor/bin/phpunit --coverage-clover ../build/logs/clover.xml
+  - vendor/bin/phpunit --coverage-clover build/logs/clover.xml
 
 after_success:
-  - travis_retry php app/vendor/bin/coveralls -v
+  - travis_retry php vendor/bin/coveralls -v
 
 notifications:
   email:
