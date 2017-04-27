@@ -30,7 +30,7 @@ final class ChocolateHistory
         }
     }
 
-    public static function transitions(StatusTransition ...$transitions): self
+    public static function transitions(array $transitions): self
     {
         return new self($transitions);
     }
@@ -69,11 +69,6 @@ final class ChocolateHistory
         $instance->statusTransitions->enqueue($transition);
 
         return $instance;
-    }
-
-    public function isEmpty(): bool
-    {
-        return $this->statusTransitions->isEmpty();
     }
 
     public function lastTransitionUserId(): UserId

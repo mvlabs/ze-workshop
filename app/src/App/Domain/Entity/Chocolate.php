@@ -66,10 +66,6 @@ final class Chocolate
         Quantity $quantity,
         ChocolateHistory $history
     ) {
-        if ($history->isEmpty()) {
-            throw InvalidHistoryException::fromEmptyHistory();
-        }
-
         $this->id = $id;
         $this->producer = $producer;
         $this->description = $description;
