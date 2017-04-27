@@ -1,6 +1,7 @@
 # Middleware architectures in PHP with Zend Expressive
 
 [![Build Status](https://travis-ci.org/mvlabs/ze-workshop.svg?branch=master)](https://travis-ci.org/mvlabs/ze-workshop)
+[![Coverage Status](https://coveralls.io/repos/github/mvlabs/ze-workshop/badge.svg?branch=master)](https://coveralls.io/github/mvlabs/ze-workshop?branch=master)
 
 ## Installation
 
