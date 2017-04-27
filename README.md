@@ -1,6 +1,6 @@
-Source repository for our workshop
-
 # Middleware architectures in PHP with Zend Expressive
+
+[![Build Status](https://travis-ci.org/mvlabs/ze-workshop.svg?branch=master)](https://travis-ci.org/mvlabs/ze-workshop)
 
 ## Installation
 
