@@ -22,6 +22,19 @@ final class ChocolateHistoryTest extends TestCase
         ChocolateHistory::transitions([]);
     }
 
+    public function testChocolateHistoryIsMadeFromTransitions(): void
+    {
+        $fakeTransition = new \stdClass();
+
+        $this->expectException(InvalidChocolateHistoryException::class);
+        $this->expectExceptionMessage(sprintf(
+            'Chocolate history is composed of StatusTransitions, %s received instead',
+            get_class($fakeTransition)
+        ));
+
+        ChocolateHistory::transitions([$fakeTransition]);
+    }
+
     public function testCreateChocolateHistoryFromTransitions(): void
     {
         $user = User::new('gigi', 'Zucon');
