@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Domain\Value\Exception;
 
+/**
+ * @codeCoverageIgnore
+ */
 final class InvalidPercentageException extends \InvalidArgumentException implements ExceptionInterface
 {
     public static function lessThanZero(int $percentage): self

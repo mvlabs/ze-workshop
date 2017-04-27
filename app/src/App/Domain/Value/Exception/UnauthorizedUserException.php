@@ -6,6 +6,9 @@ namespace App\Domain\Value\Exception;
 
 use App\Domain\Entity\User;
 
+/**
+ * @codeCoverageIgnore
+ */
 final class UnauthorizedUserException extends \DomainException implements ExceptionInterface
 {
     public static function shouldBeAdminToApprove(User $user): self

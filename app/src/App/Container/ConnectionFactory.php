@@ -8,6 +8,9 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Psr\Container\ContainerInterface;
 
+/**
+ * @codeCoverageIgnore
+ */
 final class ConnectionFactory
 {
     public function __invoke(ContainerInterface $container): Connection

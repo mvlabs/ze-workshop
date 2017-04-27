@@ -6,6 +6,9 @@ namespace App\Domain\Service\Exception;
 
 use App\Domain\Value\ChocolateId;
 
+/**
+ * @codeCoverageIgnore
+ */
 final class ChocolateNotFoundException extends \RuntimeException implements ExceptionInterface
 {
     public static function fromChocolateId(ChocolateId $id): self
