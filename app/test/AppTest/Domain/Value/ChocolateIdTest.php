@@ -10,14 +10,14 @@ use Ramsey\Uuid\Uuid;
 
 final class ChocolateIdTest extends TestCase
 {
-    public function testFromObjectToStringAndBack()
+    public function testFromObjectToStringAndBack(): void
     {
         $vehicleId = ChocolateId::new();
 
         self::assertEquals($vehicleId, ChocolateId::fromString((string) $vehicleId));
     }
 
-    public function testFromStringAndBack()
+    public function testFromStringAndBack(): void
     {
         $uuid = (string) Uuid::uuid4();
 

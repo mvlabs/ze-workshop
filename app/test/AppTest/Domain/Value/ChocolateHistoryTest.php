@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 
 final class ChocolateHistoryTest extends TestCase
 {
-    public function testChocolateHistoryCannotBeEmpty()
+    public function testChocolateHistoryCannotBeEmpty(): void
     {
         $this->expectException(InvalidChocolateHistoryException::class);
         $this->expectExceptionMessage('Chocolate history can not be empty');
@@ -22,7 +22,7 @@ final class ChocolateHistoryTest extends TestCase
         ChocolateHistory::transitions([]);
     }
 
-    public function testCreateChocolateHistoryFromTransitions()
+    public function testCreateChocolateHistoryFromTransitions(): void
     {
         $user = User::new('gigi', 'Zucon');
         $firstTransition = StatusTransition::new(Status::get(Status::SUBMITTED), $user);
@@ -34,7 +34,7 @@ final class ChocolateHistoryTest extends TestCase
         self::assertSame($user->id(), $history->lastTransitionUserId());
     }
 
-    public function testCreateChocolateHistoryFromTransitionsArray()
+    public function testCreateChocolateHistoryFromTransitionsArray(): void
     {
         $userId = UserId::new();
         $firstTransition = [
@@ -62,7 +62,7 @@ final class ChocolateHistoryTest extends TestCase
         self::assertSame($time, $history->lastTransitionTime());
     }
 
-    public function testBeginChocolateHistory()
+    public function testBeginChocolateHistory(): void
     {
         $user = User::new('gigi', 'Zucon');
         $transition = StatusTransition::new(Status::get(Status::SUBMITTED), $user);
@@ -73,7 +73,7 @@ final class ChocolateHistoryTest extends TestCase
         self::assertSame($user->id(), $history->lastTransitionUserId());
     }
 
-    public function testTransitionHistory()
+    public function testTransitionHistory(): void
     {
         $firstUser = User::new('gigi', 'Zucon');
         $firstTransition = StatusTransition::new(Status::get(Status::SUBMITTED), $firstUser);

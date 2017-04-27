@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 final class UserTest extends TestCase
 {
-    public function testFromNativeData()
+    public function testFromNativeData(): void
     {
         $id = (string) UserId::new();
         $name = 'Gigi';
@@ -31,7 +31,7 @@ final class UserTest extends TestCase
         self::assertSame($isAdmin, $user->isAdministrator());
     }
 
-    public function testNew()
+    public function testNew(): void
     {
         $name = 'Gigi';
         $surname = 'Zucon';
@@ -44,7 +44,7 @@ final class UserTest extends TestCase
         self::assertFalse($user->isAdministrator());
     }
 
-    public function testNewAdministrator()
+    public function testNewAdministrator(): void
     {
         $name = 'Gigi';
         $surname = 'Zucon';

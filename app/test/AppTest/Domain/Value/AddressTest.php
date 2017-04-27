@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 final class AddressTest extends TestCase
 {
-    public function testFromNativeData()
+    public function testFromNativeData(): void
     {
         $street = 'via Daqui';
         $number = '1A';
@@ -37,7 +37,7 @@ final class AddressTest extends TestCase
         self::assertSame(strtoupper($country), $address->countryCode()->getValue());
     }
 
-    public function testFromStreetNumberZipCodeCityRegionCountry()
+    public function testFromStreetNumberZipCodeCityRegionCountry(): void
     {
         $street = 'via Daqui';
         $number = '1A';

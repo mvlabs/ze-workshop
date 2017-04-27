@@ -21,7 +21,7 @@ use PHPUnit\Framework\TestCase;
 
 final class ChocolateTest extends TestCase
 {
-    public function testFromNativeData()
+    public function testFromNativeData(): void
     {
         $id = (string) ChocolateId::new();
         $producerName = 'name';
@@ -83,7 +83,7 @@ final class ChocolateTest extends TestCase
         self::assertSame($dateTime, $chocolate->lastTransitionTime());
     }
 
-    public function testSubmit()
+    public function testSubmit(): void
     {
         $id = ChocolateId::new();
         $country = Country::fromStringCode('it');
@@ -121,7 +121,7 @@ final class ChocolateTest extends TestCase
         self::assertSame($user->id(), $chocolate->lastTransitionUserId());
     }
 
-    public function testApprove()
+    public function testApprove(): void
     {
         $chocolate = Chocolate::submit(
             ChocolateId::new(),
@@ -150,7 +150,7 @@ final class ChocolateTest extends TestCase
         self::assertSame($approver->id(), $chocolate->lastTransitionUserId());
     }
 
-    public function testApproveNotSubmittedChocolate()
+    public function testApproveNotSubmittedChocolate(): void
     {
         $this->expectException(InvalidStatusTransitionException::class);
         $this->expectExceptionMessage('You can approve only a chocolate in submitted status');
@@ -195,7 +195,7 @@ final class ChocolateTest extends TestCase
         $chocolate->approve($approver);
     }
 
-    public function testApproveByNotAdministrator()
+    public function testApproveByNotAdministrator(): void
     {
         $this->expectException(UnauthorizedUserException::class);
         $this->expectExceptionMessage(sprintf(
@@ -228,7 +228,7 @@ final class ChocolateTest extends TestCase
         $chocolate->approve($approver);
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $chocolate = Chocolate::submit(
             ChocolateId::new(),
@@ -257,7 +257,7 @@ final class ChocolateTest extends TestCase
         self::assertSame($deleter->id(), $chocolate->lastTransitionUserId());
     }
 
-    public function testDeleteByNotAdministrator()
+    public function testDeleteByNotAdministrator(): void
     {
         $this->expectException(UnauthorizedUserException::class);
         $this->expectExceptionMessage(sprintf(
