@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 final class PercentageTest extends TestCase
 {
-    public function testIntegerPercentage()
+    public function testIntegerPercentage(): void
     {
         $int = 37;
 

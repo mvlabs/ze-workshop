@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 final class CountryTest extends TestCase
 {
-    public function testCreateCountryFromString()
+    public function testCreateCountryFromString(): void
     {
         $code = 'IT';
         $country = Country::fromStringCode($code);

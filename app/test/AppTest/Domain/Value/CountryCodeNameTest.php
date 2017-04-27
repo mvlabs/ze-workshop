@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 final class CountryCodeNameTest extends TestCase
 {
-    public function testGetName()
+    public function testGetName(): void
     {
         $code = CountryCode::get('IT');
 
