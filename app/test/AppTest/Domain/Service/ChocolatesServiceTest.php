@@ -14,6 +14,7 @@ use App\Domain\Value\Country;
 use App\Domain\Value\Percentage;
 use App\Domain\Value\Producer;
 use App\Domain\Value\Quantity;
+use App\Domain\Value\Status;
 use App\Domain\Value\WrapperType;
 use App\Infrastructure\Repository\Chocolates;
 use Mockery;
@@ -113,6 +114,35 @@ final class ChocolatesServiceTest extends TestCase
             $quantity,
             $user
         );
+    }
+
+    public function testApprove(): void
+    {
+        $user = User::newAdministrator('gigi', 'Zucon');
+        $chocolate = Chocolate::submit(
+            ChocolateId::new(),
+            Producer::fromNameAndAddress(
+                'producer',
+                Address::fromStreetNumberZipCodeCityRegionCountry(
+                    'via Diqua',
+                    '1A',
+                    'AB123',
+                    'Treviso',
+                    'TV',
+                    Country::fromStringCode('IT')
+                )),
+            'description',
+            Percentage::integer(77),
+            WrapperType::get(WrapperType::BOX),
+            Quantity::grams(100),
+            $user
+        );
+
+        $this->chocolates->shouldReceive('approve')->with(Mockery::on(function (Chocolate $chocolate) {
+            return $chocolate->status() === Status::get(Status::APPROVED);
+        }));
+
+        $this->service->approve($chocolate, $user);
     }
 
     protected function assertPostConditions(): void
