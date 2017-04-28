@@ -145,6 +145,35 @@ final class ChocolatesServiceTest extends TestCase
         $this->service->approve($chocolate, $user);
     }
 
+    public function testDelete(): void
+    {
+        $user = User::newAdministrator('gigi', 'Zucon');
+        $chocolate = Chocolate::submit(
+            ChocolateId::new(),
+            Producer::fromNameAndAddress(
+                'producer',
+                Address::fromStreetNumberZipCodeCityRegionCountry(
+                    'via Diqua',
+                    '1A',
+                    'AB123',
+                    'Treviso',
+                    'TV',
+                    Country::fromStringCode('IT')
+                )),
+            'description',
+            Percentage::integer(77),
+            WrapperType::get(WrapperType::BOX),
+            Quantity::grams(100),
+            $user
+        );
+
+        $this->chocolates->shouldReceive('delete')->with(Mockery::on(function (Chocolate $chocolate) {
+            return $chocolate->status() === Status::get(Status::DELETED);
+        }));
+
+        $this->service->delete($chocolate, $user);
+    }
+
     protected function assertPostConditions(): void
     {
         $container = Mockery::getContainer();
