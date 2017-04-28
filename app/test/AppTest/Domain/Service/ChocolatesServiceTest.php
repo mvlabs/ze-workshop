@@ -80,6 +80,41 @@ final class ChocolatesServiceTest extends TestCase
         $this->service->getChocolate($chocolateId);
     }
 
+    public function testSubmit(): void
+    {
+        $chocolateId = ChocolateId::new();
+        $producer = Producer::fromNameAndAddress(
+            'producer',
+            Address::fromStreetNumberZipCodeCityRegionCountry(
+                'via Diqua',
+                '1A',
+                'AB123',
+                'Treviso',
+                'TV',
+                Country::fromStringCode('IT')
+            )
+        );
+        $description = 'description';
+        $percentage = Percentage::integer(77);
+        $wrapper = WrapperType::get(WrapperType::BOX);
+        $quantity = Quantity::grams(100);
+        $user = User::new('gigi', 'Zucon');
+
+        $this->chocolates->shouldReceive('add')->with(Mockery::on(function ($chocolate) {
+            return $chocolate instanceof Chocolate;
+        }));
+
+        $this->service->submit(
+            $chocolateId,
+            $producer,
+            $description,
+            $percentage,
+            $wrapper,
+            $quantity,
+            $user
+        );
+    }
+
     protected function assertPostConditions(): void
     {
         $container = Mockery::getContainer();
