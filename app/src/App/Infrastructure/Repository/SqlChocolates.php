@@ -57,7 +57,7 @@ final class SqlChocolates implements Chocolates
         );
     }
 
-    public function findById(ChocolateId $id): Chocolate
+    public function findById(ChocolateId $id): ?Chocolate
     {
         $chocolateStatement = $this->connection->executeQuery(
             'SELECT ' .
@@ -85,6 +85,10 @@ final class SqlChocolates implements Chocolates
         );
 
         $chocolateArray = $chocolateStatement->fetch(\PDO::FETCH_ASSOC);
+
+        if (null === $chocolateArray) {
+            return null;
+        }
 
         return $this->createChocolate(
             $chocolateArray['id'],

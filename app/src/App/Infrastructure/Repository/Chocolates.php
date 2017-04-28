@@ -11,7 +11,7 @@ interface Chocolates
 {
     public function all(): array;
 
-    public function findById(ChocolateId $id): Chocolate;
+    public function findById(ChocolateId $id): ?Chocolate;
 
     public function add(Chocolate $chocolate): void;
 
