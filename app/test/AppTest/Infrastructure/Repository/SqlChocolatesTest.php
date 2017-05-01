@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace AppTest\Infrastructure\Repository;
 
+use App\Domain\Entity\Chocolate;
 use App\Domain\Value\ChocolateId;
+use App\Domain\Value\Status;
+use App\Domain\Value\UserId;
 use App\Infrastructure\Repository\SqlChocolates;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\Statement;
@@ -80,7 +83,7 @@ final class SqlChocolatesTest extends TestCase
             '   c.cacao_percentage, ' .
             '   c.wrapper_type, ' .
             '   c.quantity, ' .
-            '   array_agg(ARRAY[ch.status, u.id, u.name, u.surname, cast(u.admin as varchar), cast(ch.date_time as varchar)]) AS history ' .
+            '   array_agg(ARRAY[ch.status, u.id AS user_id, u.name AS user_name, u.surname AS user_surname, cast(u.admin as varchar) AS user_is_administrator, cast(ch.date_time as varchar)]) AS history ' .
             'FROM chocolates c ' .
             'JOIN producers p ON p.id = c.producer_id ' .
             'JOIN chocolates_history ch ON ch.chocolate_id = c.id ' .
@@ -92,6 +95,89 @@ final class SqlChocolatesTest extends TestCase
         )->andReturn($statement);
 
         self::assertNull($this->repository->findById($chocolateId));
+    }
+
+    public function testFindByIdWithResult(): void
+    {
+        $chocolateId = ChocolateId::new();
+        $chocolateData = [
+            'id' => (string) $chocolateId,
+            'name' => 'bittersweet',
+            'street' => 'via Diqua',
+            'street_number' => '1A',
+            'zip_code' => 'AB123',
+            'city' => 'Treviso',
+            'region' => 'TV',
+            'country' => 'IT',
+            'description' => 'dark',
+            'cacao_percentage' => 77,
+            'wrapper_type' => 'box',
+            'quantity' => 100,
+            'history' => [
+                Status::SUBMITTED,
+                (string) UserId::new(),
+                'gigi',
+                'Zucon',
+                'true',
+                date_create_immutable()->format('Y-m-d H:i:s')
+            ]
+        ];
+
+        $statement = Mockery::mock(Statement::class);
+        $statement->shouldReceive('fetch')->with(\PDO::FETCH_ASSOC)->andReturn($chocolateData);
+
+        $this->connection->shouldReceive('executeQuery')->with(
+            'SELECT ' .
+            '   c.id, ' .
+            '   p.name, ' .
+            '   p.street, ' .
+            '   p.street_number, ' .
+            '   p.zip_code, ' .
+            '   p.city, ' .
+            '   p.region, ' .
+            '   p.country, ' .
+            '   c.description, ' .
+            '   c.cacao_percentage, ' .
+            '   c.wrapper_type, ' .
+            '   c.quantity, ' .
+            '   array_agg(ARRAY[ch.status, u.id AS user_id, u.name AS user_name, u.surname AS user_surname, cast(u.admin as varchar) AS user_is_administrator, cast(ch.date_time as varchar)]) AS history ' .
+            'FROM chocolates c ' .
+            'JOIN producers p ON p.id = c.producer_id ' .
+            'JOIN chocolates_history ch ON ch.chocolate_id = c.id ' .
+            'JOIN users u ON u.id = ch.user_id ' .
+            'WHERE c.id = :id',
+            [
+                'id' => (string) $chocolateId
+            ]
+        )->andReturn($statement);
+
+        $chocolate = Chocolate::fromNativeData(
+            $chocolateData['id'],
+            $chocolateData['name'],
+            $chocolateData['street'],
+            $chocolateData['street_number'],
+            $chocolateData['zip_code'],
+            $chocolateData['city'],
+            $chocolateData['region'],
+            $chocolateData['country'],
+            $chocolateData['description'],
+            $chocolateData['cacao_percentage'],
+            $chocolateData['wrapper_type'],
+            $chocolateData['quantity'],
+            [
+                [
+                    'status' => $chocolateData['history'][0],
+                    'user_id' => $chocolateData['history'][1],
+                    'user_name' => $chocolateData['history'][2],
+                    'user_surname' => $chocolateData['history'][3],
+                    'user_is_administrator' => json_decode($chocolateData['history'][4]),
+                    'date_time' => date_create_immutable($chocolateData['history'][5])
+
+                ]
+            ]
+
+        );
+        self::assertEquals($chocolate, $this->repository->findById($chocolateId));
     }
 
     protected function assertPostConditions(): void
