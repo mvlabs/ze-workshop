@@ -219,7 +219,7 @@ final class SqlChocolates implements Chocolates
                 :quantity
             )',
             [
-                'chocolate_id' => $chocolate->id(),
+                'chocolate_id' => (string) $chocolate->id(),
                 'producer_id' => $producerId,
                 'description' => $chocolate->description(),
                 'cacao_percentage' => $chocolate->cacaoPercentage()->toInt(),

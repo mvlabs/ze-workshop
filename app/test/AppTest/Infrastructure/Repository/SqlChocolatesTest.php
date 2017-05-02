@@ -197,22 +197,30 @@ final class SqlChocolatesTest extends TestCase
         $producerStatement = Mockery::mock(Statement::class);
         $producerStatement->shouldReceive('fetchColumn')->andReturn($producerId);
 
+        $producer = Producer::fromNameAndAddress(
+            'bittersweet',
+            Address::fromStreetNumberZipCodeCityRegionCountry(
+                'via Diqua',
+                '1A',
+                'AB123',
+                'Treviso',
+                'TV',
+                Country::fromStringCode('IT')
+            )
+        );
+        $this->connection->shouldReceive('executeQuery')->with(
+            'SELECT id FROM producers WHERE name = :name',
+            [
+                'name' => $producer->name()
+            ]
+        )->andReturn($producerStatement);
+
         $statement = Mockery::mock(Statement::class);
         $statement->shouldReceive('execute');
 
         $chocolate = Chocolate::submit(
             ChocolateId::new(),
-            Producer::fromNameAndAddress(
-                'bittersweet',
-                Address::fromStreetNumberZipCodeCityRegionCountry(
-                    'via Diqua',
-                    '1A',
-                    'AB123',
-                    'Treviso',
-                    'TV',
-                    Country::fromStringCode('IT')
-                )
-            ),
+            $producer,
             'dark',
             Percentage::integer(77),
             WrapperType::get(WrapperType::BOX),
@@ -220,7 +228,7 @@ final class SqlChocolatesTest extends TestCase
             User::new('gigi', 'Zucon')
         );
 
-        $this->connection->shouldReceive(
+        $this->connection->shouldReceive('executeQuery')->with(
             'INSERT INTO chocolates (
                 id,
                 producer_id,
@@ -237,7 +245,7 @@ final class SqlChocolatesTest extends TestCase
                 :quantity
             )',
             [
-                'chocolate_id' => $chocolate->id(),
+                'chocolate_id' => (string) $chocolate->id(),
                 'producer_id' => $producerId,
                 'description' => $chocolate->description(),
                 'cacao_percentage' => $chocolate->cacaoPercentage()->toInt(),
@@ -245,6 +253,33 @@ final class SqlChocolatesTest extends TestCase
                 'quantity' => $chocolate->quantity()->toInt()
             ]
         )->andReturn($statement);
+
+        $historyStatement = Mockery::mock(Statement::class);
+        $historyStatement->shouldReceive('execute');
+
+        $this->connection->shouldReceive('executeQuery')->with(
+            'INSERT INTO chocolates_history (
+                chocolate_id,
+                status,
+                user_id,
+                date_time
+            ) VALUES (
+                :chocolate_id,
+                :status,
+                :user_id,
+                :date_time
+            )',
+            [
+                'chocolate_id' => (string) $chocolate->id(),
+                'status' => $chocolate->status()->getValue(),
+                'user_id' => $chocolate->lastTransitionUserId(),
+                'date_time' => $chocolate->lastTransitionTime()
+            ]
+        )->andReturn($historyStatement);
+
+        $this->connection->shouldReceive('commit');
+
+        $this->repository->add($chocolate);
     }
 
     public function testAddChocolateWithNewProducer(): void
