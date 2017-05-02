@@ -5,9 +5,18 @@ declare(strict_types=1);
 namespace AppTest\Infrastructure\Repository;
 
 use App\Domain\Entity\Chocolate;
+use App\Domain\Entity\User;
+use App\Domain\Value\Address;
+use App\Domain\Value\ChocolateHistory;
 use App\Domain\Value\ChocolateId;
+use App\Domain\Value\Country;
+use App\Domain\Value\Percentage;
+use App\Domain\Value\Producer;
+use App\Domain\Value\Quantity;
 use App\Domain\Value\Status;
+use App\Domain\Value\StatusTransition;
 use App\Domain\Value\UserId;
+use App\Domain\Value\WrapperType;
 use App\Infrastructure\Repository\SqlChocolates;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\Statement;
@@ -178,6 +187,69 @@ final class SqlChocolatesTest extends TestCase
 
         );
         self::assertEquals($chocolate, $this->repository->findById($chocolateId));
+    }
+
+    public function testAddChocolateWithExistingProducer(): void
+    {
+        $this->connection->shouldReceive('beginTransaction');
+
+        $producerId = 37;
+        $producerStatement = Mockery::mock(Statement::class);
+        $producerStatement->shouldReceive('fetchColumn')->andReturn($producerId);
+
+        $statement = Mockery::mock(Statement::class);
+        $statement->shouldReceive('execute');
+
+        $chocolate = Chocolate::submit(
+            ChocolateId::new(),
+            Producer::fromNameAndAddress(
+                'bittersweet',
+                Address::fromStreetNumberZipCodeCityRegionCountry(
+                    'via Diqua',
+                    '1A',
+                    'AB123',
+                    'Treviso',
+                    'TV',
+                    Country::fromStringCode('IT')
+                )
+            ),
+            'dark',
+            Percentage::integer(77),
+            WrapperType::get(WrapperType::BOX),
+            Quantity::grams(100),
+            User::new('gigi', 'Zucon')
+        );
+
+        $this->connection->shouldReceive(
+            'INSERT INTO chocolates (
+                id,
+                producer_id,
+                description,
+                cacao_percentage,
+                wrapper_type,
+                quantity
+            ) VALUES (
+                :chocolate_id,
+                :producer_id,
+                :description,
+                :cacao_percentage,
+                :wrapper_type,
+                :quantity
+            )',
+            [
+                'chocolate_id' => $chocolate->id(),
+                'producer_id' => $producerId,
+                'description' => $chocolate->description(),
+                'cacao_percentage' => $chocolate->cacaoPercentage()->toInt(),
+                'wrapper_type' => $chocolate->wrapperType()->getValue(),
+                'quantity' => $chocolate->quantity()->toInt()
+            ]
+        )->andReturn($statement);
+    }
+
+    public function testAddChocolateWithNewProducer(): void
+    {
+
     }
 
     protected function assertPostConditions(): void

@@ -227,6 +227,7 @@ final class SqlChocolates implements Chocolates
                 'quantity' => $chocolate->quantity()->toInt()
             ]
         );
+        $statement->execute();
     }
 
     private function findOrCreateProducerId(Producer $producer): int
