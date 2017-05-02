@@ -7,14 +7,12 @@ namespace AppTest\Infrastructure\Repository;
 use App\Domain\Entity\Chocolate;
 use App\Domain\Entity\User;
 use App\Domain\Value\Address;
-use App\Domain\Value\ChocolateHistory;
 use App\Domain\Value\ChocolateId;
 use App\Domain\Value\Country;
 use App\Domain\Value\Percentage;
 use App\Domain\Value\Producer;
 use App\Domain\Value\Quantity;
 use App\Domain\Value\Status;
-use App\Domain\Value\StatusTransition;
 use App\Domain\Value\UserId;
 use App\Domain\Value\WrapperType;
 use App\Infrastructure\Repository\SqlChocolates;
@@ -284,7 +282,127 @@ final class SqlChocolatesTest extends TestCase
 
     public function testAddChocolateWithNewProducer(): void
     {
+        $this->connection->shouldReceive('beginTransaction');
 
+        $producerId = 37;
+        $producerStatement = Mockery::mock(Statement::class);
+        $producerStatement->shouldReceive('fetchColumn')->andReturn(false);
+
+        $producer = Producer::fromNameAndAddress(
+            'bittersweet',
+            Address::fromStreetNumberZipCodeCityRegionCountry(
+                'via Diqua',
+                '1A',
+                'AB123',
+                'Treviso',
+                'TV',
+                Country::fromStringCode('IT')
+            )
+        );
+        $this->connection->shouldReceive('executeQuery')->with(
+            'SELECT id FROM producers WHERE name = :name',
+            [
+                'name' => $producer->name()
+            ]
+        )->andReturn($producerStatement);
+
+        $newProducerStatement = Mockery::mock(Statement::class);
+        $newProducerStatement->shouldReceive('fetchColumn')->andReturn(37);
+
+        $this->connection->shouldReceive('executeQuery')->with(
+            'INSERT INTO producers (
+                name,
+                street,
+                street_number,
+                zip_code,
+                city,
+                region,
+                country
+            ) VALUES (
+                :name,
+                :street,
+                :street_number,
+                :zip_code,
+                :city,
+                :region,
+                :country
+            ) RETURNING id',
+            [
+                'name' => $producer->name(),
+                'street' => $producer->street(),
+                'street_number' => $producer->streetNumber(),
+                'zip_code' => $producer->zipCode(),
+                'city' => $producer->city(),
+                'region' => $producer->region(),
+                'country' => $producer->countryCode()->getValue()
+            ]
+        )->andReturn($newProducerStatement);
+
+        $statement = Mockery::mock(Statement::class);
+        $statement->shouldReceive('execute');
+
+        $chocolate = Chocolate::submit(
+            ChocolateId::new(),
+            $producer,
+            'dark',
+            Percentage::integer(77),
+            WrapperType::get(WrapperType::BOX),
+            Quantity::grams(100),
+            User::new('gigi', 'Zucon')
+        );
+
+        $this->connection->shouldReceive('executeQuery')->with(
+            'INSERT INTO chocolates (
+                id,
+                producer_id,
+                description,
+                cacao_percentage,
+                wrapper_type,
+                quantity
+            ) VALUES (
+                :chocolate_id,
+                :producer_id,
+                :description,
+                :cacao_percentage,
+                :wrapper_type,
+                :quantity
+            )',
+            [
+                'chocolate_id' => (string) $chocolate->id(),
+                'producer_id' => $producerId,
+                'description' => $chocolate->description(),
+                'cacao_percentage' => $chocolate->cacaoPercentage()->toInt(),
+                'wrapper_type' => $chocolate->wrapperType()->getValue(),
+                'quantity' => $chocolate->quantity()->toInt()
+            ]
+        )->andReturn($statement);
+
+        $historyStatement = Mockery::mock(Statement::class);
+        $historyStatement->shouldReceive('execute');
+
+        $this->connection->shouldReceive('executeQuery')->with(
+            'INSERT INTO chocolates_history (
+                chocolate_id,
+                status,
+                user_id,
+                date_time
+            ) VALUES (
+                :chocolate_id,
+                :status,
+                :user_id,
+                :date_time
+            )',
+            [
+                'chocolate_id' => (string) $chocolate->id(),
+                'status' => $chocolate->status()->getValue(),
+                'user_id' => $chocolate->lastTransitionUserId(),
+                'date_time' => $chocolate->lastTransitionTime()
+            ]
+        )->andReturn($historyStatement);
+
+        $this->connection->shouldReceive('commit');
+
+        $this->repository->add($chocolate);
     }
 
     protected function assertPostConditions(): void
