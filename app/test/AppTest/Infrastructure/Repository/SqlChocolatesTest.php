@@ -405,6 +405,55 @@ final class SqlChocolatesTest extends TestCase
         $this->repository->add($chocolate);
     }
 
+    public function testApproveChocolate(): void
+    {
+        $chocolate = Chocolate::submit(
+            ChocolateId::new(),
+            Producer::fromNameAndAddress(
+                'bittersweet',
+                Address::fromStreetNumberZipCodeCityRegionCountry(
+                    'via Diqua',
+                    '1A',
+                    'AB123',
+                    'Treviso',
+                    'TV',
+                    Country::fromStringCode('IT')
+                )
+            ),
+            'dark',
+            Percentage::integer(77),
+            WrapperType::get(WrapperType::BOX),
+            Quantity::grams(100),
+            User::new('gigi', 'Zucon')
+        );
+        $chocolate->approve(User::newAdministrator('toni', 'Folpet'));
+
+        $statement = Mockery::mock(Statement::class);
+        $statement->shouldReceive('execute');
+
+        $this->connection->shouldReceive('executeQuery')->with(
+            'INSERT INTO chocolates_history (
+                chocolate_id,
+                status,
+                user_id,
+                date_time
+            ) VALUES (
+                :chocolate_id,
+                :status,
+                :user_id,
+                :date_time
+            )',
+            [
+                'chocolate_id' => (string) $chocolate->id(),
+                'status' => $chocolate->status()->getValue(),
+                'user_id' => (string) $chocolate->lastTransitionUserId(),
+                'date_time' => $chocolate->lastTransitionTime()
+            ]
+        )->andReturn($statement);
+
+        $this->repository->approve($chocolate);
+    }
+
     protected function assertPostConditions(): void
     {
         $container = Mockery::getContainer();
