@@ -294,7 +294,7 @@ final class SqlChocolates implements Chocolates
 
     public function delete(Chocolate $chocolate): void
     {
-        if ($chocolate->status()->getValue() !== Status::APPROVED) {
+        if ($chocolate->status()->getValue() !== Status::DELETED) {
             throw InvalidStatusTransitionException::delete();
         }
 

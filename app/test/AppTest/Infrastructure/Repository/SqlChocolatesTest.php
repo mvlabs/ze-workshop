@@ -455,7 +455,7 @@ final class SqlChocolatesTest extends TestCase
         $this->repository->approve($chocolate);
     }
 
-    public function testApproveChocolateInWrongState()
+    public function testApproveChocolateInWrongState(): void
     {
         $this->expectException(InvalidStatusTransitionException::class);
         $this->expectExceptionMessage('Can not persist the approval of a chocolate which is not in approved status');
@@ -481,6 +481,55 @@ final class SqlChocolatesTest extends TestCase
         );
 
         $this->repository->approve($chocolate);
+    }
+
+    public function testDeleteChocolate(): void
+    {
+        $chocolate = Chocolate::submit(
+            ChocolateId::new(),
+            Producer::fromNameAndAddress(
+                'bittersweet',
+                Address::fromStreetNumberZipCodeCityRegionCountry(
+                    'via Diqua',
+                    '1A',
+                    'AB123',
+                    'Treviso',
+                    'TV',
+                    Country::fromStringCode('IT')
+                )
+            ),
+            'dark',
+            Percentage::integer(77),
+            WrapperType::get(WrapperType::BOX),
+            Quantity::grams(100),
+            User::new('gigi', 'Zucon')
+        );
+        $chocolate->delete(User::newAdministrator('toni', 'Folpet'));
+
+        $statement = Mockery::mock(Statement::class);
+        $statement->shouldReceive('execute');
+
+        $this->connection->shouldReceive('executeQuery')->with(
+            'INSERT INTO chocolates_history (
+                chocolate_id,
+                status,
+                user_id,
+                date_time
+            ) VALUES (
+                :chocolate_id,
+                :status,
+                :user_id,
+                :date_time
+            )',
+            [
+                'chocolate_id' => (string) $chocolate->id(),
+                'status' => $chocolate->status()->getValue(),
+                'user_id' => (string) $chocolate->lastTransitionUserId(),
+                'date_time' => $chocolate->lastTransitionTime()
+            ]
+        )->andReturn($statement);
+
+        $this->repository->delete($chocolate);
     }
 
     protected function assertPostConditions(): void
