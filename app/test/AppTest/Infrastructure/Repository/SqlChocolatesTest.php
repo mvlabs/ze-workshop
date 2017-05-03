@@ -532,6 +532,34 @@ final class SqlChocolatesTest extends TestCase
         $this->repository->delete($chocolate);
     }
 
+    public function testDeleteChocolateInWrongState(): void
+    {
+        $this->expectException(InvalidStatusTransitionException::class);
+        $this->expectExceptionMessage('Can not persist the deletion of a chocolate which is not in deleted status');
+
+        $chocolate = Chocolate::submit(
+            ChocolateId::new(),
+            Producer::fromNameAndAddress(
+                'bittersweet',
+                Address::fromStreetNumberZipCodeCityRegionCountry(
+                    'via Diqua',
+                    '1A',
+                    'AB123',
+                    'Treviso',
+                    'TV',
+                    Country::fromStringCode('IT')
+                )
+            ),
+            'dark',
+            Percentage::integer(77),
+            WrapperType::get(WrapperType::BOX),
+            Quantity::grams(100),
+            User::new('gigi', 'Zucon')
+        );
+
+        $this->repository->delete($chocolate);
+    }
+
     protected function assertPostConditions(): void
     {
         $container = Mockery::getContainer();
