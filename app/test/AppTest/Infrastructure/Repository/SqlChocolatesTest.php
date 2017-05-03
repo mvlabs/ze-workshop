@@ -6,6 +6,7 @@ namespace AppTest\Infrastructure\Repository;
 
 use App\Domain\Entity\Chocolate;
 use App\Domain\Entity\User;
+use App\Domain\Service\Exception\InvalidStatusTransitionException;
 use App\Domain\Value\Address;
 use App\Domain\Value\ChocolateId;
 use App\Domain\Value\Country;
@@ -450,6 +451,34 @@ final class SqlChocolatesTest extends TestCase
                 'date_time' => $chocolate->lastTransitionTime()
             ]
         )->andReturn($statement);
+
+        $this->repository->approve($chocolate);
+    }
+
+    public function testApproveChocolateInWrongState()
+    {
+        $this->expectException(InvalidStatusTransitionException::class);
+        $this->expectExceptionMessage('Can not persist the approval of a chocolate which is not in approved status');
+
+        $chocolate = Chocolate::submit(
+            ChocolateId::new(),
+            Producer::fromNameAndAddress(
+                'bittersweet',
+                Address::fromStreetNumberZipCodeCityRegionCountry(
+                    'via Diqua',
+                    '1A',
+                    'AB123',
+                    'Treviso',
+                    'TV',
+                    Country::fromStringCode('IT')
+                )
+            ),
+            'dark',
+            Percentage::integer(77),
+            WrapperType::get(WrapperType::BOX),
+            Quantity::grams(100),
+            User::new('gigi', 'Zucon')
+        );
 
         $this->repository->approve($chocolate);
     }
