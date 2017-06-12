@@ -9,6 +9,7 @@ use App\Domain\Entity\User;
 use App\Domain\Value\Address;
 use App\Domain\Value\ChocolateId;
 use App\Domain\Value\Country;
+use App\Domain\Value\Exception\InvalidChocolateHistoryException;
 use App\Domain\Value\Exception\InvalidStatusTransitionException;
 use App\Domain\Value\Exception\UnauthorizedUserException;
 use App\Domain\Value\Percentage;
@@ -81,6 +82,43 @@ final class ChocolateTest extends TestCase
         self::assertSame($status, $chocolate->status()->getValue());
         self::assertSame($userId, (string) $chocolate->lastTransitionUserId());
         self::assertSame($dateTime, $chocolate->lastTransitionTime());
+    }
+
+    public function testFromNativeDataWithEmptyHistory()
+    {
+        $this->expectException(InvalidChocolateHistoryException::class);
+        $this->expectExceptionMessage('Chocolate history can not be empty');
+
+        $id = (string) ChocolateId::new();
+        $producerName = 'name';
+        $producerStreet = 'street';
+        $producerStreetNumber = '1A';
+        $producerZipCode = 'AB123';
+        $producerCity = 'Treviso';
+        $producerRegion = 'TV';
+        $producerCountry = 'IT';
+        $description = 'bittersweet symphony';
+        $cacaoPercentage = 73;
+        $wrapperType = 'box';
+        $quantity = 100;
+
+        $history = [];
+
+        Chocolate::fromNativeData(
+            $id,
+            $producerName,
+            $producerStreet,
+            $producerStreetNumber,
+            $producerZipCode,
+            $producerCity,
+            $producerRegion,
+            $producerCountry,
+            $description,
+            $cacaoPercentage,
+            $wrapperType,
+            $quantity,
+            $history
+        );
     }
 
     public function testSubmit(): void
