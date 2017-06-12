@@ -54,9 +54,6 @@ final class Chocolate
      */
     private $history;
 
-    /**
-     * @throws InvalidHistoryException
-     */
     private function __construct(
         ChocolateId $id,
         Producer $producer,
