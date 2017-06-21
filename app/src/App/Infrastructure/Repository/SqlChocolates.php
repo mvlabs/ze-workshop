@@ -107,7 +107,7 @@ final class SqlChocolates implements Chocolates
         );
     }
 
-    private function createChocolate(
+    public function createChocolate(
         string $id,
         string $producerName,
         string $producerStreet,
