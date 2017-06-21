@@ -1,6 +1,14 @@
 <?php
 
 namespace App;
+use App\Action\ChocolatesAction;
+use App\Action\HomePageAction;
+use App\Container\Action\ChocolatesActionFactory;
+use App\Container\Action\HomePageFactory;
+use App\Container\Infrastructure\Repository\SqlChocolatesFactory;
+use App\Container\Service\ChocolatesServiceFactory;
+use App\Domain\Service\ChocolatesService;
+use App\Infrastructure\Repository\Chocolates;
 
 /**
  * The configuration provider for the App module
@@ -33,11 +41,16 @@ class ConfigProvider
     public function getDependencies(): array
     {
         return [
-            'invokables' => [
-                Action\PingAction::class => Action\PingAction::class,
-            ],
             'factories'  => [
-                Action\HomePageAction::class => Action\HomePageFactory::class,
+                // ACTIONS
+                HomePageAction::class => HomePageFactory::class,
+                ChocolatesAction::class => ChocolatesActionFactory::class,
+
+                // SERVICES
+                ChocolatesService::class => ChocolatesServiceFactory::class,
+
+                // REPOSITORIES
+                Chocolates::class => SqlChocolatesFactory::class,
             ],
         ];
     }
