@@ -43,7 +43,7 @@ final class ChocolatesService
     {
         $chocolate = $this->chocolates->findById($id);
 
-        if (!$chocolate instanceof  Chocolate) {
+        if (!$chocolate instanceof Chocolate) {
             throw ChocolateNotFoundException::fromChocolateId($id);
         }
 
