@@ -22,7 +22,7 @@ final class ChocolateHistoryTest extends TestCase
         ChocolateHistory::transitions([]);
     }
 
-    public function testChocolateHistoryIsMadeFromTransitions(): void
+    public function testChocolateHistoryIsMadeOfTransitions(): void
     {
         $fakeTransition = new \stdClass();
 
