@@ -108,6 +108,9 @@ final class SqlChocolatesTest extends TestCase
     public function testFindByIdWithResult(): void
     {
         $chocolateId = ChocolateId::new();
+        $userId = (string) UserId::new();
+        $date = date_create_immutable()->format('Y-m-d H:i:s');
+
         $chocolateData = [
             'id' => (string) $chocolateId,
             'name' => 'bittersweet',
@@ -121,14 +124,15 @@ final class SqlChocolatesTest extends TestCase
             'cacao_percentage' => 77,
             'wrapper_type' => 'box',
             'quantity' => 100,
-            'history' => [
+            'history' => sprintf(
+                '{%s,%s,%s,%s,%s,%s}',
                 Status::SUBMITTED,
-                (string) UserId::new(),
+                $userId,
                 'gigi',
                 'Zucon',
                 'true',
-                date_create_immutable()->format('Y-m-d H:i:s')
-            ]
+                $date
+            )
         ];
 
         $statement = Mockery::mock(Statement::class);
@@ -174,12 +178,12 @@ final class SqlChocolatesTest extends TestCase
             $chocolateData['quantity'],
             [
                 [
-                    'status' => $chocolateData['history'][0],
-                    'user_id' => $chocolateData['history'][1],
-                    'user_name' => $chocolateData['history'][2],
-                    'user_surname' => $chocolateData['history'][3],
-                    'user_is_administrator' => json_decode($chocolateData['history'][4]),
-                    'date_time' => date_create_immutable($chocolateData['history'][5])
+                    'status' => Status::SUBMITTED,
+                    'user_id' => $userId,
+                    'user_name' => 'gigi',
+                    'user_surname' => 'Zucon',
+                    'user_is_administrator' => true,
+                    'date_time' => date_create_immutable($date)
 
                 ]
             ]
