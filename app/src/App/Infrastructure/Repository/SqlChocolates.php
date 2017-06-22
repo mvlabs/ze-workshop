@@ -120,18 +120,21 @@ final class SqlChocolates implements Chocolates
         int $cacaoPercentage,
         string $wrapperType,
         int $quantity,
-        array $history
+        string $history
     ): Chocolate
     {
-        $history = array_chunk($history, 6);
-        $history = array_map(function (array $transition) {
+        $history = explode('},{', trim($history, '{}'));
+
+        $history = array_map(function (string $transition) {
+            $transition = explode(',', $transition);
+
             return [
                 'status' => $transition[0],
                 'user_id' => $transition[1],
                 'user_name' => $transition[2],
                 'user_surname' => $transition[3],
                 'user_is_administrator' => json_decode($transition[4]),
-                'date_time' => date_create_immutable($transition[5])
+                'date_time' => date_create_immutable(trim($transition[5], '"'))
             ];
         }, $history);
 

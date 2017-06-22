@@ -17,7 +17,7 @@ use App\Domain\Value\StatusTransition;
 use App\Domain\Value\UserId;
 use App\Domain\Value\WrapperType;
 
-final class Chocolate
+final class Chocolate implements \JsonSerializable
 {
     /**
      * @var ChocolateId
@@ -208,5 +208,18 @@ final class Chocolate
     public function lastTransitionTime(): \DateTimeImmutable
     {
         return $this->history->lastTransitionTime();
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => (string) $this->id,
+            'producer' => $this->producer->jsonSerialize(),
+            'description' => $this->description,
+            'percentage' => $this->cacaoPercentage->toInt(),
+            'wrapperType' => $this->wrapperType->getValue(),
+            'quantity' => $this->quantity->toInt(),
+            'history' => $this->history->jsonSerialize()
+        ];
     }
 }

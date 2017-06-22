@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Value;
 
-final class Producer
+final class Producer implements \JsonSerializable
 {
     /**
      * @var string
@@ -88,5 +88,18 @@ final class Producer
     public function countryCode(): CountryCode
     {
         return $this->address->countryCode();
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'name' => $this->name,
+            'street' => $this->street(),
+            'streetNumber' => $this->streetNumber(),
+            'zipCode' => $this->zipCode(),
+            'city' => $this->city(),
+            'region' => $this->region(),
+            'country' => $this->countryCode()
+        ];
     }
 }

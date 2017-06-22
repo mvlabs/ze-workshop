@@ -6,7 +6,7 @@ namespace App\Domain\Value;
 
 use App\Domain\Value\Exception\InvalidChocolateHistoryException;
 
-final class ChocolateHistory
+final class ChocolateHistory implements \JsonSerializable
 {
     /**
      * @var \SplQueue
@@ -85,5 +85,17 @@ final class ChocolateHistory
         $statusTransition = $this->statusTransitions->top();
 
         return $statusTransition->time();
+    }
+
+    public function jsonSerialize(): array
+    {
+        $jsonHistory = [];
+
+        foreach ($this->statusTransitions as $transition) {
+            /** @var StatusTransition $transition */
+            $jsonHistory[] = $transition->jsonSerialize();
+        }
+
+        return $jsonHistory;
     }
 }

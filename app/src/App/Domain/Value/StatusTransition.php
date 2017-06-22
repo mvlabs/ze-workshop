@@ -6,7 +6,7 @@ namespace App\Domain\Value;
 
 use App\Domain\Entity\User;
 
-final class StatusTransition
+final class StatusTransition implements \JsonSerializable
 {
     /**
      * @var Status
@@ -72,5 +72,14 @@ final class StatusTransition
     public function time(): \DateTimeImmutable
     {
         return $this->dateTime;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'status' => $this->status->getValue(),
+            'userId' => (string) $this->userId(),
+            'time' => $this->dateTime->format('Y-m-d H:i:s')
+        ];
     }
 }
