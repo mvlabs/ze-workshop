@@ -1,0 +1,57 @@
+<?php $this->layout('layout::default', ['title' => 'Submit']) ?>
+
+<h1>Submit a new chocolate</h1>
+<div>If a producer with the same name already exists, its data will be used instead of the newly provided ones</div>
+
+<form>
+    <h2>Producer data</h2>
+    <div>
+        <label>Producer name</label>
+        <input type="text" name="producer-name">
+    </div>
+    <div>
+        <label>Producer street</label>
+        <input type="text" name="producer-street">
+    </div>
+    <div>
+        <label>Producer street number</label>
+        <input type="text" name="producer-street-number">
+    </div>
+    <div>
+        <label>Producer zip code</label>
+        <input type="text" name="producer-zip-code">
+    </div>
+    <div>
+        <label>Producer city</label>
+        <input type="text" name="producer-city">
+    </div>
+    <div>
+        <label>Producer region</label>
+        <input type="text" name="producer-region">
+    </div>
+    <div>
+        <label>Producer country</label>
+        <input type="text" name="producer-country">
+    </div>
+    <h2>Chocolates data</h2>
+    <div>
+        <label>Chocolate description</label>
+        <input type="text" name="description">
+    </div>
+    <div>
+        <label>Cacao percentage</label>
+        <input type="number" name="cacao-percentage">
+    </div>
+    <div>
+        <label>Wrapper type</label>
+        <input type="text" name="wrapper-type">
+    </div>
+    <div>
+        <label>Quantity</label>
+        <input type="number" name="quantity">
+    </div>
+    <br>
+    <div>
+        <input type="button" value="Submit">
+    </div>
+</form>

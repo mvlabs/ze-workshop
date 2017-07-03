@@ -3,8 +3,10 @@
 namespace App;
 use App\Action\ChocolatesAction;
 use App\Action\HomePageAction;
+use App\Action\SubmitChocolatesAction;
 use App\Container\Action\ChocolatesActionFactory;
 use App\Container\Action\HomePageFactory;
+use App\Container\Action\SubmitChocolatesActionFactory;
 use App\Container\Infrastructure\Repository\SqlChocolatesFactory;
 use App\Container\Service\ChocolatesServiceFactory;
 use App\Domain\Service\ChocolatesService;
@@ -45,6 +47,7 @@ class ConfigProvider
                 // ACTIONS
                 HomePageAction::class => HomePageFactory::class,
                 ChocolatesAction::class => ChocolatesActionFactory::class,
+                SubmitChocolatesAction::class => SubmitChocolatesActionFactory::class,
 
                 // SERVICES
                 ChocolatesService::class => ChocolatesServiceFactory::class,

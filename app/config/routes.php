@@ -29,3 +29,5 @@
 $app->get('/', App\Action\HomePageAction::class, 'home');
 
 $app->get('/chocolates', \App\Action\ChocolatesAction::class, 'chocolates');
+
+$app->get('/submit', \App\Action\SubmitChocolatesAction::class, 'submit');
