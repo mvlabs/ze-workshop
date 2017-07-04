@@ -3,14 +3,22 @@
 namespace App;
 use App\Action\ChocolatesAction;
 use App\Action\HomePageAction;
+use App\Action\LoginAction;
+use App\Action\LoginSubmitAction;
 use App\Action\SubmitChocolatesAction;
-use App\Container\Action\ChocolatesActionFactory;
+use App\Container\Action\ChocolatesServiceActionFactory;
 use App\Container\Action\HomePageFactory;
 use App\Container\Action\SubmitChocolatesActionFactory;
-use App\Container\Infrastructure\Repository\SqlChocolatesFactory;
+use App\Container\Action\TemplateActionFactory;
+use App\Container\Action\LoginSubmitActionFactory;
+use App\Container\Infrastructure\Repository\SqlRepositoryFactory;
 use App\Container\Service\ChocolatesServiceFactory;
+use App\Container\Service\UsersServiceFactory;
 use App\Domain\Service\ChocolatesService;
+use App\Domain\Service\UsersService;
 use App\Infrastructure\Repository\Chocolates;
+use App\Infrastructure\Repository\Users;
+use Zend\ServiceManager\Factory\InvokableFactory;
 
 /**
  * The configuration provider for the App module
@@ -45,15 +53,19 @@ class ConfigProvider
         return [
             'factories'  => [
                 // ACTIONS
-                HomePageAction::class => HomePageFactory::class,
-                ChocolatesAction::class => ChocolatesActionFactory::class,
-                SubmitChocolatesAction::class => SubmitChocolatesActionFactory::class,
+                HomePageAction::class => TemplateActionFactory::class,
+                ChocolatesAction::class => ChocolatesServiceActionFactory::class,
+                SubmitChocolatesAction::class => TemplateActionFactory::class,
+                LoginAction::class => TemplateActionFactory::class,
+                LoginSubmitAction::class => LoginSubmitActionFactory::class,
 
                 // SERVICES
                 ChocolatesService::class => ChocolatesServiceFactory::class,
+                UsersService::class => UsersServiceFactory::class,
 
                 // REPOSITORIES
-                Chocolates::class => SqlChocolatesFactory::class,
+                Chocolates::class => SqlRepositoryFactory::class,
+                Users::class => SqlRepositoryFactory::class,
             ],
         ];
     }

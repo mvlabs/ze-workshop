@@ -30,4 +30,8 @@ $app->get('/', App\Action\HomePageAction::class, 'home');
 
 $app->get('/chocolates', \App\Action\ChocolatesAction::class, 'chocolates');
 
+$app->get('/login', \App\Action\LoginAction::class, 'login');
+
+$app->post('/login/submit', \App\Action\LoginSubmitAction::class, 'login-submit');
+
 $app->get('/submit', \App\Action\SubmitChocolatesAction::class, 'submit');
