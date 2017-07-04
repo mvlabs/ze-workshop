@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace App\Container\Action;
 
-use App\Action\ChocolatesAction;
 use App\Domain\Service\ChocolatesService;
 use Interop\Container\ContainerInterface;
 
-final class ChocolatesActionFactory
+final class ChocolatesServiceActionFactory
 {
-    public function __invoke(ContainerInterface $container): ChocolatesAction
+    /**
+     * @return mixed
+     */
+    public function __invoke(ContainerInterface $container, string $name)
     {
-        return new ChocolatesAction(
+        return new $name(
             $container->get(ChocolatesService::class)
         );
     }
