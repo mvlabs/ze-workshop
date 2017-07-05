@@ -23,6 +23,7 @@ class Version20170411074250 extends AbstractMigration
         $userTable->addColumn('admin', 'boolean');
 
         $userTable->setPrimaryKey(['id']);
+        $userTable->addUniqueIndex(['name', 'surname']);
     }
 
     /**
