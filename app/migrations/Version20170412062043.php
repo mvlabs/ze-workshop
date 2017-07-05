@@ -31,6 +31,6 @@ class Version20170412062043 extends AbstractMigration
      */
     public function down(Schema $schema)
     {
-        $schema->dropTable('chocolate_history');
+        $schema->dropTable('chocolates_history');
     }
 }
