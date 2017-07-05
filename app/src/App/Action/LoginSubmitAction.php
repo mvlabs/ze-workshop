@@ -9,6 +9,7 @@ use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Zend\Diactoros\Response\JsonResponse;
 use Zend\Diactoros\Response\RedirectResponse;
 use Zend\Expressive\Router\RouterInterface;
 
@@ -35,6 +36,10 @@ final class LoginSubmitAction implements MiddlewareInterface
     public function process(ServerRequestInterface $request, DelegateInterface $delegate): ResponseInterface
     {
         $body = $request->getParsedBody();
+
+        if (empty($body['name']) || empty($body['surname'])) {
+            return new JsonResponse([], 400);
+        }
 
         $this->usersService->register(
             $body['name'],
