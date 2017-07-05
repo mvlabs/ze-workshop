@@ -6,7 +6,7 @@ namespace App\Domain\Entity;
 
 use App\Domain\Value\UserId;
 
-final class User
+final class User implements \JsonSerializable
 {
     /**
      * @var UserId
@@ -87,5 +87,15 @@ final class User
     public function id(): UserId
     {
         return $this->id;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'id' => (string) $this->id,
+            'name' => $this->name,
+            'surname' => $this->surname,
+            'admin' => $this->administrator
+        ];
     }
 }

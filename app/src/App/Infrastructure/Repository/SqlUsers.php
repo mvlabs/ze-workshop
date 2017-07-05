@@ -19,19 +19,52 @@ final class SqlUsers implements Users
         $this->connection = $connection;
     }
 
-    public function add(User $user): void
+    /**
+     * @return User[]
+     */
+    public function all(): array
     {
-        $statement = $this->connection->executeQuery(
-            'INSERT INTO users (id, name, surname, admin) '.
-            'VALUES (:id, :name, :surname, :admin)',
-            [
-                'id' => $user->id(),
-                'name' => $user->name(),
-                'surname' => $user->surname(),
-                'admin' => $user->isAdministrator()
-            ]
+        $allChocolatesStatement = $this->connection->executeQuery(
+            'SELECT ' .
+            '   u.id, ' .
+            '   u.name, ' .
+            '   u.surname, ' .
+            '   u.admin ' .
+            'FROM users u'
         );
 
-        $statement->execute();
+        return $allChocolatesStatement->fetchAll(
+            \PDO::FETCH_FUNC,
+            [self::class, 'createUser']
+        );
+    }
+
+    public function add(User $user): void
+    {
+        $this->connection->executeUpdate(
+            'INSERT INTO users (id, name, surname, admin) '.
+            'VALUES (:id, :name, :surname, :admin) '.
+            'ON CONFLICT DO NOTHING',
+            [
+                'id' => (string) $user->id(),
+                'name' => $user->name(),
+                'surname' => $user->surname(),
+                'admin' => $user->isAdministrator() ? 'true' : 'false'
+            ]
+        );
+    }
+
+    public function createUser(
+        string $id,
+        string $name,
+        string $surname,
+        bool $isAdministrator
+    ) {
+        return User::fromNativeData(
+            $id,
+            $name,
+            $surname,
+            $isAdministrator
+        );
     }
 }

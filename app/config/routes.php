@@ -34,4 +34,6 @@ $app->get('/login', \App\Action\LoginAction::class, 'login');
 
 $app->post('/login/submit', \App\Action\LoginSubmitAction::class, 'login-submit');
 
+$app->get('/users', \App\Action\UsersAction::class, 'users');
+
 $app->get('/submit', \App\Action\SubmitChocolatesAction::class, 'submit');

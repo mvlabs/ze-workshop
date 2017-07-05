@@ -21,16 +21,14 @@ final class UsersService
 
     public function register(
         string $name,
-        string $surname,
-        bool $isAdministrator = false
+        string $surname
     ): void
     {
-        if ($isAdministrator) {
-            $user = User::newAdministrator($name, $surname);
-        } else {
-            $user = User::new($name, $surname);
-        }
+        $this->users->add(User::new($name, $surname));
+    }
 
-        $this->users->add($user);
+    public function getAll(): array
+    {
+        return $this->users->all();
     }
 }

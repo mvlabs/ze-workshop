@@ -6,11 +6,13 @@ use App\Action\HomePageAction;
 use App\Action\LoginAction;
 use App\Action\LoginSubmitAction;
 use App\Action\SubmitChocolatesAction;
+use App\Action\UsersAction;
 use App\Container\Action\ChocolatesServiceActionFactory;
 use App\Container\Action\HomePageFactory;
 use App\Container\Action\SubmitChocolatesActionFactory;
 use App\Container\Action\TemplateActionFactory;
 use App\Container\Action\LoginSubmitActionFactory;
+use App\Container\Action\UsersServiceActionFactory;
 use App\Container\Infrastructure\Repository\SqlRepositoryFactory;
 use App\Container\Service\ChocolatesServiceFactory;
 use App\Container\Service\UsersServiceFactory;
@@ -58,6 +60,7 @@ class ConfigProvider
                 SubmitChocolatesAction::class => TemplateActionFactory::class,
                 LoginAction::class => TemplateActionFactory::class,
                 LoginSubmitAction::class => LoginSubmitActionFactory::class,
+                UsersAction::class => UsersServiceActionFactory::class,
 
                 // SERVICES
                 ChocolatesService::class => ChocolatesServiceFactory::class,
