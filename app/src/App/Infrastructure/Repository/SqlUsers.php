@@ -27,8 +27,8 @@ final class SqlUsers implements Users
         $allChocolatesStatement = $this->connection->executeQuery(
             'SELECT ' .
             '   u.id, ' .
-            '   u.name, ' .
-            '   u.surname, ' .
+            '   u.username, ' .
+            '   u.password, ' .
             '   u.admin ' .
             'FROM users u'
         );
@@ -42,13 +42,13 @@ final class SqlUsers implements Users
     public function add(User $user): void
     {
         $this->connection->executeUpdate(
-            'INSERT INTO users (id, name, surname, admin) '.
-            'VALUES (:id, :name, :surname, :admin) '.
+            'INSERT INTO users (id, username, password, admin) '.
+            'VALUES (:id, :username, :password, :admin) '.
             'ON CONFLICT DO NOTHING',
             [
                 'id' => (string) $user->id(),
-                'name' => $user->name(),
-                'surname' => $user->surname(),
+                'username' => $user->username(),
+                'password' => $user->password(),
                 'admin' => $user->isAdministrator() ? 'true' : 'false'
             ]
         );
@@ -56,14 +56,14 @@ final class SqlUsers implements Users
 
     public function createUser(
         string $id,
-        string $name,
-        string $surname,
+        string $username,
+        string $password,
         bool $isAdministrator
     ) {
         return User::fromNativeData(
             $id,
-            $name,
-            $surname,
+            $username,
+            $password,
             $isAdministrator
         );
     }

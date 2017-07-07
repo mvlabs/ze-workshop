@@ -15,8 +15,8 @@ final class UnauthorizedUserException extends \DomainException implements Except
     {
         return new self(sprintf(
             'The user %s %s is not authorized to approve a submitted chocolate',
-            $user->name(),
-            $user->surname()
+            $user->username(),
+            $user->password()
         ));
     }
 
@@ -24,8 +24,8 @@ final class UnauthorizedUserException extends \DomainException implements Except
     {
         return new self(sprintf(
             'The user %s %s is not authorized to delete a chocolate',
-            $user->name(),
-            $user->surname()
+            $user->username(),
+            $user->password()
         ));
     }
 }

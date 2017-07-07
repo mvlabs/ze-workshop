@@ -36,8 +36,8 @@ final class StatusTransition implements \JsonSerializable
     public static function fromNativeData(
         string $status,
         string $userId,
-        string $userName,
-        string $userSurname,
+        string $userUsername,
+        string $userPassword,
         bool $userIsAdministrator,
         \DateTimeImmutable $dateTime
     ): self
@@ -46,8 +46,8 @@ final class StatusTransition implements \JsonSerializable
             Status::get($status),
             User::fromNativeData(
                 $userId,
-                $userName,
-                $userSurname,
+                $userUsername,
+                $userPassword,
                 $userIsAdministrator
             ),
             $dateTime

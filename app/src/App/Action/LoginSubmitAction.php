@@ -37,13 +37,13 @@ final class LoginSubmitAction implements MiddlewareInterface
     {
         $body = $request->getParsedBody();
 
-        if (empty($body['name']) || empty($body['surname'])) {
+        if (empty($body['username']) || empty($body['password'])) {
             return new JsonResponse([], 400);
         }
 
         $this->usersService->register(
-            $body['name'],
-            $body['surname']
+            $body['username'],
+            $body['password']
         );
 
         return new RedirectResponse($this->router->generateUri('users'));

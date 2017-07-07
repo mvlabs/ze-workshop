@@ -27,16 +27,16 @@ final class StatusTransitionTest extends TestCase
     {
         $status = Status::SUBMITTED;
         $userId = UserId::new();
-        $userName = 'gigi';
-        $userSurname = 'Zucon';
+        $userUsername = 'gigi';
+        $userPassword = 'Zucon';
         $userIsAdmin = false;
         $dateTime = date_create_immutable();
 
         $transition = StatusTransition::fromNativeData(
             $status,
             (string) $userId,
-            $userName,
-            $userSurname,
+            $userUsername,
+            $userPassword,
             $userIsAdmin,
             $dateTime
         );

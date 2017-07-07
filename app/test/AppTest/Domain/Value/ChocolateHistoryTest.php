@@ -53,8 +53,8 @@ final class ChocolateHistoryTest extends TestCase
         $firstTransition = [
             'status' => Status::SUBMITTED,
             'user_id' => (string) $userId,
-            'user_name' => 'gigi',
-            'user_surname' => 'Zucon',
+            'user_username' => 'gigi',
+            'user_password' => 'Zucon',
             'user_is_administrator' => false,
             'date_time' => date_create_immutable()
         ];
@@ -62,8 +62,8 @@ final class ChocolateHistoryTest extends TestCase
         $secondTransition = [
             'status' => Status::APPROVED,
             'user_id' => (string) $userId,
-            'user_name' => 'gigi',
-            'user_surname' => 'Zucon',
+            'user_username' => 'gigi',
+            'user_password' => 'Zucon',
             'user_is_administrator' => false,
             'date_time' => $time
         ];

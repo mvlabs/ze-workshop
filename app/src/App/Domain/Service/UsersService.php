@@ -20,11 +20,11 @@ final class UsersService
     }
 
     public function register(
-        string $name,
-        string $surname
+        string $username,
+        string $password
     ): void
     {
-        $this->users->add(User::new($name, $surname));
+        $this->users->add(User::new($username, $password));
     }
 
     public function getAll(): array

@@ -41,8 +41,8 @@ final class ChocolateHistory implements \JsonSerializable
             return StatusTransition::fromNativeData(
                 $transition['status'],
                 $transition['user_id'],
-                $transition['user_name'],
-                $transition['user_surname'],
+                $transition['user_username'],
+                $transition['user_password'],
                 $transition['user_is_administrator'],
                 $transition['date_time']
             );

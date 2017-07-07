@@ -18,12 +18,12 @@ class Version20170411074250 extends AbstractMigration
         $userTable = $schema->createTable('users');
 
         $userTable->addColumn('id', 'string', ['fixed' => true, 'length' => 36, 'notnull' => true]);
-        $userTable->addColumn('name', 'string', ['length' => 1023, 'notnull' => true]);
-        $userTable->addColumn('surname', 'string', ['length' => 1023, 'notnull' => true]);
+        $userTable->addColumn('username', 'string', ['length' => 1023, 'notnull' => true]);
+        $userTable->addColumn('password', 'string', ['length' => 1023, 'notnull' => true]);
         $userTable->addColumn('admin', 'boolean');
 
         $userTable->setPrimaryKey(['id']);
-        $userTable->addUniqueIndex(['name', 'surname']);
+        $userTable->addUniqueIndex(['username']);
     }
 
     /**

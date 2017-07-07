@@ -44,8 +44,8 @@ final class ChocolateTest extends TestCase
             [
                 'status' => $status,
                 'user_id' => $userId,
-                'user_name' => 'Gigi',
-                'user_surname' => 'Zucon',
+                'user_username' => 'Gigi',
+                'user_password' => 'Zucon',
                 'user_is_administrator' => true,
                 'date_time' => $dateTime
             ]
@@ -198,16 +198,16 @@ final class ChocolateTest extends TestCase
             [
                 'status' => 'submitted',
                 'user_id' => $userId,
-                'user_name' => 'Gigi',
-                'user_surname' => 'Zucon',
+                'user_username' => 'Gigi',
+                'user_password' => 'Zucon',
                 'user_is_administrator' => true,
                 'date_time' => date_create_immutable()
             ],
             [
                 'status' => 'deleted',
                 'user_id' => $userId,
-                'user_name' => 'Gigi',
-                'user_surname' => 'Zucon',
+                'user_username' => 'Gigi',
+                'user_password' => 'Zucon',
                 'user_is_administrator' => true,
                 'date_time' => date_create_immutable()
             ]

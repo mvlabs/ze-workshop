@@ -13,47 +13,47 @@ final class UserTest extends TestCase
     public function testFromNativeData(): void
     {
         $id = (string) UserId::new();
-        $name = 'Gigi';
-        $surname = 'Zucon';
+        $username = 'Gigi';
+        $password = 'Zucon';
         $isAdmin = false;
 
         $user = User::fromNativeData(
             $id,
-            $name,
-            $surname,
+            $username,
+            $password,
             $isAdmin
         );
 
         self::assertInstanceOf(User::class, $user);
         self::assertSame($id, (string) $user->id());
-        self::assertSame($name, $user->name());
-        self::assertSame($surname, $user->surname());
+        self::assertSame($username, $user->username());
+        self::assertSame($password, $user->password());
         self::assertSame($isAdmin, $user->isAdministrator());
     }
 
     public function testNew(): void
     {
-        $name = 'Gigi';
-        $surname = 'Zucon';
+        $username = 'Gigi';
+        $password = 'Zucon';
 
-        $user = User::new($name, $surname);
+        $user = User::new($username, $password);
 
         self::assertInstanceOf(UserId::class, $user->id());
-        self::assertSame($name, $user->name());
-        self::assertSame($surname, $user->surname());
+        self::assertSame($username, $user->username());
+        self::assertSame($password, $user->password());
         self::assertFalse($user->isAdministrator());
     }
 
     public function testNewAdministrator(): void
     {
-        $name = 'Gigi';
-        $surname = 'Zucon';
+        $username = 'Gigi';
+        $password = 'Zucon';
 
-        $user = User::newAdministrator($name, $surname);
+        $user = User::newAdministrator($username, $password);
 
         self::assertInstanceOf(UserId::class, $user->id());
-        self::assertSame($name, $user->name());
-        self::assertSame($surname, $user->surname());
+        self::assertSame($username, $user->username());
+        self::assertSame($password, $user->password());
         self::assertTrue($user->isAdministrator());
     }
 }

@@ -16,12 +16,12 @@ final class User implements \JsonSerializable
     /**
      * @var string
      */
-    private $name;
+    private $username;
 
     /**
      * @var string
      */
-    private $surname;
+    private $password;
 
     /**
      * @var bool
@@ -30,43 +30,43 @@ final class User implements \JsonSerializable
 
     private function __construct(
         UserId $id,
-        string $name,
-        string $surname,
+        string $username,
+        string $password,
         bool $administrator
     ) {
         $this->id = $id;
-        $this->name = $name;
-        $this->surname = $surname;
+        $this->username = $username;
+        $this->password = $password;
         $this->administrator = $administrator;
     }
 
     public static function fromNativeData(
         string $id,
-        string $name,
-        string $surname,
+        string $username,
+        string $password,
         bool $administrator
     ): self
     {
         return new self(
             UserId::fromString($id),
-            $name,
-            $surname,
+            $username,
+            $password,
             $administrator
         );
     }
 
-    public static function new(string $name, string $surname): self
+    public static function new(string $username, string $password): self
     {
         $id = UserId::new();
 
-        return new self($id, $name, $surname, false);
+        return new self($id, $username, $password, false);
     }
 
-    public static function newAdministrator(string $name, string $surname): self
+    public static function newAdministrator(string $username, string $password): self
     {
         $id = UserId::new();
 
-        return new self($id, $name, $surname, true);
+        return new self($id, $username, $password, true);
     }
 
     public function isAdministrator(): bool
@@ -74,14 +74,14 @@ final class User implements \JsonSerializable
         return $this->administrator;
     }
 
-    public function name(): string
+    public function username(): string
     {
-        return $this->name;
+        return $this->username;
     }
 
-    public function surname(): string
+    public function password(): string
     {
-        return $this->surname;
+        return $this->password;
     }
 
     public function id(): UserId
@@ -93,8 +93,8 @@ final class User implements \JsonSerializable
     {
         return [
             'id' => (string) $this->id,
-            'name' => $this->name,
-            'surname' => $this->surname,
+            'username' => $this->username,
+            'password' => $this->password,
             'admin' => $this->administrator
         ];
     }
