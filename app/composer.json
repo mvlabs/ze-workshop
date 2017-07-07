@@ -11,6 +11,7 @@
         "php": "^5.6 || ^7.0",
         "doctrine/migrations": "^1.5",
         "marc-mabe/php-enum": "^2.3",
+        "middlewares/http-authentication": "^0.3.0",
         "ramsey/uuid": "^3.6",
         "roave/security-advisories": "dev-master",
         "zendframework/zend-component-installer": "^1.0 || ^0.7.0",
