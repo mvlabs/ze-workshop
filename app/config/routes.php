@@ -37,3 +37,8 @@ $app->post('/login/submit', \App\Action\LoginSubmitAction::class, 'login-submit'
 $app->get('/users', \App\Action\UsersAction::class, 'users');
 
 $app->get('/submit', \App\Action\SubmitChocolatesAction::class, 'submit');
+
+$app->get('/do-submit', [
+    \Middlewares\HttpAuthentication::class,
+    \App\Action\DoSubmitChocolatesAction::class
+], 'do-submit');
