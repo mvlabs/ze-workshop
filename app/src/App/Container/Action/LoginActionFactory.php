@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Container\Action;
 
-use App\Action\LoginSubmitAction;
+use App\Action\LoginAction;
 use App\Domain\Service\UsersService;
 use Interop\Container\ContainerInterface;
 use Zend\Expressive\Router\RouterInterface;
 
-final class LoginSubmitActionFactory
+final class LoginActionFactory
 {
-    public function __invoke(ContainerInterface $container): LoginSubmitAction
+    public function __invoke(ContainerInterface $container): LoginAction
     {
-        return new LoginSubmitAction(
+        return new LoginAction(
             $container->get(UsersService::class),
             $container->get(RouterInterface::class)
         );
