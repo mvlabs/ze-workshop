@@ -1,17 +1,18 @@
 <?php
 
 namespace App;
+
 use App\Action\ChocolatesAction;
 use App\Action\HomePageAction;
 use App\Action\LoginAction;
-use App\Action\LoginSubmitAction;
 use App\Action\SubmitChocolatesAction;
 use App\Action\UsersAction;
+use App\Action\ViewLoginAction;
+use App\Action\ViewSubmitChocolatesAction;
 use App\Container\Action\ChocolatesServiceActionFactory;
-use App\Container\Action\HomePageFactory;
+use App\Container\Action\LoginActionFactory;
 use App\Container\Action\SubmitChocolatesActionFactory;
 use App\Container\Action\TemplateActionFactory;
-use App\Container\Action\LoginSubmitActionFactory;
 use App\Container\Action\UsersServiceActionFactory;
 use App\Container\Infrastructure\Repository\SqlRepositoryFactory;
 use App\Container\Service\ChocolatesServiceFactory;
@@ -20,7 +21,6 @@ use App\Domain\Service\ChocolatesService;
 use App\Domain\Service\UsersService;
 use App\Infrastructure\Repository\Chocolates;
 use App\Infrastructure\Repository\Users;
-use Zend\ServiceManager\Factory\InvokableFactory;
 
 /**
  * The configuration provider for the App module
@@ -57,10 +57,11 @@ class ConfigProvider
                 // ACTIONS
                 HomePageAction::class => TemplateActionFactory::class,
                 ChocolatesAction::class => ChocolatesServiceActionFactory::class,
-                SubmitChocolatesAction::class => TemplateActionFactory::class,
-                LoginAction::class => TemplateActionFactory::class,
-                LoginSubmitAction::class => LoginSubmitActionFactory::class,
+                ViewSubmitChocolatesAction::class => TemplateActionFactory::class,
+                ViewLoginAction::class => TemplateActionFactory::class,
+                LoginAction::class => LoginActionFactory::class,
                 UsersAction::class => UsersServiceActionFactory::class,
+                SubmitChocolatesAction::class => SubmitChocolatesActionFactory::class,
 
                 // SERVICES
                 ChocolatesService::class => ChocolatesServiceFactory::class,
