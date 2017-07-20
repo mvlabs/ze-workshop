@@ -26,19 +26,19 @@
  * );
  */
 
-$app->get('/', App\Action\HomePageAction::class, 'home');
+//$app->get('/', App\Action\HomePageAction::class, 'home');
 
 $app->get('/chocolates', \App\Action\ChocolatesAction::class, 'chocolates');
 
-$app->get('/login', \App\Action\LoginAction::class, 'login');
+//$app->get('/login/form', \App\Action\ViewLoginAction::class, 'login-view');
 
-$app->post('/login/submit', \App\Action\LoginSubmitAction::class, 'login-submit');
+$app->post('/login', \App\Action\LoginAction::class, 'login');
 
 $app->get('/users', \App\Action\UsersAction::class, 'users');
 
-$app->get('/submit', \App\Action\SubmitChocolatesAction::class, 'submit');
+//$app->get('/submit/form', \App\Action\ViewSubmitChocolatesAction::class, 'submit-view');
 
-$app->get('/do-submit', [
+$app->post('/submit', [
     \Middlewares\HttpAuthentication::class,
-    \App\Action\DoSubmitChocolatesAction::class
-], 'do-submit');
+    \App\Action\SubmitChocolatesAction::class
+], 'submit');
