@@ -28,6 +28,6 @@ final class BasicHttpAuthenticationFactory
             []
         );
 
-        return new BasicAuthentication($credentials);
+        return (new BasicAuthentication($credentials))->attribute(HttpAuthentication::class);
     }
 }
