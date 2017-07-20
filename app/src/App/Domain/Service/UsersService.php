@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Service;
 
 use App\Domain\Entity\User;
+use App\Domain\Value\UserId;
 use App\Infrastructure\Repository\Users;
 
 final class UsersService
@@ -30,5 +31,15 @@ final class UsersService
     public function getAll(): array
     {
         return $this->users->all();
+    }
+
+    public function byId(UserId $id): ?User
+    {
+        return $this->users->findById($id);
+    }
+
+    public function byUsername(string $username): ?User
+    {
+        return $this->users->findByUsername($username);
     }
 }

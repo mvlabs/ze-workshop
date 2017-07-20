@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Repository;
 
 use App\Domain\Entity\User;
+use App\Domain\Value\UserId;
 use Doctrine\DBAL\Connection;
 
 final class SqlUsers implements Users
@@ -65,6 +66,64 @@ final class SqlUsers implements Users
             $username,
             $password,
             $isAdministrator
+        );
+    }
+
+    public function findById(UserId $id): ?User
+    {
+        $retrieveByIdStatement = $this->connection->executeQuery(
+            'SELECT ' .
+            '   u.id, ' .
+            '   u.username, ' .
+            '   u.password, ' .
+            '   u.admin ' .
+            'FROM users u ' .
+            'WHERE id = :id',
+            [
+                'id' => (string) $id
+            ]
+        );
+
+        $userData = $retrieveByIdStatement->fetch(\PDO::FETCH_ASSOC);
+
+        if (null === $userData) {
+            return null;
+        }
+
+        return $this->createUser(
+            $userData['id'],
+            $userData['username'],
+            $userData['password'],
+            $userData['admin']
+        );
+    }
+
+    public function findByUsername(string $username): ?User
+    {
+        $retrieveByUsernameStatement = $this->connection->executeQuery(
+            'SELECT ' .
+            '   u.id, ' .
+            '   u.username, ' .
+            '   u.password, ' .
+            '   u.admin ' .
+            'FROM users u ' .
+            'WHERE username = :username',
+            [
+                'username' => $username
+            ]
+        );
+
+        $userData = $retrieveByUsernameStatement->fetch(\PDO::FETCH_ASSOC);
+
+        if (null === $userData) {
+            return null;
+        }
+
+        return $this->createUser(
+            $userData['id'],
+            $userData['username'],
+            $userData['password'],
+            $userData['admin']
         );
     }
 }
