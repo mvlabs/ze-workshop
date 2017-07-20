@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Value;
 
+use App\Domain\Value\Exception\InvalidCountryCodeException;
+
 final class Country
 {
     /**
@@ -18,7 +20,11 @@ final class Country
 
     public static function fromStringCode(string $code): self
     {
-        return new self(CountryCode::byName(strtoupper($code)));
+        try {
+            return new self(CountryCode::byName(strtoupper($code)));
+        } catch (\InvalidArgumentException $e) {
+            throw new InvalidCountryCodeException($code, $e);
+        }
     }
 
     public function code(): CountryCode
