@@ -24,6 +24,9 @@ use PHPUnit\Framework\TestCase;
 
 final class SqlChocolatesTest extends TestCase
 {
+    /**
+     * @var Connection
+     */
     private $connection;
 
     /**
@@ -567,7 +570,7 @@ final class SqlChocolatesTest extends TestCase
     protected function assertPostConditions(): void
     {
         $container = Mockery::getContainer();
-        if ($container != null) {
+        if (null !== $container) {
             $count = $container->mockery_getExpectationCount();
             $this->addToAssertionCount($count);
         }
