@@ -279,7 +279,7 @@ final class SqlChocolatesTest extends TestCase
                 'chocolate_id' => (string) $chocolate->id(),
                 'status' => $chocolate->status()->getValue(),
                 'user_id' => $chocolate->lastTransitionUserId(),
-                'date_time' => $chocolate->lastTransitionTime()
+                'date_time' => $chocolate->lastTransitionTime()->format('Y-m-d H:i:s')
             ]
         )->andReturn($historyStatement);
 
@@ -404,7 +404,7 @@ final class SqlChocolatesTest extends TestCase
                 'chocolate_id' => (string) $chocolate->id(),
                 'status' => $chocolate->status()->getValue(),
                 'user_id' => $chocolate->lastTransitionUserId(),
-                'date_time' => $chocolate->lastTransitionTime()
+                'date_time' => $chocolate->lastTransitionTime()->format('Y-m-d H:i:s')
             ]
         )->andReturn($historyStatement);
 
@@ -455,7 +455,7 @@ final class SqlChocolatesTest extends TestCase
                 'chocolate_id' => (string) $chocolate->id(),
                 'status' => $chocolate->status()->getValue(),
                 'user_id' => (string) $chocolate->lastTransitionUserId(),
-                'date_time' => $chocolate->lastTransitionTime()
+                'date_time' => $chocolate->lastTransitionTime()->format('Y-m-d H:i:s')
             ]
         )->andReturn($statement);
 
@@ -532,7 +532,7 @@ final class SqlChocolatesTest extends TestCase
                 'chocolate_id' => (string) $chocolate->id(),
                 'status' => $chocolate->status()->getValue(),
                 'user_id' => (string) $chocolate->lastTransitionUserId(),
-                'date_time' => $chocolate->lastTransitionTime()
+                'date_time' => $chocolate->lastTransitionTime()->format('Y-m-d H:i:s')
             ]
         )->andReturn($statement);
 

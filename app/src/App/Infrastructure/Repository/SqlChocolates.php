@@ -162,7 +162,7 @@ final class SqlChocolates implements Chocolates
         \DateTimeImmutable $time
     ): void
     {
-        $statement = $this->connection->executeQuery(
+        $this->connection->executeQuery(
             'INSERT INTO chocolates_history (
                 chocolate_id,
                 status,
@@ -178,11 +178,9 @@ final class SqlChocolates implements Chocolates
                 'chocolate_id' => (string) $id,
                 'status' => $status->getValue(),
                 'user_id' => (string) $userId,
-                'date_time' => $time
+                'date_time' => $time->format('Y-m-d H:i:s')
             ]
         );
-
-        $statement->execute();
     }
 
     public function add(Chocolate $chocolate): void
@@ -205,7 +203,7 @@ final class SqlChocolates implements Chocolates
     {
         $producerId = $this->findOrCreateProducerId($chocolate->producer());
 
-        $statement = $this->connection->executeQuery(
+        $this->connection->executeQuery(
             'INSERT INTO chocolates (
                 id,
                 producer_id,
@@ -230,7 +228,6 @@ final class SqlChocolates implements Chocolates
                 'quantity' => $chocolate->quantity()->toInt()
             ]
         );
-        $statement->execute();
     }
 
     private function findOrCreateProducerId(Producer $producer): int
