@@ -38,9 +38,6 @@ return [
             Middleware\NotFoundHandler::class                => Container\NotFoundHandlerFactory::class,
 
             Connection::class => ConnectionFactory::class,
-
-            // MIDDLEWARE
-            \Middlewares\HttpAuthentication::class => \App\Container\Middleware\BasicHttpAuthenticationFactory::class,
         ],
     ],
 ];

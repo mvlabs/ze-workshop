@@ -15,12 +15,14 @@ use App\Container\Action\SubmitChocolatesActionFactory;
 use App\Container\Action\TemplateActionFactory;
 use App\Container\Action\UsersServiceActionFactory;
 use App\Container\Infrastructure\Repository\SqlRepositoryFactory;
+use App\Container\Middleware\BasicHttpAuthenticationFactory;
 use App\Container\Service\ChocolatesServiceFactory;
 use App\Container\Service\UsersServiceFactory;
 use App\Domain\Service\ChocolatesService;
 use App\Domain\Service\UsersService;
 use App\Infrastructure\Repository\Chocolates;
 use App\Infrastructure\Repository\Users;
+use Middlewares\HttpAuthentication;
 
 /**
  * The configuration provider for the App module
@@ -62,6 +64,9 @@ class ConfigProvider
                 LoginAction::class => LoginActionFactory::class,
                 UsersAction::class => UsersServiceActionFactory::class,
                 SubmitChocolatesAction::class => SubmitChocolatesActionFactory::class,
+
+                // MIDDLEWARE
+                HttpAuthentication::class => BasicHttpAuthenticationFactory::class,
 
                 // SERVICES
                 ChocolatesService::class => ChocolatesServiceFactory::class,
