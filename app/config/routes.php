@@ -48,3 +48,12 @@ $app->post('/submit', [
     \Middlewares\HttpAuthentication::class,
     \App\Action\SubmitChocolatesAction::class
 ], 'submit');
+
+$app->post(
+    '/approve/{id:[0-9a-f]{8}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{12}}',
+    [
+        \Middlewares\HttpAuthentication::class,
+        \App\Action\ApproveChocolateAction::class
+    ],
+    'approve'
+);
