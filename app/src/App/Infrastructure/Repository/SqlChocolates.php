@@ -73,12 +73,13 @@ final class SqlChocolates implements Chocolates
             '   c.cacao_percentage, ' .
             '   c.wrapper_type, ' .
             '   c.quantity, ' .
-            '   array_agg(ARRAY[ch.status, u.id AS user_id, u.username AS user_username, u.password AS user_password, cast(u.admin as varchar) AS user_is_administrator, cast(ch.date_time as varchar)]) AS history ' .
+            '   array_agg(ARRAY[ch.status, u.id, u.username, u.password, cast(u.admin as varchar), cast(ch.date_time as varchar)]) AS history ' .
             'FROM chocolates c ' .
             'JOIN producers p ON p.id = c.producer_id ' .
             'JOIN chocolates_history ch ON ch.chocolate_id = c.id ' .
             'JOIN users u ON u.id = ch.user_id ' .
-            'WHERE c.id = :id',
+            'WHERE c.id = :id ' .
+            'GROUP BY c.id, p.id ',
             [
                 'id' => (string) $id
             ]
