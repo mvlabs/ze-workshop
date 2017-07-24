@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Action\ChocolateDetailsAction;
 use App\Action\ChocolatesAction;
 use App\Action\HomePageAction;
 use App\Action\LoginAction;
@@ -59,6 +60,7 @@ class ConfigProvider
                 // ACTIONS
                 HomePageAction::class => TemplateActionFactory::class,
                 ChocolatesAction::class => ChocolatesServiceActionFactory::class,
+                ChocolateDetailsAction::class => ChocolatesServiceActionFactory::class,
                 ViewSubmitChocolatesAction::class => TemplateActionFactory::class,
                 ViewLoginAction::class => TemplateActionFactory::class,
                 LoginAction::class => LoginActionFactory::class,

@@ -30,6 +30,12 @@
 
 $app->get('/chocolates', \App\Action\ChocolatesAction::class, 'chocolates');
 
+$app->get(
+    '/chocolate/{id:[0-9a-f]{8}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{12}}',
+    \App\Action\ChocolateDetailsAction::class,
+    'chocolate-details'
+);
+
 //$app->get('/login/form', \App\Action\ViewLoginAction::class, 'login-view');
 
 $app->post('/login', \App\Action\LoginAction::class, 'login');
