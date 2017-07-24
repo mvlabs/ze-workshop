@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
-use App\Domain\Entity\Exception\InvalidHistoryException;
 use App\Domain\Value\ChocolateHistory;
 use App\Domain\Value\ChocolateId;
 use App\Domain\Value\Exception\InvalidStatusTransitionException;

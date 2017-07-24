@@ -6,7 +6,6 @@ namespace App\Container\Service;
 
 use App\Domain\Service\ChocolatesService;
 use App\Infrastructure\Repository\Chocolates;
-use Doctrine\DBAL\Connection;
 use Interop\Container\ContainerInterface;
 
 final class ChocolatesServiceFactory
