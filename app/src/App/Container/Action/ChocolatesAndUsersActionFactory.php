@@ -9,7 +9,7 @@ use App\Domain\Service\ChocolatesService;
 use App\Domain\Service\UsersService;
 use Interop\Container\ContainerInterface;
 
-final class SubmitChocolatesActionFactory
+final class ChocolatesAndUsersActionFactory
 {
     public function __invoke(ContainerInterface $container, string $name): SubmitChocolatesAction
     {
