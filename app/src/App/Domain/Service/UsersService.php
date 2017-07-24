@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Service;
 
 use App\Domain\Entity\User;
+use App\Domain\Service\Exception\UserNotFoundException;
 use App\Domain\Value\UserId;
 use App\Infrastructure\Repository\Users;
 
@@ -38,8 +39,14 @@ final class UsersService
         return $this->users->findById($id);
     }
 
-    public function byUsername(string $username): ?User
+    public function byUsername(string $username): User
     {
-        return $this->users->findByUsername($username);
+        $user = $this->users->findByUsername($username);
+
+        if (!$user instanceof User) {
+            throw UserNotFoundException::fromUsername($username);
+        }
+
+        return $user;
     }
 }

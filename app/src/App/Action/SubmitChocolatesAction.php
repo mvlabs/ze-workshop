@@ -4,16 +4,11 @@ declare(strict_types=1);
 
 namespace App\Action;
 
-use App\Domain\Entity\User;
 use App\Domain\Service\ChocolatesService;
 use App\Domain\Service\UsersService;
 use App\Domain\Value\Address;
 use App\Domain\Value\ChocolateId;
 use App\Domain\Value\Country;
-use App\Domain\Value\Exception\InvalidCountryCodeException;
-use App\Domain\Value\Exception\InvalidPercentageException;
-use App\Domain\Value\Exception\InvalidWrapperTypeException;
-use App\Domain\Value\Exception\NegativeQuantityException;
 use App\Domain\Value\Percentage;
 use App\Domain\Value\Producer;
 use App\Domain\Value\Quantity;
@@ -84,6 +79,8 @@ final class SubmitChocolatesAction implements MiddlewareInterface
         } catch (InvalidWrapperTypeException $e) {
             // TODO
         } catch (NegativeQuantityException $e) {
+            // TODO
+        } catch (UserNotFoundException $e) {
             // TODO
         } catch (\Throwable $e) {
             // TODO
