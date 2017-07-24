@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Action\ApproveChocolateAction;
 use App\Action\ChocolateDetailsAction;
 use App\Action\ChocolatesAction;
 use App\Action\HomePageAction;
@@ -12,7 +13,7 @@ use App\Action\ViewLoginAction;
 use App\Action\ViewSubmitChocolatesAction;
 use App\Container\Action\ChocolatesServiceActionFactory;
 use App\Container\Action\LoginActionFactory;
-use App\Container\Action\SubmitChocolatesActionFactory;
+use App\Container\Action\ChocolatesAndUsersActionFactory;
 use App\Container\Action\TemplateActionFactory;
 use App\Container\Action\UsersServiceActionFactory;
 use App\Container\Infrastructure\Repository\SqlRepositoryFactory;
@@ -65,7 +66,8 @@ class ConfigProvider
                 ViewLoginAction::class => TemplateActionFactory::class,
                 LoginAction::class => LoginActionFactory::class,
                 UsersAction::class => UsersServiceActionFactory::class,
-                SubmitChocolatesAction::class => SubmitChocolatesActionFactory::class,
+                SubmitChocolatesAction::class => ChocolatesAndUsersActionFactory::class,
+                ApproveChocolateAction::class => ChocolatesAndUsersActionFactory::class,
 
                 // MIDDLEWARE
                 HttpAuthentication::class => BasicHttpAuthenticationFactory::class,
