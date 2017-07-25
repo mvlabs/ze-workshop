@@ -57,3 +57,12 @@ $app->post(
     ],
     'approve'
 );
+
+$app->post(
+    '/delete/{id:[0-9a-f]{8}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{12}}',
+    [
+        \Middlewares\HttpAuthentication::class,
+        \App\Action\DeleteChocolateAction::class,
+    ],
+    'delete'
+);

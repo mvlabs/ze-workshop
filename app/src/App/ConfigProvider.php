@@ -5,6 +5,7 @@ namespace App;
 use App\Action\ApproveChocolateAction;
 use App\Action\ChocolateDetailsAction;
 use App\Action\ChocolatesAction;
+use App\Action\DeleteChocolateAction;
 use App\Action\HomePageAction;
 use App\Action\LoginAction;
 use App\Action\SubmitChocolatesAction;
@@ -68,6 +69,7 @@ class ConfigProvider
                 UsersAction::class => UsersServiceActionFactory::class,
                 SubmitChocolatesAction::class => ChocolatesAndUsersActionFactory::class,
                 ApproveChocolateAction::class => ChocolatesAndUsersActionFactory::class,
+                DeleteChocolateAction::class => ChocolatesAndUsersActionFactory::class,
 
                 // MIDDLEWARE
                 HttpAuthentication::class => BasicHttpAuthenticationFactory::class,
