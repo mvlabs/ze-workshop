@@ -24,4 +24,12 @@ final class InvalidPercentageException extends \InvalidArgumentException impleme
             $percentage
         ));
     }
+
+    public static function nonIntegerValue($percentage): self
+    {
+        return new self(sprintf(
+            'A percentage could not be created from non integer value %s',
+            $percentage
+        ));
+    }
 }
