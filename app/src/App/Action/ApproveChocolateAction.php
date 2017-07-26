@@ -39,21 +39,9 @@ final class ApproveChocolateAction implements MiddlewareInterface
         $chocolateId = ChocolateId::fromString($request->getAttribute('id'));
         $chocolate = $this->chocolatesService->getChocolate($chocolateId);
 
-        //try {
-            $user = $this->usersService->byUsername($request->getAttribute(HttpAuthentication::class));
+        $user = $this->usersService->byUsername($request->getAttribute(HttpAuthentication::class));
 
-            $this->chocolatesService->approve($chocolate, $user);
-        /*} catch (UserNotFoundException $e) {
-            // TODO
-        } catch (InvalidStatusTransitionException $e) {
-            // TODO
-        } catch (UnauthorizedUserException $e) {
-            // TODO
-        } catch (\App\Domain\Service\Exception\InvalidStatusTransitionException $e) {
-            // TODO
-        } catch (\Throwable $e) {
-            // TODO
-        }*/
+        $this->chocolatesService->approve($chocolate, $user);
 
         return new JsonResponse([]);
     }

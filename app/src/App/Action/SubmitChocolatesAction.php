@@ -9,6 +9,8 @@ use App\Domain\Service\UsersService;
 use App\Domain\Value\Address;
 use App\Domain\Value\ChocolateId;
 use App\Domain\Value\Country;
+use App\Domain\Value\Exception\InvalidPercentageException;
+use App\Domain\Value\Exception\InvalidQuantityException;
 use App\Domain\Value\Percentage;
 use App\Domain\Value\Producer;
 use App\Domain\Value\Quantity;
@@ -44,47 +46,43 @@ final class SubmitChocolatesAction implements MiddlewareInterface
     {
         $data = $request->getParsedBody();
 
-        //try {
-            $chocolateId = ChocolateId::new();
-            $producer = Producer::fromNameAndAddress(
-                $data['producer_name'],
-                Address::fromStreetNumberZipCodeCityRegionCountry(
-                    $data['producer_street'],
-                    $data['producer_number'],
-                    $data['producer_zip_code'],
-                    $data['producer_city'],
-                    $data['producer_region'],
-                    Country::fromStringCode($data['producer_country'])
-                )
-            );
-            $description = $data['chocolate_description'];
-            $percentage = Percentage::integer((int) $data['chocolate_percentage']);
-            $wrapperType = WrapperType::get($data['chocolate_wrapper_type']);
-            $quantity = Quantity::grams((int) $data['chocolate_quantity']);
-            $user = $this->usersService->byUsername($request->getAttribute(HttpAuthentication::class));
+        $chocolateId = ChocolateId::new();
+        $producer = Producer::fromNameAndAddress(
+            $data['producer_name'],
+            Address::fromStreetNumberZipCodeCityRegionCountry(
+                $data['producer_street'],
+                $data['producer_number'],
+                $data['producer_zip_code'],
+                $data['producer_city'],
+                $data['producer_region'],
+                Country::fromStringCode($data['producer_country'])
+            )
+        );
+        $description = $data['chocolate_description'];
 
-            $this->chocolatesService->submit(
-                $chocolateId,
-                $producer,
-                $description,
-                $percentage,
-                $wrapperType,
-                $quantity,
-                $user
-            );
-        /*} catch (InvalidCountryCodeException $e) {
-            // TODO
-        } catch (InvalidPercentageException $e) {
-            // TODO
-        } catch (InvalidWrapperTypeException $e) {
-            // TODO
-        } catch (NegativeQuantityException $e) {
-            // TODO
-        } catch (UserNotFoundException $e) {
-            // TODO
-        } catch (\Throwable $e) {
-            // TODO
-        }*/
+        if (null === $data['chocolate_percentage']) {
+            throw InvalidPercentageException::nonIntegerValue($data['chocolate_percentage']);
+        }
+
+        $percentage = Percentage::integer((int) $data['chocolate_percentage']);
+        $wrapperType = WrapperType::get($data['chocolate_wrapper_type']);
+
+        if (null === $data['chocolate_quantity']) {
+            throw InvalidQuantityException::nonIntegerValue($data['chocolate_quantity']);
+        }
+
+        $quantity = Quantity::grams((int) $data['chocolate_quantity']);
+        $user = $this->usersService->byUsername($request->getAttribute(HttpAuthentication::class));
+
+        $this->chocolatesService->submit(
+            $chocolateId,
+            $producer,
+            $description,
+            $percentage,
+            $wrapperType,
+            $quantity,
+            $user
+        );
 
         return new JsonResponse([]);
     }
