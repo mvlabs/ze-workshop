@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Value;
 
-use App\Domain\Value\Exception\NegativeQuantityException;
+use App\Domain\Value\Exception\InvalidQuantityException;
 
 final class Quantity
 {
@@ -16,7 +16,7 @@ final class Quantity
     private function __construct(int $quantity)
     {
         if ($quantity < 0) {
-            throw NegativeQuantityException::fromInteger($quantity);
+            throw InvalidQuantityException::fromNegativeInteger($quantity);
         }
 
         $this->quantity = $quantity;

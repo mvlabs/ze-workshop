@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace AppTest\Domain\Value;
 
-use App\Domain\Value\Exception\NegativeQuantityException;
+use App\Domain\Value\Exception\InvalidQuantityException;
 use App\Domain\Value\Quantity;
 use PHPUnit\Framework\TestCase;
 
@@ -21,7 +21,7 @@ final class QuantityTest extends TestCase
 
     public function testNegativeQuantityFails(): void
     {
-        $this->expectException(NegativeQuantityException::class);
+        $this->expectException(InvalidQuantityException::class);
         $this->expectExceptionMessage(sprintf('A quantity must be non negative. Received %s', -1));
 
         Quantity::grams(-1);
