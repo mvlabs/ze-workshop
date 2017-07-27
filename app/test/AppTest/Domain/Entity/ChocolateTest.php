@@ -327,4 +327,35 @@ final class ChocolateTest extends TestCase
         $deleter = User::new('toni', 'Folpet');
         $chocolate->delete($deleter);
     }
+
+    public function testDeleteChocolateAlreadyDeleted(): void
+    {
+        $chocolate = Chocolate::submit(
+            ChocolateId::new(),
+            Producer::fromNameAndAddress(
+                'name',
+                Address::fromStreetNumberZipCodeCityRegionCountry(
+                    'street',
+                    '1A',
+                    'AB123',
+                    'Treviso',
+                    'TV',
+                    Country::fromStringCode('it')
+                )
+            ),
+            'bittersweet symphony',
+            Percentage::integer(73),
+            WrapperType::get('box'),
+            Quantity::grams(100),
+            User::new('gigi', 'Zucon')
+        );
+
+        $deleter = User::newAdministrator('toni', 'Folpet');
+        $chocolate->delete($deleter);
+
+        $this->expectException(InvalidStatusTransitionException::class);
+        $this->expectExceptionMessage('You can delete only a chocolate which is not in deleted status');
+
+        $chocolate->delete($deleter);
+    }
 }

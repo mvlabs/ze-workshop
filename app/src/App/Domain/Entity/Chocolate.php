@@ -152,6 +152,10 @@ final class Chocolate implements \JsonSerializable
 
     public function delete(User $user): void
     {
+        if ($this->status()->getValue() === Status::DELETED) {
+            throw InvalidStatusTransitionException::deleteOnlyIfNotAlreadyDeleted();
+        }
+
         if (!$user->isAdministrator()) {
             throw UnauthorizedUserException::shouldBeAdminToDelete($user);
         }
