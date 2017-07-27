@@ -11,9 +11,9 @@ use Interop\Container\ContainerInterface;
 
 final class ChocolatesAndUsersActionFactory
 {
-    public function __invoke(ContainerInterface $container, string $name): SubmitChocolatesAction
+    public function __invoke(ContainerInterface $container, string $name)
     {
-        return new SubmitChocolatesAction(
+        return new $name(
             $container->get(ChocolatesService::class),
             $container->get(UsersService::class)
         );
