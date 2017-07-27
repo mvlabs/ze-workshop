@@ -25,6 +25,7 @@ use App\Domain\Service\ChocolatesService;
 use App\Domain\Service\UsersService;
 use App\Infrastructure\Repository\Chocolates;
 use App\Infrastructure\Repository\Users;
+use App\Middleware\Authorization;
 use Middlewares\HttpAuthentication;
 
 /**
@@ -73,6 +74,7 @@ class ConfigProvider
 
                 // MIDDLEWARE
                 HttpAuthentication::class => BasicHttpAuthenticationFactory::class,
+                Authorization::class => UsersServiceActionFactory::class,
 
                 // SERVICES
                 ChocolatesService::class => ChocolatesServiceFactory::class,
