@@ -27,8 +27,10 @@ final class SqlChocolates implements Chocolates
     /**
      * @return Chocolate[]
      */
-    public function all(): array
+    public function all(array $filters = []): array
     {
+        $chocolateFilters = new ChocolateFilters($filters);
+
         $allChocolatesStatement = $this->connection->executeQuery(
             'SELECT ' .
 	        '   c.id, ' .
@@ -48,13 +50,30 @@ final class SqlChocolates implements Chocolates
             'JOIN producers p ON p.id = c.producer_id ' .
             'JOIN chocolates_history ch ON ch.chocolate_id = c.id ' .
             'JOIN users u ON u.id = ch.user_id ' .
-            'GROUP BY c.id, p.id'
+            $chocolateFilters->where() . ' ' .
+            'GROUP BY c.id, p.id',
+            $chocolateFilters->data()
         );
 
         return $allChocolatesStatement->fetchAll(
             \PDO::FETCH_FUNC,
             [self::class, 'createChocolate']
         );
+    }
+
+    private function whereConditions(array $filters): string
+    {
+        $possibleFilters = ['id', 'producer_id', 'description', 'cacao_percentage', 'wrapper_type', 'quantity'];
+
+        $chocolateFilters = array_filter(
+            $filters,
+            function (string $key) use ($possibleFilters) {
+                return in_array($key, $possibleFilters);
+            },
+            ARRAY_FILTER_USE_KEY
+        );
+
+
     }
 
     public function findById(ChocolateId $id): ?Chocolate

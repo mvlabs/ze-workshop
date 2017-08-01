@@ -29,9 +29,9 @@ final class ChocolatesService
     /**
      * @return Chocolate[]
      */
-    public function getAll(): array
+    public function getAll(array $filters = []): array
     {
-        return $this->chocolates->all();
+        return $this->chocolates->all($filters);
     }
 
     /**

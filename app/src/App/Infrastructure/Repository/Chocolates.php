@@ -9,7 +9,7 @@ use App\Domain\Value\ChocolateId;
 
 interface Chocolates
 {
-    public function all(): array;
+    public function all(array $filters = []): array;
 
     public function findById(ChocolateId $id): ?Chocolate;
 

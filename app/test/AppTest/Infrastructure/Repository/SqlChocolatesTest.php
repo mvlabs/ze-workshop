@@ -66,11 +66,52 @@ final class SqlChocolatesTest extends TestCase
             'FROM chocolates c ' .
             'JOIN producers p ON p.id = c.producer_id ' .
             'JOIN chocolates_history ch ON ch.chocolate_id = c.id ' .
-            'JOIN users u ON u.id = ch.user_id ' .
-            'GROUP BY c.id, p.id'
+            'JOIN users u ON u.id = ch.user_id  ' .
+            'GROUP BY c.id, p.id',
+            []
         )->andReturn($statement);
 
         self::assertSame([], $this->repository->all());
+    }
+
+    public function testAllWithFilters(): void
+    {
+        $statement = Mockery::mock(Statement::class);
+        $statement->shouldReceive('fetchAll')->with(
+            \PDO::FETCH_FUNC,
+            [SqlChocolates::class, 'createChocolate']
+        )->andReturn([]);
+
+        $filters = [
+            'description' => 'very good',
+            'not-a-key' => 'not a value'
+        ];
+
+        $this->connection->shouldReceive('executeQuery')->with(
+            'SELECT ' .
+            '   c.id, ' .
+            '   p.name, ' .
+            '   p.street, ' .
+            '   p.street_number, ' .
+            '   p.zip_code, ' .
+            '   p.city, ' .
+            '   p.region, ' .
+            '   p.country, ' .
+            '   c.description, ' .
+            '   c.cacao_percentage, ' .
+            '   c.wrapper_type, ' .
+            '   c.quantity, ' .
+            '   array_agg(ARRAY[ch.status, u.id, u.username, u.password, cast(u.admin as varchar), cast(ch.date_time as varchar)]) ' .
+            'FROM chocolates c ' .
+            'JOIN producers p ON p.id = c.producer_id ' .
+            'JOIN chocolates_history ch ON ch.chocolate_id = c.id ' .
+            'JOIN users u ON u.id = ch.user_id ' .
+            'WHERE c.description = :description ' .
+            'GROUP BY c.id, p.id',
+            ['description' => 'very good']
+        )->andReturn($statement);
+
+        self::assertSame([], $this->repository->all($filters));
     }
 
     public function testFindByIdWithNoResult(): void

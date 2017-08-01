@@ -25,6 +25,8 @@ final class ChocolatesAction implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, DelegateInterface $delegate): ResponseInterface
     {
-        return new JsonResponse($this->chocolates->getAll());
+        $filters = $request->getQueryParams();
+
+        return new JsonResponse($this->chocolates->getAll($filters));
     }
 }
