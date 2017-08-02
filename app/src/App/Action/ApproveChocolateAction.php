@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Action;
 
-use App\Domain\Service\ChocolatesService;
-use App\Domain\Service\UsersService;
+use App\Domain\Service\ChocolatesServiceInterface;
+use App\Domain\Service\UsersServiceInterface;
 use App\Domain\Value\ChocolateId;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
@@ -17,18 +17,18 @@ use Zend\Diactoros\Response\JsonResponse;
 final class ApproveChocolateAction implements MiddlewareInterface
 {
     /**
-     * @var ChocolatesService
+     * @var ChocolatesServiceInterface
      */
     private $chocolatesService;
 
     /**
-     * @var UsersService
+     * @var UsersServiceInterface
      */
     private $usersService;
 
     public function __construct(
-        ChocolatesService $chocolatesService,
-        UsersService $usersService
+        ChocolatesServiceInterface $chocolatesService,
+        UsersServiceInterface $usersService
     ) {
         $this->chocolatesService = $chocolatesService;
         $this->usersService = $usersService;

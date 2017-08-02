@@ -14,7 +14,7 @@ use App\Domain\Value\Quantity;
 use App\Domain\Value\WrapperType;
 use App\Infrastructure\Repository\Chocolates;
 
-final class ChocolatesService
+final class ChocolatesService implements ChocolatesServiceInterface
 {
     /**
      * @var Chocolates
@@ -35,9 +35,7 @@ final class ChocolatesService
     }
 
     /**
-     * @param ChocolateId $id
-     * @return Chocolate
-     * @throws ChocolateNotFoundException
+     * @inheritdoc
      */
     public function getChocolate(ChocolateId $id): Chocolate
     {

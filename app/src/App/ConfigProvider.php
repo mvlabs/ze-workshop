@@ -12,17 +12,17 @@ use App\Action\SubmitChocolatesAction;
 use App\Action\UsersAction;
 use App\Action\ViewLoginAction;
 use App\Action\ViewSubmitChocolatesAction;
+use App\Container\Action\ChocolatesAndUsersActionFactory;
 use App\Container\Action\ChocolatesServiceActionFactory;
 use App\Container\Action\LoginActionFactory;
-use App\Container\Action\ChocolatesAndUsersActionFactory;
 use App\Container\Action\TemplateActionFactory;
 use App\Container\Action\UsersServiceActionFactory;
 use App\Container\Infrastructure\Repository\SqlRepositoryFactory;
 use App\Container\Middleware\BasicHttpAuthenticationFactory;
 use App\Container\Service\ChocolatesServiceFactory;
 use App\Container\Service\UsersServiceFactory;
-use App\Domain\Service\ChocolatesService;
-use App\Domain\Service\UsersService;
+use App\Domain\Service\ChocolatesServiceInterface;
+use App\Domain\Service\UsersServiceInterface;
 use App\Infrastructure\Repository\Chocolates;
 use App\Infrastructure\Repository\Users;
 use App\Middleware\Authorization;
@@ -77,8 +77,8 @@ class ConfigProvider
                 Authorization::class => UsersServiceActionFactory::class,
 
                 // SERVICES
-                ChocolatesService::class => ChocolatesServiceFactory::class,
-                UsersService::class => UsersServiceFactory::class,
+                ChocolatesServiceInterface::class => ChocolatesServiceFactory::class,
+                UsersServiceInterface::class => UsersServiceFactory::class,
 
                 // REPOSITORIES
                 Chocolates::class => SqlRepositoryFactory::class,

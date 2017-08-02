@@ -6,7 +6,6 @@ namespace AppTest\Domain\Service;
 
 use App\Domain\Entity\User;
 use App\Domain\Service\UsersService;
-use App\Domain\Value\UserId;
 use App\Infrastructure\Repository\Users;
 use Mockery;
 use PHPUnit\Framework\TestCase;

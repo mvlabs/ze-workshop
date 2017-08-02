@@ -9,7 +9,7 @@ use App\Domain\Service\Exception\UserNotFoundException;
 use App\Domain\Value\UserId;
 use App\Infrastructure\Repository\Users;
 
-final class UsersService
+final class UsersService implements UsersServiceInterface
 {
     /**
      * @var Users
@@ -39,6 +39,9 @@ final class UsersService
         return $this->users->findById($id);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function byUsername(string $username): User
     {
         $user = $this->users->findByUsername($username);

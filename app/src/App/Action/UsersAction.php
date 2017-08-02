@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Action;
 
-use App\Domain\Service\UsersService;
+use App\Domain\Service\UsersServiceInterface;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -14,11 +14,11 @@ use Zend\Diactoros\Response\JsonResponse;
 final class UsersAction implements MiddlewareInterface
 {
     /**
-     * @var UsersService
+     * @var UsersServiceInterface
      */
     private $usersService;
 
-    public function __construct(UsersService $usersService)
+    public function __construct(UsersServiceInterface $usersService)
     {
         $this->usersService = $usersService;
     }
