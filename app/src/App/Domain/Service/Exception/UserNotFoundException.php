@@ -15,6 +15,6 @@ final class UserNotFoundException extends \RuntimeException implements Exception
 
     public static function fromUsername(string $name): self
     {
-        return new self(sprintf('No user was found dor username %s', $name));
+        return new self(sprintf('No user was found for username %s', $name));
     }
 }
