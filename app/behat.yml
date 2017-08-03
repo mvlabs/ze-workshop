@@ -1,0 +1,4 @@
+default:
+  suites:
+    context:
+      class: AuthorizationContext

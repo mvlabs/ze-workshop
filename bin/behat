@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+docker run --rm -i --volume "$(pwd):/app" --user "$(id -u):$(id -g)" prooph/php:7.1-cli php /app/app/vendor/bin/behat -c /app/app/behat.yml "$@"
