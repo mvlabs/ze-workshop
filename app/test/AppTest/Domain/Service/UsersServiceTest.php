@@ -60,10 +60,6 @@ final class UsersServiceTest extends TestCase
         self::assertSame($user, $this->service->getById($user->id()));
     }
 
-    /**
-    * @expectedException UserNotFoundException
-    * @expectedExceptionMessage No user was found for id
-    */
     public function testGetByIdLookupFailure(): void
     {
         
@@ -71,6 +67,7 @@ final class UsersServiceTest extends TestCase
         $this->users->shouldReceive('findById')->with($id)->andReturn(null);
 
         $this->expectException(UserNotFoundException::class);
+        $this->expectExceptionMessage('No user was found for id');
 
         $this->service->getById($id);
     }
@@ -84,10 +81,6 @@ final class UsersServiceTest extends TestCase
         self::assertSame($user, $this->service->getByUsername($user->username()));
     }
 
-    /**
-     * @expectedException UserNotFoundException
-     * @expectedExceptionMessage No user was found for username
-     */
     public function testGetByUsernameLookupFailure(): void
     {
 
@@ -96,6 +89,7 @@ final class UsersServiceTest extends TestCase
         $this->users->shouldReceive('findByUsername')->with($username)->andReturn(null);
 
         $this->expectException(UserNotFoundException::class);
+        $this->expectExceptionMessage('No user was found for username');
 
         $this->service->getByUsername($username);
     }
