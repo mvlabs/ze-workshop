@@ -40,6 +40,8 @@ $app->get(
 
 $app->post('/login', \App\Action\LoginAction::class, 'login');
 
+$app->post('/token', \App\Action\TokenAction::class, 'token');
+
 $app->get('/users', \App\Action\UsersAction::class, 'users');
 
 //$app->get('/submit/form', \App\Action\ViewSubmitChocolatesAction::class, 'submit-view');
