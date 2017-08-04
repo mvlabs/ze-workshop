@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\JsonResponse;
 
-final class UserAction implements MiddlewareInterface
+final class UsersAction implements MiddlewareInterface
 {
     /**
      * @var UsersServiceInterface

@@ -14,6 +14,9 @@ interface UsersServiceInterface
 
     public function getAll(): array;
 
+	/**
+     * @throws UserNotFoundException
+     */
     public function getById(UserId $id): ?User;
 
     /**

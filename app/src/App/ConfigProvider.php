@@ -9,7 +9,7 @@ use App\Action\DeleteChocolateAction;
 use App\Action\HomePageAction;
 use App\Action\LoginAction;
 use App\Action\SubmitChocolatesAction;
-use App\Action\UserAction;
+use App\Action\UsersAction;
 use App\Action\UserDetailsAction;
 use App\Action\ViewLoginAction;
 use App\Action\ViewSubmitChocolatesAction;
@@ -68,7 +68,7 @@ class ConfigProvider
                 ViewSubmitChocolatesAction::class => TemplateActionFactory::class,
                 ViewLoginAction::class => TemplateActionFactory::class,
                 LoginAction::class => LoginActionFactory::class,
-                UserAction::class => UsersServiceActionFactory::class,
+                UsersAction::class => UsersServiceActionFactory::class,
                 UserDetailsAction::class => UsersServiceActionFactory::class,
                 SubmitChocolatesAction::class => ChocolatesAndUsersActionFactory::class,
                 ApproveChocolateAction::class => ChocolatesAndUsersActionFactory::class,
