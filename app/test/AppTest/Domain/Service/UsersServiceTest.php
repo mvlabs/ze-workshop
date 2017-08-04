@@ -47,22 +47,22 @@ final class UsersServiceTest extends TestCase
         $this->service->getAll();
     }
 
-    public function testById(): void
+    public function testGetById(): void
     {
         $user = User::new('gigi', 'zucon');
 
         $this->users->shouldReceive('findById')->with($user->id())->andReturn($user);
 
-        self::assertSame($user, $this->service->byId($user->id()));
+        self::assertSame($user, $this->service->getById($user->id()));
     }
 
-    public function testByUsername(): void
+    public function testGetByUsername(): void
     {
         $user = User::new('gigi', 'zucon');
 
         $this->users->shouldReceive('findByUsername')->with($user->username())->andReturn($user);
 
-        self::assertSame($user, $this->service->byUsername($user->username()));
+        self::assertSame($user, $this->service->getByUsername($user->username()));
     }
 
     protected function assertPostConditions(): void
