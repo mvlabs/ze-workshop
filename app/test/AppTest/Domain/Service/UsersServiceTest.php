@@ -7,6 +7,8 @@ namespace AppTest\Domain\Service;
 use App\Domain\Entity\User;
 use App\Domain\Service\UsersService;
 use App\Infrastructure\Repository\Users;
+use App\Domain\Value\UserId;
+use App\Domain\Service\Exception\UserNotFoundException;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
@@ -42,9 +44,11 @@ final class UsersServiceTest extends TestCase
 
     public function testAll(): void
     {
+     
         $this->users->shouldReceive('all');
 
         $this->service->getAll();
+
     }
 
     public function testGetById(): void
@@ -56,6 +60,21 @@ final class UsersServiceTest extends TestCase
         self::assertSame($user, $this->service->getById($user->id()));
     }
 
+    /**
+    * @expectedException UserNotFoundException
+    * @expectedExceptionMessage No user was found for id
+    */
+    public function testGetByIdLookupFailure(): void
+    {
+        
+        $id = UserId::new();
+        $this->users->shouldReceive('findById')->with($id)->andReturn(null);
+
+        $this->expectException(UserNotFoundException::class);
+
+        $this->service->getById($id);
+    }
+
     public function testGetByUsername(): void
     {
         $user = User::new('gigi', 'zucon');
@@ -63,6 +82,22 @@ final class UsersServiceTest extends TestCase
         $this->users->shouldReceive('findByUsername')->with($user->username())->andReturn($user);
 
         self::assertSame($user, $this->service->getByUsername($user->username()));
+    }
+
+    /**
+     * @expectedException UserNotFoundException
+     * @expectedExceptionMessage No user was found for username
+     */
+    public function testGetByUsernameLookupFailure(): void
+    {
+
+        $username = 'gianfranco';
+
+        $this->users->shouldReceive('findByUsername')->with($username)->andReturn(null);
+
+        $this->expectException(UserNotFoundException::class);
+
+        $this->service->getByUsername($username);
     }
 
     protected function assertPostConditions(): void
