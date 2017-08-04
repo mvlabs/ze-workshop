@@ -23,7 +23,7 @@ final class Country
         try {
             return new self(CountryCode::byName(strtoupper($code)));
         } catch (\InvalidArgumentException $e) {
-            throw new InvalidCountryCodeException($code, $e);
+            throw InvalidCountryCodeException::fromCountryCode($code, $e);
         }
     }
 
