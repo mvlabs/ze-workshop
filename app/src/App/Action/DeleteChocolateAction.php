@@ -12,6 +12,7 @@ use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Middlewares\HttpAuthentication;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Middleware\JwtAuthentication;
 use Zend\Diactoros\Response\JsonResponse;
 
 final class DeleteChocolateAction implements MiddlewareInterface
@@ -39,17 +40,12 @@ final class DeleteChocolateAction implements MiddlewareInterface
         $chocolateId = ChocolateId::fromString($request->getAttribute('id'));
         $chocolate = $this->chocolatesService->getChocolate($chocolateId);
 
-        //try {
-            $user = $this->usersService->byUsername($request->getAttribute(HttpAuthentication::class));
+        //$username = $request->getAttribute(HttpAuthentication::class);
+        $username = $request->getAttribute(JwtAuthentication::class)->data->username;
 
-            $this->chocolatesService->delete($chocolate, $user);
-        /*} catch (UserNotFoundException $e) {
-            // TODO
-        } catch (UnauthorizedUserException $e) {
-            // TODO
-        } catch (InvalidStatusTransitionException $e) {
-            // TODO
-        }*/
+        $user = $this->usersService->byUsername($username);
+
+        $this->chocolatesService->delete($chocolate, $user);
 
         return new JsonResponse([]);
     }

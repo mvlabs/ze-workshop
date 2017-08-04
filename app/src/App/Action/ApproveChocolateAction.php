@@ -12,6 +12,7 @@ use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Middlewares\HttpAuthentication;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Middleware\JwtAuthentication;
 use Zend\Diactoros\Response\JsonResponse;
 
 final class ApproveChocolateAction implements MiddlewareInterface
@@ -39,7 +40,10 @@ final class ApproveChocolateAction implements MiddlewareInterface
         $chocolateId = ChocolateId::fromString($request->getAttribute('id'));
         $chocolate = $this->chocolatesService->getChocolate($chocolateId);
 
-        $user = $this->usersService->byUsername($request->getAttribute(HttpAuthentication::class));
+        //$username = $request->getAttribute(HttpAuthentication::class);
+        $username = $request->getAttribute(JwtAuthentication::class)->data->username;
+
+        $user = $this->usersService->byUsername($username);
 
         $this->chocolatesService->approve($chocolate, $user);
 
