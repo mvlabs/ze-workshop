@@ -34,7 +34,7 @@ final class UsersService implements UsersServiceInterface
         return $this->users->all();
     }
 
-    public function byId(UserId $id): ?User
+    public function getById(UserId $id): ?User
     {
         return $this->users->findById($id);
     }
@@ -42,7 +42,7 @@ final class UsersService implements UsersServiceInterface
     /**
      * @inheritdoc
      */
-    public function byUsername(string $username): User
+    public function getByUsername(string $username): User
     {
         $user = $this->users->findByUsername($username);
 
