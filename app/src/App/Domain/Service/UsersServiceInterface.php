@@ -14,10 +14,10 @@ interface UsersServiceInterface
 
     public function getAll(): array;
 
-    public function byId(UserId $id): ?User;
+    public function getById(UserId $id): ?User;
 
     /**
      * @throws UserNotFoundException
      */
-    public function byUsername(string $username): User;
+    public function getByUsername(string $username): User;
 }
