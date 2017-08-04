@@ -26,7 +26,7 @@ final class Authorization implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, DelegateInterface $delegate): ResponseInterface
     {
-        $user = $this->usersService->byUsername($request->getAttribute(HttpAuthentication::class));
+        $user = $this->usersService->getByUsername($request->getAttribute(HttpAuthentication::class));
 
         if (! $user->isAdministrator()) {
             return new EmptyResponse(403);

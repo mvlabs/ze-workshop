@@ -39,17 +39,9 @@ final class DeleteChocolateAction implements MiddlewareInterface
         $chocolateId = ChocolateId::fromString($request->getAttribute('id'));
         $chocolate = $this->chocolatesService->getChocolate($chocolateId);
 
-        //try {
-            $user = $this->usersService->byUsername($request->getAttribute(HttpAuthentication::class));
+        $user = $this->usersService->getByUsername($request->getAttribute(HttpAuthentication::class));
 
-            $this->chocolatesService->delete($chocolate, $user);
-        /*} catch (UserNotFoundException $e) {
-            // TODO
-        } catch (UnauthorizedUserException $e) {
-            // TODO
-        } catch (InvalidStatusTransitionException $e) {
-            // TODO
-        }*/
+        $this->chocolatesService->delete($chocolate, $user);
 
         return new JsonResponse([]);
     }

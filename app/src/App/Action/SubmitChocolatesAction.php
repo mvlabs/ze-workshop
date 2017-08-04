@@ -72,7 +72,7 @@ final class SubmitChocolatesAction implements MiddlewareInterface
         }
 
         $quantity = Quantity::grams((int) $data['chocolate_quantity']);
-        $user = $this->usersService->byUsername($request->getAttribute(HttpAuthentication::class));
+        $user = $this->usersService->getByUsername($request->getAttribute(HttpAuthentication::class));
 
         $this->chocolatesService->submit(
             $chocolateId,

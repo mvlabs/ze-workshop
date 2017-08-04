@@ -37,7 +37,7 @@ final class AuthorizationTest extends TestCase
     public function testAuthorizedUserCanProceed()
     {
         $user = User::newAdministrator('gigi', 'zucon');
-        $this->usersService->shouldReceive('byUsername')->with('gigi')->andReturn($user);
+        $this->usersService->shouldReceive('getByUsername')->with('gigi')->andReturn($user);
 
         $request = (new ServerRequest())->withAttribute(HttpAuthentication::class, 'gigi');
         $response = new Response();
@@ -58,7 +58,7 @@ final class AuthorizationTest extends TestCase
     public function testNonAuthorizedUserReceivesA403()
     {
         $user = User::new('gigi', 'zucon');
-        $this->usersService->shouldReceive('byUsername')->with('gigi')->andReturn($user);
+        $this->usersService->shouldReceive('getByUsername')->with('gigi')->andReturn($user);
 
         $request = (new ServerRequest())->withAttribute(HttpAuthentication::class, 'gigi');
         $response = $this->authorizationMiddleware->process(
@@ -81,7 +81,7 @@ final class AuthorizationTest extends TestCase
         $this->expectExceptionMessage('No user was found for username gigi');
 
         $this->usersService
-            ->shouldReceive('byUsername')
+            ->shouldReceive('getByUsername')
             ->with('gigi')
             ->andThrow(UserNotFoundException::fromUsername('gigi'));
 
