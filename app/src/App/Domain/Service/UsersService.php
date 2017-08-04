@@ -36,7 +36,13 @@ final class UsersService implements UsersServiceInterface
 
     public function getById(UserId $id): ?User
     {
-        return $this->users->findById($id);
+        $user = $this->users->findById($id);
+
+        if (!$user instanceof User) {
+            throw UserNotFoundException::fromUsername($username);
+        }
+
+        return $user;
     }
 
     /**
