@@ -9,6 +9,7 @@ use App\Action\DeleteChocolateAction;
 use App\Action\HomePageAction;
 use App\Action\LoginAction;
 use App\Action\SubmitChocolatesAction;
+use App\Action\TokenAction;
 use App\Action\UsersAction;
 use App\Action\ViewLoginAction;
 use App\Action\ViewSubmitChocolatesAction;
@@ -16,9 +17,11 @@ use App\Container\Action\ChocolatesAndUsersActionFactory;
 use App\Container\Action\ChocolatesServiceActionFactory;
 use App\Container\Action\LoginActionFactory;
 use App\Container\Action\TemplateActionFactory;
+use App\Container\Action\TokenActionFactory;
 use App\Container\Action\UsersServiceActionFactory;
 use App\Container\Infrastructure\Repository\SqlRepositoryFactory;
 use App\Container\Middleware\BasicHttpAuthenticationFactory;
+use App\Container\Middleware\JwtAuthenticationFactory;
 use App\Container\Service\ChocolatesServiceFactory;
 use App\Container\Service\UsersServiceFactory;
 use App\Domain\Service\ChocolatesServiceInterface;
@@ -71,9 +74,10 @@ class ConfigProvider
                 SubmitChocolatesAction::class => ChocolatesAndUsersActionFactory::class,
                 ApproveChocolateAction::class => ChocolatesAndUsersActionFactory::class,
                 DeleteChocolateAction::class => ChocolatesAndUsersActionFactory::class,
+                TokenAction::class => TokenActionFactory::class,
 
                 // MIDDLEWARE
-                HttpAuthentication::class => BasicHttpAuthenticationFactory::class,
+                HttpAuthentication::class => JwtAuthenticationFactory::class,
                 Authorization::class => UsersServiceActionFactory::class,
 
                 // SERVICES
