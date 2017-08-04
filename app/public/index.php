@@ -15,13 +15,13 @@ require 'vendor/autoload.php';
  */
 call_user_func(function () {
     /** @var \Interop\Container\ContainerInterface $container */
-    $container = require 'config/container.php';
+    $container = require 'config/container-pimple.php';
 
     /** @var \Zend\Expressive\Application $app */
     $app = $container->get(\Zend\Expressive\Application::class);
 
     // Import programmatic/declarative middleware pipeline and routing
-    // configuration statements
+    // configuration statementsconfig-pimple
     require 'config/pipeline.php';
     require 'config/routes.php';
 

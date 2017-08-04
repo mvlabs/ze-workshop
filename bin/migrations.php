@@ -11,7 +11,7 @@ $cli = new \Symfony\Component\Console\Application(
     \Doctrine\DBAL\Migrations\MigrationsVersion::VERSION()
 );
 
-$container = require __DIR__ . '/../app/config/container.php';
+$container = require __DIR__ . '/../app/config/container-pimple.php';
 
 $helperSet = new \Symfony\Component\Console\Helper\HelperSet();
 $helperSet->set(new \Symfony\Component\Console\Helper\QuestionHelper(), 'dialog');

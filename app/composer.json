@@ -17,6 +17,7 @@
         "phpspec/phpspec": "^4.0",
         "ramsey/uuid": "^3.6",
         "roave/security-advisories": "dev-master",
+        "xtreamwayz/pimple-container-interop": "^1.0",
         "zendframework/zend-component-installer": "^1.0 || ^0.7.0",
         "zendframework/zend-config-aggregator": "^0.2.0",
         "zendframework/zend-expressive": "^2.0.2",
