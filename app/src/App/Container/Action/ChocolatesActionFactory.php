@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Container\Action;
 
 use App\Domain\Service\ChocolatesServiceInterface;
+use Hal\HalResponseFactory;
+use Hal\ResourceGenerator;
 use Interop\Container\ContainerInterface;
 
-final class ChocolatesServiceActionFactory
+final class ChocolatesActionFactory
 {
     /**
      * @return mixed
@@ -15,7 +17,9 @@ final class ChocolatesServiceActionFactory
     public function __invoke(ContainerInterface $container, string $name)
     {
         return new $name(
-            $container->get(ChocolatesServiceInterface::class)
+            $container->get(ChocolatesServiceInterface::class),
+            $container->get(ResourceGenerator::class),
+            $container->get(HalResponseFactory::class)
         );
     }
 }

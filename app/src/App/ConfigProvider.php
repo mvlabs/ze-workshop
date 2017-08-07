@@ -13,21 +13,31 @@ use App\Action\UsersAction;
 use App\Action\UserDetailsAction;
 use App\Action\ViewLoginAction;
 use App\Action\ViewSubmitChocolatesAction;
+use App\Container\Action\ChocolateDetailsActionFactory;
 use App\Container\Action\ChocolatesAndUsersActionFactory;
-use App\Container\Action\ChocolatesServiceActionFactory;
+use App\Container\Action\ChocolatesActionFactory;
 use App\Container\Action\LoginActionFactory;
 use App\Container\Action\TemplateActionFactory;
 use App\Container\Action\UsersServiceActionFactory;
+use App\Container\Infrastructure\Hydrators\HydratorPluginManagerDelegatorFactory;
 use App\Container\Infrastructure\Repository\SqlRepositoryFactory;
 use App\Container\Middleware\BasicHttpAuthenticationFactory;
 use App\Container\Service\ChocolatesServiceFactory;
 use App\Container\Service\UsersServiceFactory;
+use App\Domain\Entity\Chocolate;
 use App\Domain\Service\ChocolatesServiceInterface;
 use App\Domain\Service\UsersServiceInterface;
+use App\Infrastructure\Hydrators\ChocolateExtractor;
+use App\Infrastructure\Hydrators\ChocolatesCollection;
 use App\Infrastructure\Repository\Chocolates;
 use App\Infrastructure\Repository\Users;
 use App\Middleware\Authorization;
+use Hal\Metadata\MetadataMap;
+use Hal\Metadata\RouteBasedCollectionMetadata;
+use Hal\Metadata\RouteBasedResourceMetadata;
 use Middlewares\HttpAuthentication;
+use Zend\Hydrator\HydratorPluginManager;
+use Zend\Hydrator\ObjectProperty;
 
 /**
  * The configuration provider for the App module
@@ -48,7 +58,8 @@ class ConfigProvider
     {
         return [
             'dependencies' => $this->getDependencies(),
-            'templates'    => $this->getTemplates(),
+            'templates' => $this->getTemplates(),
+            MetadataMap::class => $this->getMetadata(),
         ];
     }
 
@@ -63,8 +74,8 @@ class ConfigProvider
             'factories'  => [
                 // ACTIONS
                 HomePageAction::class => TemplateActionFactory::class,
-                ChocolatesAction::class => ChocolatesServiceActionFactory::class,
-                ChocolateDetailsAction::class => ChocolatesServiceActionFactory::class,
+                ChocolatesAction::class => ChocolatesActionFactory::class,
+                ChocolateDetailsAction::class => ChocolatesActionFactory::class,
                 ViewSubmitChocolatesAction::class => TemplateActionFactory::class,
                 ViewLoginAction::class => TemplateActionFactory::class,
                 LoginAction::class => LoginActionFactory::class,
@@ -86,6 +97,11 @@ class ConfigProvider
                 Chocolates::class => SqlRepositoryFactory::class,
                 Users::class => SqlRepositoryFactory::class,
             ],
+            'delegators' => [
+                HydratorPluginManager::class => [
+                    HydratorPluginManagerDelegatorFactory::class
+                ]
+            ]
         ];
     }
 
@@ -102,6 +118,24 @@ class ConfigProvider
                 'error'  => ['templates/error'],
                 'layout' => ['templates/layout'],
             ],
+        ];
+    }
+
+    public function getMetadata(): array
+    {
+        return [
+            [
+                '__class__' => RouteBasedResourceMetadata::class,
+                'resource_class' => Chocolate::class,
+                'route' => 'chocolate-details',
+                'extractor' => ChocolateExtractor::class,
+            ],
+            [
+                '__class__' => RouteBasedCollectionMetadata::class,
+                'collection_class' => ChocolatesCollection::class,
+                'collection_relation' => 'chocolate_details',
+                'route' => 'chocolates',
+            ]
         ];
     }
 }
