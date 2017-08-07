@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Container\Action;
+namespace App\Container\Middleware;
 
 use App\Domain\Service\UsersServiceInterface;
 use Interop\Container\ContainerInterface;
 
-final class UsersServiceActionFactory
+final class AuthorizationFactory
 {
     public function __invoke(ContainerInterface $container, string $name)
     {
