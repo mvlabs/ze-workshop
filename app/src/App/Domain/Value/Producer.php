@@ -99,7 +99,7 @@ final class Producer implements \JsonSerializable
             'zipCode' => $this->zipCode(),
             'city' => $this->city(),
             'region' => $this->region(),
-            'country' => $this->countryCode()
+            'country' => $this->countryCode()->getValue()
         ];
     }
 }
