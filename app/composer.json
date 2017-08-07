@@ -17,6 +17,7 @@
         "phpspec/phpspec": "^4.0",
         "ramsey/uuid": "^3.6",
         "roave/security-advisories": "dev-master",
+        "weierophinney/hal": "^0.2.0",
         "xtreamwayz/pimple-container-interop": "^1.0",
         "zendframework/zend-component-installer": "^1.0 || ^0.7.0",
         "zendframework/zend-config-aggregator": "^0.2.0",
@@ -24,6 +25,7 @@
         "zendframework/zend-expressive-fastroute": "^2.0",
         "zendframework/zend-expressive-helpers": "^4.0",
         "zendframework/zend-expressive-platesrenderer": "^1.3",
+        "zendframework/zend-hydrator": "^2.2",
         "zendframework/zend-servicemanager": "^3.3",
         "zendframework/zend-stdlib": "^3.1"
     },
