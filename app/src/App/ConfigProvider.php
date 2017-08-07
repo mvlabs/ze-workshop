@@ -9,13 +9,13 @@ use App\Action\DeleteChocolateAction;
 use App\Action\HomePageAction;
 use App\Action\LoginAction;
 use App\Action\SubmitChocolatesAction;
-use App\Action\UsersAction;
 use App\Action\UserDetailsAction;
+use App\Action\UsersAction;
 use App\Action\ViewLoginAction;
 use App\Action\ViewSubmitChocolatesAction;
 use App\Container\Action\ChocolateDetailsActionFactory;
-use App\Container\Action\ChocolatesAndUsersActionFactory;
 use App\Container\Action\ChocolatesActionFactory;
+use App\Container\Action\ChocolatesAndUsersActionFactory;
 use App\Container\Action\LoginActionFactory;
 use App\Container\Action\TemplateActionFactory;
 use App\Container\Action\UsersActionFactory;
@@ -30,9 +30,10 @@ use App\Domain\Entity\Chocolate;
 use App\Domain\Entity\User;
 use App\Domain\Service\ChocolatesServiceInterface;
 use App\Domain\Service\UsersServiceInterface;
-use App\Infrastructure\Hydrators\SerializeExtractor;
 use App\Infrastructure\Hydrators\ChocolatesCollection;
+use App\Infrastructure\Hydrators\SerializeExtractor;
 use App\Infrastructure\Hydrators\UserExtractor;
+use App\Infrastructure\Hydrators\UsersCollection;
 use App\Infrastructure\Repository\Chocolates;
 use App\Infrastructure\Repository\Users;
 use App\Middleware\Authorization;
@@ -41,7 +42,6 @@ use Hal\Metadata\RouteBasedCollectionMetadata;
 use Hal\Metadata\RouteBasedResourceMetadata;
 use Middlewares\HttpAuthentication;
 use Zend\Hydrator\HydratorPluginManager;
-use Zend\Hydrator\ObjectProperty;
 
 /**
  * The configuration provider for the App module
@@ -145,6 +145,12 @@ class ConfigProvider
                 'resource_class' => User::class,
                 'route' => 'user-details',
                 'extractor' => SerializeExtractor::class,
+            ],
+            [
+                '__class__' => RouteBasedCollectionMetadata::class,
+                'collection_class' => UsersCollection::class,
+                'collection_relation' => 'user_details',
+                'route' => 'users',
             ]
         ];
     }
