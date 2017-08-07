@@ -6,6 +6,8 @@ namespace App\Action;
 
 use App\Domain\Service\UsersServiceInterface;
 use App\Domain\Value\UserId;
+use Hal\HalResponseFactory;
+use Hal\ResourceGenerator;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -19,9 +21,24 @@ final class UserDetailsAction implements MiddlewareInterface
      */
     private $usersService;
 
-    public function __construct(UsersServiceInterface $usersService)
-    {
+    /**
+     * @var ResourceGenerator
+     */
+    private $resourceGenerator;
+
+    /**
+     * @var HalResponseFactory
+     */
+    private $responseFactory;
+
+    public function __construct(
+        UsersServiceInterface $usersService,
+        ResourceGenerator $resourceGenerator,
+        HalResponseFactory $responseFactory
+    ) {
         $this->usersService = $usersService;
+        $this->resourceGenerator = $resourceGenerator;
+        $this->responseFactory = $responseFactory;
     }
 
     public function process(ServerRequestInterface $request, DelegateInterface $delegate): ResponseInterface
@@ -30,6 +47,8 @@ final class UserDetailsAction implements MiddlewareInterface
 
         $user = $this->usersService->getById($userId);
 
-        return new JsonResponse($user);
+        $resource = $this->resourceGenerator->fromObject($user, $request);
+
+        return $this->responseFactory->createResponse($request, $resource);
     }
 }

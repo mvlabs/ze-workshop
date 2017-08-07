@@ -18,17 +18,21 @@ use App\Container\Action\ChocolatesAndUsersActionFactory;
 use App\Container\Action\ChocolatesActionFactory;
 use App\Container\Action\LoginActionFactory;
 use App\Container\Action\TemplateActionFactory;
+use App\Container\Action\UsersActionFactory;
 use App\Container\Action\UsersServiceActionFactory;
 use App\Container\Infrastructure\Hydrators\HydratorPluginManagerDelegatorFactory;
 use App\Container\Infrastructure\Repository\SqlRepositoryFactory;
+use App\Container\Middleware\AuthorizationFactory;
 use App\Container\Middleware\BasicHttpAuthenticationFactory;
 use App\Container\Service\ChocolatesServiceFactory;
 use App\Container\Service\UsersServiceFactory;
 use App\Domain\Entity\Chocolate;
+use App\Domain\Entity\User;
 use App\Domain\Service\ChocolatesServiceInterface;
 use App\Domain\Service\UsersServiceInterface;
-use App\Infrastructure\Hydrators\ChocolateExtractor;
+use App\Infrastructure\Hydrators\SerializeExtractor;
 use App\Infrastructure\Hydrators\ChocolatesCollection;
+use App\Infrastructure\Hydrators\UserExtractor;
 use App\Infrastructure\Repository\Chocolates;
 use App\Infrastructure\Repository\Users;
 use App\Middleware\Authorization;
@@ -79,15 +83,15 @@ class ConfigProvider
                 ViewSubmitChocolatesAction::class => TemplateActionFactory::class,
                 ViewLoginAction::class => TemplateActionFactory::class,
                 LoginAction::class => LoginActionFactory::class,
-                UsersAction::class => UsersServiceActionFactory::class,
-                UserDetailsAction::class => UsersServiceActionFactory::class,
+                UsersAction::class => UsersActionFactory::class,
+                UserDetailsAction::class => UsersActionFactory::class,
                 SubmitChocolatesAction::class => ChocolatesAndUsersActionFactory::class,
                 ApproveChocolateAction::class => ChocolatesAndUsersActionFactory::class,
                 DeleteChocolateAction::class => ChocolatesAndUsersActionFactory::class,
 
                 // MIDDLEWARE
                 HttpAuthentication::class => BasicHttpAuthenticationFactory::class,
-                Authorization::class => UsersServiceActionFactory::class,
+                Authorization::class => AuthorizationFactory::class,
 
                 // SERVICES
                 ChocolatesServiceInterface::class => ChocolatesServiceFactory::class,
@@ -128,13 +132,19 @@ class ConfigProvider
                 '__class__' => RouteBasedResourceMetadata::class,
                 'resource_class' => Chocolate::class,
                 'route' => 'chocolate-details',
-                'extractor' => ChocolateExtractor::class,
+                'extractor' => SerializeExtractor::class,
             ],
             [
                 '__class__' => RouteBasedCollectionMetadata::class,
                 'collection_class' => ChocolatesCollection::class,
                 'collection_relation' => 'chocolate_details',
                 'route' => 'chocolates',
+            ],
+            [
+                '__class__' => RouteBasedResourceMetadata::class,
+                'resource_class' => User::class,
+                'route' => 'user-details',
+                'extractor' => SerializeExtractor::class,
             ]
         ];
     }
