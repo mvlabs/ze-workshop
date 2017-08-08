@@ -19,6 +19,7 @@ use App\Container\Action\LoginActionFactory;
 use App\Container\Action\TemplateActionFactory;
 use App\Container\Action\UsersServiceActionFactory;
 use App\Container\Infrastructure\Repository\SqlRepositoryFactory;
+use App\Container\Middleware\AccessLogFactory;
 use App\Container\Middleware\BasicHttpAuthenticationFactory;
 use App\Container\Service\ChocolatesServiceFactory;
 use App\Container\Service\UsersServiceFactory;
@@ -27,6 +28,7 @@ use App\Domain\Service\UsersServiceInterface;
 use App\Infrastructure\Repository\Chocolates;
 use App\Infrastructure\Repository\Users;
 use App\Middleware\Authorization;
+use Middlewares\AccessLog;
 use Middlewares\HttpAuthentication;
 
 /**
@@ -77,6 +79,7 @@ class ConfigProvider
                 // MIDDLEWARE
                 HttpAuthentication::class => BasicHttpAuthenticationFactory::class,
                 Authorization::class => UsersServiceActionFactory::class,
+                AccessLog::class => AccessLogFactory::class,
 
                 // SERVICES
                 ChocolatesServiceInterface::class => ChocolatesServiceFactory::class,
