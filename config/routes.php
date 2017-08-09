@@ -25,3 +25,5 @@
  *     'contact'
  * );
  */
+
+$app->get('/', \App\Action\IndexAction::class, 'index');
