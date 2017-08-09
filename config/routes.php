@@ -27,3 +27,5 @@
  */
 
 $app->get('/', \App\Action\IndexAction::class, 'index');
+
+$app->get('/hello', \App\Action\HelloAction::class, 'hello');
