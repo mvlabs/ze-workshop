@@ -14,7 +14,8 @@ final class AccessLogFactory
     public function __invoke(ContainerInterface $container)
     {
         $logger = new Logger('access');
-        $logger->pushHandler(new StreamHandler(__DIR__ . '/../../../../data/access-log.txt'));
+        $filePath = $container->get('config')['access_log']['path'];
+        $logger->pushHandler(new StreamHandler($filePath));
 
         $accessLog = new AccessLog($logger);
 
