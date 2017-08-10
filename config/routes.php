@@ -39,3 +39,9 @@ $app->get(
 );
 
 $app->get('/users', \App\Action\UsersAction::class, 'users');
+
+$app->get(
+    '/user/{id:[0-9a-f]{8}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{12}}',
+    \App\Action\UserDetailsAction::class,
+    'user-details'
+);
