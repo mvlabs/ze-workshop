@@ -37,3 +37,5 @@ $app->get(
     \App\Action\ChocolateDetailsAction::class,
     'chocolate-details'
 );
+
+$app->get('/users', \App\Action\UsersAction::class, 'users');
