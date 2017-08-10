@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Container\Action;
 
-use App\Action\UsersAction;
 use App\Domain\Service\UsersServiceInterface;
 use Interop\Container\ContainerInterface;
 
-class UsersActionFactory
+final class UsersServiceActionFactory
 {
-    public function __invoke(ContainerInterface $container): UsersAction
+    public function __invoke(ContainerInterface $container, string $name)
     {
-        return new UsersAction(
+        return new $name(
             $container->get(UsersServiceInterface::class)
         );
     }
