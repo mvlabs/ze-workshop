@@ -9,14 +9,16 @@
     },
     "require": {
         "php": "^5.6 || ^7.0",
+        "doctrine/dbal": "^2.6",
+        "doctrine/migrations": "^1.5",
         "roave/security-advisories": "dev-master",
+        "xtreamwayz/pimple-container-interop": "^1.0",
         "zendframework/zend-component-installer": "^1.0",
         "zendframework/zend-config-aggregator": "^1.0",
         "zendframework/zend-expressive": "^2.0.2",
+        "zendframework/zend-expressive-fastroute": "^2.0",
         "zendframework/zend-expressive-helpers": "^4.0",
-        "zendframework/zend-stdlib": "^3.1",
-        "xtreamwayz/pimple-container-interop": "^1.0",
-        "zendframework/zend-expressive-fastroute": "^2.0"
+        "zendframework/zend-stdlib": "^3.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0.8 || ^5.7.15",
