@@ -36,6 +36,7 @@ return [
             Middleware\NotFoundHandler::class                => Container\NotFoundHandlerFactory::class,
 
             \Doctrine\DBAL\Connection::class => \App\Container\ConnectionFactory::class,
+            \Middlewares\AccessLog::class => \App\Container\Middleware\AccessLogFactory::class,
         ],
     ],
 ];

@@ -33,6 +33,9 @@ $app->pipe(ServerUrlMiddleware::class);
 // - $app->pipe('/docs', $apiDocMiddleware);
 // - $app->pipe('/files', $filesMiddleware);
 
+$app->pipe(new \Middlewares\ClientIp());
+$app->pipe(\Middlewares\AccessLog::class);
+
 // Register the routing middleware in the middleware pipeline
 $app->pipeRoutingMiddleware();
 $app->pipe(ImplicitHeadMiddleware::class);
