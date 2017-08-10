@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+psql -U websc ze-workshop < seeds/producers.sql
+psql -U websc ze-workshop < seeds/chocolates.sql
+psql -U websc ze-workshop < seeds/users.sql
+psql -U websc ze-workshop < seeds/chocolates_history.sql

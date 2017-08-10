@@ -51,3 +51,9 @@ We go through the installation process and we select the following starred optio
 - error handler
     - Whoops *
     - None
+
+## Add seeds to database
+
+Run
+
+```./bin/seed```
