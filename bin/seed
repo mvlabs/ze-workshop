@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+psql -U websc phpmiddleware < seeds/producers.sql
+psql -U websc phpmiddleware < seeds/chocolates.sql
+psql -U websc phpmiddleware < seeds/users.sql
+psql -U websc phpmiddleware < seeds/chocolates_history.sql
