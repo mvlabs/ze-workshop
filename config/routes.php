@@ -31,3 +31,9 @@ $app->get('/', \App\Action\IndexAction::class, 'index');
 $app->get('/hello', \App\Action\HelloAction::class, 'hello');
 
 $app->get('/chocolates', \App\Action\ChocolatesAction::class, 'chocolates');
+
+$app->get(
+    '/chocolate/{id:[0-9a-f]{8}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{12}}',
+    \App\Action\ChocolateDetailsAction::class,
+    'chocolate-details'
+);
