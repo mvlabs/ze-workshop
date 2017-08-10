@@ -3,11 +3,16 @@
 namespace App;
 use App\Action\ChocolateDetailsAction;
 use App\Action\ChocolatesAction;
+use App\Action\UsersAction;
 use App\Container\Action\ChocolatesServiceActionFactory;
+use App\Container\Action\UsersActionFactory;
 use App\Container\Domain\Service\ChocolatesServiceFactory;
-use App\Container\Infrastructure\Repository\SqlChocolatesFactory;
+use App\Container\Domain\Service\UsersServiceFactory;
+use App\Container\Infrastructure\Repository\SqlRepositoryFactory;
 use App\Domain\Service\ChocolatesServiceInterface;
+use App\Domain\Service\UsersServiceInterface;
 use App\Infrastructure\Repository\Chocolates;
+use App\Infrastructure\Repository\Users;
 
 /**
  * The configuration provider for the App module
@@ -44,12 +49,15 @@ class ConfigProvider
                 // ACTIONS
                 ChocolatesAction::class => ChocolatesServiceActionFactory::class,
                 ChocolateDetailsAction::class => ChocolatesServiceActionFactory::class,
+                UsersAction::class => UsersActionFactory::class,
 
                 // SERVICES
                 ChocolatesServiceInterface::class => ChocolatesServiceFactory::class,
+                UsersServiceInterface::class => UsersServiceFactory::class,
 
                 // REPOSITORIES
-                Chocolates::class => SqlChocolatesFactory::class,
+                Chocolates::class => SqlRepositoryFactory::class,
+                Users::class => SqlRepositoryFactory::class,
             ],
         ];
     }
