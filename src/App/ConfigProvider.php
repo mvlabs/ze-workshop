@@ -1,8 +1,9 @@
 <?php
 
 namespace App;
+use App\Action\ChocolateDetailsAction;
 use App\Action\ChocolatesAction;
-use App\Container\Action\ChocolatesActionFactory;
+use App\Container\Action\ChocolatesServiceActionFactory;
 use App\Container\Domain\Service\ChocolatesServiceFactory;
 use App\Container\Infrastructure\Repository\SqlChocolatesFactory;
 use App\Domain\Service\ChocolatesServiceInterface;
@@ -41,7 +42,8 @@ class ConfigProvider
         return [
             'factories'  => [
                 // ACTIONS
-                ChocolatesAction::class => ChocolatesActionFactory::class,
+                ChocolatesAction::class => ChocolatesServiceActionFactory::class,
+                ChocolateDetailsAction::class => ChocolatesServiceActionFactory::class,
 
                 // SERVICES
                 ChocolatesServiceInterface::class => ChocolatesServiceFactory::class,
