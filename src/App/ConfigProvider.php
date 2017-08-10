@@ -1,6 +1,12 @@
 <?php
 
 namespace App;
+use App\Action\ChocolatesAction;
+use App\Container\Action\ChocolatesActionFactory;
+use App\Container\Domain\Service\ChocolatesServiceFactory;
+use App\Container\Infrastructure\Repository\SqlChocolatesFactory;
+use App\Domain\Service\ChocolatesServiceInterface;
+use App\Infrastructure\Repository\Chocolates;
 
 /**
  * The configuration provider for the App module
@@ -34,6 +40,14 @@ class ConfigProvider
     {
         return [
             'factories'  => [
+                // ACTIONS
+                ChocolatesAction::class => ChocolatesActionFactory::class,
+
+                // SERVICES
+                ChocolatesServiceInterface::class => ChocolatesServiceFactory::class,
+
+                // REPOSITORIES
+                Chocolates::class => SqlChocolatesFactory::class,
             ],
         ];
     }
