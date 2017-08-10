@@ -2212,36 +2212,40 @@
         },
         {
             "name": "zendframework/zend-expressive-fastroute",
-            "version": "2.0.0",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-expressive-fastroute.git",
-                "reference": "646ca5818f4a887f9111c1d815434155383fd508"
+                "reference": "20767d9df6d0154190e344e2bd6ba1a4db74a959"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-expressive-fastroute/zipball/646ca5818f4a887f9111c1d815434155383fd508",
-                "reference": "646ca5818f4a887f9111c1d815434155383fd508",
+                "url": "https://api.github.com/repos/zendframework/zend-expressive-fastroute/zipball/20767d9df6d0154190e344e2bd6ba1a4db74a959",
+                "reference": "20767d9df6d0154190e344e2bd6ba1a4db74a959",
                 "shasum": ""
             },
             "require": {
-                "fig/http-message-util": "^1.1",
-                "nikic/fast-route": "^1.0.0",
+                "fig/http-message-util": "^1.1.2",
+                "nikic/fast-route": "^1.2",
                 "php": "^5.6 || ^7.0",
-                "psr/http-message": "^1.0",
-                "zendframework/zend-expressive-router": "^2.0",
+                "psr/container": "^1.0",
+                "psr/http-message": "^1.0.1",
+                "zendframework/zend-expressive-router": "^2.0.1",
                 "zendframework/zend-stdlib": "^3.1"
+            },
+            "conflict": {
+                "container-interop/container-interop": "<1.2.0"
             },
             "require-dev": {
                 "malukenho/docheader": "^0.1.5",
-                "phpunit/phpunit": "^4.7 || ^5.6",
+                "phpunit/phpunit": "^6.0.7 || ^5.7.14",
                 "zendframework/zend-coding-standard": "~1.0.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0-dev",
-                    "dev-develop": "2.1-dev"
+                    "dev-master": "2.1-dev",
+                    "dev-develop": "2.2-dev"
                 }
             },
             "autoload": {
@@ -2262,7 +2266,7 @@
                 "psr",
                 "psr-7"
             ],
-            "time": "2017-01-11T22:05:53+00:00"
+            "time": "2017-08-11T18:46:49+00:00"
         },
         {
             "name": "zendframework/zend-expressive-helpers",
