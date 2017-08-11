@@ -45,3 +45,5 @@ $app->get(
     \App\Action\UserDetailsAction::class,
     'user-details'
 );
+
+$app->post('/submit', \App\Action\SubmitChocolateAction::class, 'submit');
