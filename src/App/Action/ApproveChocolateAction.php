@@ -39,7 +39,7 @@ final class ApproveChocolateAction implements MiddlewareInterface
         $chocolateId = ChocolateId::fromString($request->getAttribute('id'));
         $chocolate = $this->chocolatesService->getChocolate($chocolateId);
 
-        $user = $this->usersService->getByUsername('admin'); // TODO: authentication and authorization
+        $user = $this->usersService->getByUsername($request->getAttribute(HttpAuthentication::class));
 
         $this->chocolatesService->approve($chocolate, $user);
 

@@ -46,16 +46,29 @@ $app->get(
     'user-details'
 );
 
-$app->post('/submit', \App\Action\SubmitChocolateAction::class, 'submit');
+$app->post(
+    '/submit',
+    [
+        \Middlewares\HttpAuthentication::class,
+        \App\Action\SubmitChocolateAction::class,
+    ],
+    'submit'
+);
 
 $app->post(
     '/approve/{id:[0-9a-f]{8}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{12}}',
-    \App\Action\ApproveChocolateAction::class,
+    [
+        \Middlewares\HttpAuthentication::class,
+        \App\Action\ApproveChocolateAction::class,
+    ],
     'approve'
 );
 
 $app->post(
     '/delete/{id:[0-9a-f]{8}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{12}}',
-    \App\Action\DeleteChocolateAction::class,
+    [
+        \Middlewares\HttpAuthentication::class,
+        \App\Action\DeleteChocolateAction::class,
+    ],
     'delete'
 );
