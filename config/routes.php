@@ -53,3 +53,9 @@ $app->post(
     \App\Action\ApproveChocolateAction::class,
     'approve'
 );
+
+$app->post(
+    '/delete/{id:[0-9a-f]{8}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{12}}',
+    \App\Action\DeleteChocolateAction::class,
+    'delete'
+);

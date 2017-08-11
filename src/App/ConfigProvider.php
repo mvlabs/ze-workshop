@@ -5,6 +5,7 @@ namespace App;
 use App\Action\ApproveChocolateAction;
 use App\Action\ChocolateDetailsAction;
 use App\Action\ChocolatesAction;
+use App\Action\DeleteChocolateAction;
 use App\Action\SubmitChocolateAction;
 use App\Action\UserDetailsAction;
 use App\Action\UsersAction;
@@ -58,6 +59,7 @@ class ConfigProvider
                 UserDetailsAction::class => UsersServiceActionFactory::class,
                 SubmitChocolateAction::class => ChocolatesAndUsersActionFactory::class,
                 ApproveChocolateAction::class => ChocolatesAndUsersActionFactory::class,
+                DeleteChocolateAction::class => ChocolatesAndUsersActionFactory::class,
 
                 // SERVICES
                 ChocolatesServiceInterface::class => ChocolatesServiceFactory::class,
