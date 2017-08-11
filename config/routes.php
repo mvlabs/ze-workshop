@@ -47,3 +47,9 @@ $app->get(
 );
 
 $app->post('/submit', \App\Action\SubmitChocolateAction::class, 'submit');
+
+$app->post(
+    '/approve/{id:[0-9a-f]{8}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{12}}',
+    \App\Action\ApproveChocolateAction::class,
+    'approve'
+);
