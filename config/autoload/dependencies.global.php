@@ -37,7 +37,7 @@ return [
 
             \Doctrine\DBAL\Connection::class => \App\Container\ConnectionFactory::class,
             \Middlewares\AccessLog::class => \App\Container\Middleware\AccessLogFactory::class,
-            \Middlewares\HttpAuthentication::class => \App\Container\Middleware\BasicHttpAuthenticationFactory::class,
+            \Middlewares\HttpAuthentication::class => \App\Container\Middleware\JwtAuthenticationFactory::class,
         ],
     ],
 ];

@@ -17,9 +17,9 @@ use App\Domain\Value\Quantity;
 use App\Domain\Value\WrapperType;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
-use Middlewares\HttpAuthentication;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Middleware\JwtAuthentication;
 use Zend\Diactoros\Response\EmptyResponse;
 use Zend\Diactoros\Response\JsonResponse;
 
@@ -89,7 +89,10 @@ final class SubmitChocolateAction implements MiddlewareInterface
         }
 
         $quantity = Quantity::grams((int) $data['chocolate_quantity']);
-        $user = $this->usersService->getByUsername($request->getAttribute(HttpAuthentication::class));
+
+        $username = $request->getAttribute(JwtAuthentication::class)->data->username;
+
+        $user = $this->usersService->getByUsername($username);
 
         $this->chocolatesService->submit(
             $chocolateId,
