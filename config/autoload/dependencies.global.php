@@ -39,6 +39,7 @@ return [
             \Middlewares\AccessLog::class => \App\Container\Middleware\AccessLogFactory::class,
             \App\Middleware\ResponseCache::class => \App\Container\Middleware\ResponseCacheFactory::class,
             \Middlewares\HttpAuthentication::class => \App\Container\Middleware\JwtAuthenticationFactory::class,
+            \App\Middleware\Authorization::class => \App\Container\Middleware\AuthorizationFactory::class,
         ],
     ],
 ];
