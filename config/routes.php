@@ -59,6 +59,7 @@ $app->post(
     '/approve/{id:[0-9a-f]{8}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{12}}',
     [
         \Middlewares\HttpAuthentication::class,
+        \App\Middleware\Authorization::class,
         \App\Action\ApproveChocolateAction::class,
     ],
     'approve'
@@ -68,6 +69,7 @@ $app->post(
     '/delete/{id:[0-9a-f]{8}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{12}}',
     [
         \Middlewares\HttpAuthentication::class,
+        \App\Middleware\Authorization::class,
         \App\Action\DeleteChocolateAction::class,
     ],
     'delete'
