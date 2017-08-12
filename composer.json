@@ -19,6 +19,8 @@
         "monolog/monolog": "^1.23",
         "ramsey/uuid": "^3.7",
         "roave/security-advisories": "dev-master",
+        "tuupola/base62": "^0.8.0",
+        "tuupola/slim-jwt-auth": "^2.3",
         "xtreamwayz/pimple-container-interop": "^1.0",
         "zendframework/zend-component-installer": "^1.0",
         "zendframework/zend-config-aggregator": "^1.0",

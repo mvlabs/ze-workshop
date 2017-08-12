@@ -72,3 +72,5 @@ $app->post(
     ],
     'delete'
 );
+
+$app->post('/token', \App\Action\TokenAction::class, 'token');

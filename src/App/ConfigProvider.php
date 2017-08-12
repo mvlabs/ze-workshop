@@ -7,10 +7,12 @@ use App\Action\ChocolateDetailsAction;
 use App\Action\ChocolatesAction;
 use App\Action\DeleteChocolateAction;
 use App\Action\SubmitChocolateAction;
+use App\Action\TokenAction;
 use App\Action\UserDetailsAction;
 use App\Action\UsersAction;
 use App\Container\Action\ChocolatesAndUsersActionFactory;
 use App\Container\Action\ChocolatesServiceActionFactory;
+use App\Container\Action\TokenActionFactory;
 use App\Container\Action\UsersServiceActionFactory;
 use App\Container\Domain\Service\ChocolatesServiceFactory;
 use App\Container\Domain\Service\UsersServiceFactory;
@@ -60,6 +62,7 @@ class ConfigProvider
                 SubmitChocolateAction::class => ChocolatesAndUsersActionFactory::class,
                 ApproveChocolateAction::class => ChocolatesAndUsersActionFactory::class,
                 DeleteChocolateAction::class => ChocolatesAndUsersActionFactory::class,
+                TokenAction::class => TokenActionFactory::class,
 
                 // SERVICES
                 ChocolatesServiceInterface::class => ChocolatesServiceFactory::class,

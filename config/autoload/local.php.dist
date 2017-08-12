@@ -8,4 +8,7 @@
  */
 
 return [
+    'jwt' => [
+        'secret' => ''
+    ]
 ];
