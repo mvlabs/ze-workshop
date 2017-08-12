@@ -31,8 +31,8 @@ return [
             Helper\UrlHelper::class           => Helper\UrlHelperFactory::class,
             Helper\UrlHelperMiddleware::class => Helper\UrlHelperMiddlewareFactory::class,
 
-            Zend\Stratigility\Middleware\ErrorHandler::class => Container\ErrorHandlerFactory::class,
-            Middleware\ErrorResponseGenerator::class         => Container\ErrorResponseGeneratorFactory::class,
+            Zend\Stratigility\Middleware\ErrorHandler::class => \LosMiddleware\ApiProblem\ErrorHandlerFactory::class,
+            Middleware\ErrorResponseGenerator::class         => \LosMiddleware\ApiProblem\ErrorResponseGeneratorFactory::class,
             Middleware\NotFoundHandler::class                => Container\NotFoundHandlerFactory::class,
 
             \Doctrine\DBAL\Connection::class => \App\Container\ConnectionFactory::class,
