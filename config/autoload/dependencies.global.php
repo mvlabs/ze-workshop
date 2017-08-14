@@ -37,6 +37,7 @@ return [
 
             \Doctrine\DBAL\Connection::class => \App\Container\ConnectionFactory::class,
             \Middlewares\AccessLog::class => \App\Container\Middleware\AccessLogFactory::class,
+            \App\Middleware\ResponseCache::class => \App\Container\Middleware\ResponseCacheFactory::class,
         ],
     ],
 ];

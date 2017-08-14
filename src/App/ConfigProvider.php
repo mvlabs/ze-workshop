@@ -1,12 +1,12 @@
 <?php
 
 namespace App;
+
 use App\Action\ChocolateDetailsAction;
 use App\Action\ChocolatesAction;
 use App\Action\UserDetailsAction;
 use App\Action\UsersAction;
 use App\Container\Action\ChocolatesServiceActionFactory;
-use App\Container\Action\UsersActionFactory;
 use App\Container\Action\UsersServiceActionFactory;
 use App\Container\Domain\Service\ChocolatesServiceFactory;
 use App\Container\Domain\Service\UsersServiceFactory;
