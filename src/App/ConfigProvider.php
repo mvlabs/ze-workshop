@@ -11,10 +11,12 @@ use App\Container\Action\UsersServiceActionFactory;
 use App\Container\Domain\Service\ChocolatesServiceFactory;
 use App\Container\Domain\Service\UsersServiceFactory;
 use App\Container\Infrastructure\Repository\SqlRepositoryFactory;
+use App\Container\Middleware\ResponseCacheFactory;
 use App\Domain\Service\ChocolatesServiceInterface;
 use App\Domain\Service\UsersServiceInterface;
 use App\Infrastructure\Repository\Chocolates;
 use App\Infrastructure\Repository\Users;
+use App\Middleware\ResponseCache;
 
 /**
  * The configuration provider for the App module
@@ -57,6 +59,9 @@ class ConfigProvider
                 // SERVICES
                 ChocolatesServiceInterface::class => ChocolatesServiceFactory::class,
                 UsersServiceInterface::class => UsersServiceFactory::class,
+
+                // MIDDLEWARE
+                ResponseCache::class => ResponseCacheFactory::class,
 
                 // REPOSITORIES
                 Chocolates::class => SqlRepositoryFactory::class,
