@@ -25,7 +25,7 @@ Start our new Expressive project with composer:
 composer create-project zendframework/zend-expressive-skeleton
 ```
 
-We go through the installation process and we select the following starred options:
+This command creates a new base project, by means of an interactive installer. Please pick options as flagged below (with an *):
 
 - installation type
     - minimal
@@ -57,3 +57,7 @@ We go through the installation process and we select the following starred optio
 Run
 
 ```./bin/seed```
+
+## Additional documentation
+
+Check out the docs folder

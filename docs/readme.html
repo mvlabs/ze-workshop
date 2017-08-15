@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/tether-min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="img/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" >
+  </head>
+  <body>
+
+    <div class="container">
+
+      <div class="title">
+        <h1>Middleware architectures in PHP with Zend Expressive</h1>
+        <h3><a href="http://2017.websummercamp.com/PHP" target="_new">Web Summer Camp 2017 - Rovinj, Croatia</a></h3>
+        <p><a href="https://twitter.com/maraspin" target="_new">Steve Maraspin</a> | <a href="https://twitter.com/marcoshuttle" target="_new">Marco Perone</a></p>
+        <h4>MV Labs</h4>
+      </div>
+
+      <h2>Exercises</h2>
+
+      <h3>1.Hello Name (10m)</h3>
+      <p>Create an <span class="purple">hello</span> route (matching requests for <span class="purple">/hello</span>) which displays a greeting message in the form of a JSON response similar to <span class="purple">{"hello":"NAME"}</span>, where NAME is either the value provided by the name parameter in an http GET query string, or the string <span class="purple">random phper</span> if no name parameter was provided.
+      </p>
+      <p>Start from branch <span class="purple"><strong>03-welcome</strong></span> and remember the importance of the <span class="code">config/routes.php</span> and <span class="code">src/ConfigProvider.php</span> files. Also, remember that you can access request parameters from your process method of a middleware compliant action through the request parameter, which implements the PSR-7 compliant <a href="http://www.php-fig.org/psr/psr-7/">ServerRequestInterface interface</a>.</p>
+
+      <h3>2.Get Chocolate Detail (25m)</h3>
+      <p>Branch <span class="purple"><strong>06-chocolates-route</strong></span> contains a <span class="purple">chocolates</span> route, allowing us to obtain a list of available chocolate wrappers. Starting from this branch, we'd like to create a <span class="purple">chocolate-details</span> route (matching requests for <span class="purple">/chocolate/ID</span> where ID is a proper ID of our domain), allowing us to see details for a specific chocolate wrapper. This means you will need to work with routes and parameters, but you will also need to interact with the domain (which provides all the tools you need).</p>
+      <p>Relevant to us in this case are the <span class="code">src/App/Domain/Service/ChocolatesService.php</span> service (and its <span class="code">getChocolate()</span> method, in particular) and, as a consequence, the <span class="code">src/App/Domain/Value/ChocolateId.php</span> value object. Also, <span class="purple">app/src/App/Action/ChocolatesAction.php</span> can turn out handy to get some inspiration.</p>
+
+      <h3>3.Caching Responses (25m)</h3>
+      <p>There are many situations where application performances might benefit from caching. Your task for this exercise is to enable caching for all GET requests handled by your application.</p>
+      <p>Start from branch <span class="purple"><strong>10-access-log</strong></span>, where you have an example of some Middleware, which you can use as an example. Remember that you can add Middleware to your application either through the <span class="code">config/routes.php</span> file, and also through the <span class="code">config/pipeline.php</span> file. It would be good if some parameters (IE cache location) could be set within the configuration of our app (IE within the <span class="code">config/autoload</span> folder). The <span class="code">data</span> folder is a good candidate target on the filesystem to keep our cache files.</p>
+
+      <h3>
+      4.Restricting Command Execution (30m)
+      </h3>
+      <p>
+        We would like to allow only a subset of users to perform certain actions (IE commands) on our domain. In particular, we would like for the following restrictions to be applied on our chocolate wrappers:
+        <ul>
+        <li><strong>Submit</strong>: allowed to (all) logged users only</li>
+        <li><strong>Approve</strong>: allowed to administrators only</li>
+        <li><strong>Delete</strong>: allowed to administrators only</li>
+        </ul>
+      </p>
+      <p>Start from branch <span class="purple"><strong>17.3-jwt-authentication</strong></span> and implement some authorization middleware (<span class="code">src/App/Middleware</span> folder is a good place where to keep it). Remember you'll also need to act on routing in order to enforce your authorization checks on routes needing it.</p>
+
+      <h3>5.Testing (bonus)</h3>
+      <p>Time's strict, so we focused on Middleware specific aspects. Also, we thought it would've been a good idea to interact with our application through Postman, so to get a glimpse of what's going on under the hood, at the http level. Tests were therefore a bit of an intentional leftover. We expect everyone's culture to drive daily development and are confident that proper care for code will be taken in everyday situations. With this said, if you've finished the exercises above early, and since it never hurts to do bit of testing, let's dig a bit into that too.</p>
+      <p>From whatever point we have reached, taking the <span class="code">test/AppTest/Middleware/ResponseCacheTest.php</span> test as a reference, let's write a test for the Authorization Middleware of the exercise above. Create an <span class="code">AuthorizationTest.php</span> test file within the <span class="code">app/test/AppTest/Middleware</span> folder and test our middleware against both an authorized and unauthorized action performed on the system.
+
+      <h2>Branch Recap</h2>
+
+      <h3>01-expressive-skeleton</h3>
+      <p>This is what you get with a fresh Zend Expressive install (see <a href="http://zend-expressive.readthedocs.io/en/latest/#installation">documentation</a> and <a href="https://github.com/zendframework/zend-expressive-skeleton">Zend Expressive skeleton</a>).</p>
+
+      <h3>02-clean-skeleton</h3>
+      <p>Zend Expressive Skeleton contains stuff we won't need at this workshop. This branch gets rid of that.</p>
+
+      <h3>03-welcome</h3>
+      <p>We define our first custom route (for <span class="purple">/</span>), displaying a simple welcome message. Most relevant files for this branch are <span class="code">config/routes.php</span> and <span class="code">src/App/Action/IndexAction.php</span>.</p>
+
+      <h3>04-hello-name</h3>
+      <p>We extend previous branch, by adding a second (<span class="purple">hello</span>) route, which takes a(n optional) <span class="purple">name</span> parameter from the request and displays a personalized greeting. Most relevant files for this branch are <span class="code">config/routes.php</span> and <span class="code">src/App/Action/HelloAction.php</span>. Provides a solution to <span class="purple"><strong>exercise 1</strong></span>.</p>
+
+      <h3>05-domain</h3>
+      <p>Our application deals with chocolate wrappers. Too bad we haven't much time to spend either writing domain code, or sampling chocolate bars. At any case, this branch contains all <span class="purple">domain logic</span> for our application.</p>
+
+      <h3>06-chocolates-route</h3>
+      <p>This is an important branch, since interaction between our Zend Expressive application and our domain logic finally begins. The <span class="purple">chocolates</span> route is added, and a list of available chocolates is retrieved and displayed when the <span class="purple">/chocolates</span> URL is invoked. No doubt, most relevant file for this branch is <span class="code">app/src/App/Action/ChocolatesAction.php</span>.</p>
+
+      <h3>07-chocolate-details-route</h3>
+      <p>This route extends previous one, as it adds a <span class="purple">chocolate-details</span> route, from which details for a single chocolate wrapper can be obtained, though the <span class="purple">/chocolate/ID</span> URL. In this case, most relevant file is <span class="code">app/src/App/Action/ChocolateDetailsAction.php</span>. Provides a solution to <span class="purple"><strong>exercise 2</strong></span>.</p>
+
+      <h3>08-users</h3>
+      <p>Route <span class="purple">users</span> is added. A list of system users can be obtained through the <span class="purple">/users</span> URL invocation. Relevant file here is: <span class="code">app/src/App/Action/UsersAction.php</span>.</p>
+
+      <h3>09-user-details</h3>
+      <p>Similar to what was happening between branches <span class="purple">06-chocolates-route</span> and <span class="purple">07-chocolate-details-routes</span>, we extend <span class="purple">08-users</span> here, adding  <span class="purple">user-details</span> route. Check out <span class="code">app/src/App/Action/UserDetailsAction.php</span>.</p>
+
+      <h3>10-access-log</h3>
+      <p>This is another important branch, as we add some Middlware taking care of cross cutting concerns of our application. In particular, we log all access requests. To do so we build some middleware through the <span class="code">src/App/Container/Middleware/AccessLogFactory.php</span> Factory (we'll rely upon <a href="https://packagist.org/packages/middlewares/access-log">middlewares/access-log</a> Middleware and <a href="https://packagist.org/packages/monolog/monolog">Monolog</a> library), and then enable it within the <span class="purple">config/pipeline.php</span> file.</p>
+
+      <h3>11-response-cache</h3>
+      <p>As in the previous branch, we add some middleware for taking care of cross cutting concerns. In contrast with what we've done before, instead of relying on existing middleware, we now implement some middleware ourselves (<span class="code">src/App/Middleware/ResponseCache.php</span>), as we can see within <span class="code">src/App/Container/Middleware/ResponseCacheFactory.php</span>. Provides a solution to <span class="purple"><strong>exercise 3</strong></span>.</p>
+
+      <h3>12-error-reporting</h3>
+      <p><a href="https://packagist.org/packages/los/api-problem">Api Problem</a> Middleware addded in order to improve API error handling.</p>
+
+      <h3>13-submit-chocolate</h3>
+      <p>Adds the <span class="purple">submit</span> route (accepting an http <span class="purple">POST</span> request), whose invokation results in a new chocolate wrapper being added to the system. File <span class="code">config/routes.php</span> is involved, of course, with a new route definition. Most relevant file is <span class="code">src/App/Action/SubmitChocolateAction.php</span>, though. You will notice that - since <span class="code">ChocolatesServiceInterface</span>'s <span class="code">submit()</span> method requires a parameter of type <span class="code">App\Domain\Entity\User</span>, but no users credentials have ever been provided - an existing user is fetched from the domain through the hardcoded username <span class="purple">user</span>.</p>
+
+      <h3>14-approve-chocolate</h3>
+      <p>Adds the <span class="purple">approve</span> route (accepting an http <span class="purple">POST</span> request), whose invokation results in a new chocolate wrapper to be made visible within the system. Most relevant file is contained within <span class="code">src/App/Container/Action</span>.</p>
+
+      <h3>15-delete-chocolate</h3>
+      <p>Adds the <span class="purple">delete</span> route (accepting an http <span class="purple">POST</span> request), whose invokation results in a chocolate wrapper to be removed from the system. Most relevant file is contained within <span class="code">src/App/Container/Action</span>.</p>
+
+      <h3>16-basic-http-authentication (and related)</h3>
+      <p>Deals with http basic authentication. Relevant files here are <span class="code">src/App/Container/Middleware/BasicHttpAuthenticationFactory.php</span> (you will notice we rely upon <a href="https://packagist.org/packages/middlewares/http-authentication">middlewares/http-authentication</a> Middleware) and, of course, <span class="code">config/routes.php</span>.</p>
+
+      <h3>17-jwt-authentication (and related)</h3>
+      <p>Deals with JWT authentication. Most relevant file here is <span class="code">src/App/Container/Middleware/JwtAuthenticationFactory.php</span> (you will notice we rely upon <a href="https://packagist.org/packages/slim/middleware">Middleware</a> written for <a href="https://www.slimframework.com/">Slim</a>. Welcome reuse!</p>
+
+      <h3>18-authorization</h3>
+      <p>Combines features of branches 1 to 15 with authentication (17), in order to enforce authentication for all actions which might results in data changes within the application. Provides a solution to <span class="purple"><strong>exercise 4</strong></span>.</p>
+
+      <h2>Zend Expressive Key Concepts Recap</h2>
+
+      <h3>Folder Structure</h3>
+      <p>Folder structure for this project is very similar to the one introduced <a href="http://zend-expressive.readthedocs.io/en/latest/reference/usage-examples/">here</a>. Below you can find a breakdown of each folder's content:
+
+      <pre><code class="hljs stylus">.
+      ├── bin <span class="purple">(utilities - IE cache clearing / DB migrations utilities)</span>
+      ├── config <span class="purple">(configuration files)</span>
+      ├── data <span class="purple">(misc data, such as cache and log files)</span>
+      ├── docs <span class="purple">(documentation)</span>
+      ├── features <span class="purple">(Behat features)</span>
+      ├── migrations
+      ├── public <span class="purple">(document root)</span>
+      │&nbsp;&nbsp; └── index<span class="hljs-class">.php</span>
+      ├── seeds <span class="purple">(data for database initialization)</span>
+      ├── src <span class="purple">(this is where we will be keeping most of our code)</span>
+      ├── test <span class="purple">(PHPUnit tests)</span>
+      └── vendor <span class="purple">(code provided by third parties)</span>
+      </code></pre>
+
+      </p>
+
+      <h3>DI/IoC Container</h3>
+      <p>Expressive promotes and advocates the usage of Dependency Injection/Inversion of Control. The Application instance itself stores a container, from which it fetches middleware (as well as other objects) when time comes to dispatch/use them. Container dependencies are defined within the <span class="code">getDependencies()</span> method of the <span class="code">src/ConfigProvider.php</span> file. This means that, if a class is created through a Factory, such factory will need to be specified within that file.</p>
+
+      <h3>Configuration Parameters</h3>
+      <p>The config directory keeps Zend Expressive configuration files. Important files herein are the following:
+      <ul>
+      <li><span class="code">config/pipeline.php</span> dealing with application wide middleware</li>
+      <li><span class="code">config/routes.php</span> dealing with routes - and related middleware</li>
+      <li><span class="code">config.php</span> dealing with configuration for the application, in general</li>
+      </ul>
+
+      Within this file, we see that a <span class="code">Zend\ConfigAggregator\ConfigAggregator</span> object is instantiated, and that a merged configuration is retrieved from it. Such configuration encompasses different configuration sources among which there are a cached configuration, our <span class="code">App\ConfigProvider</span> configuration and the content of several files within the autoload subfolder. Last, <span class="code">config/development.config.php</span> is also included, if available. The idea is that filenames matching the <span class="code">config/autoload/*.local.php</span> pattern (referring to specific host configuration) overwrite the configuration of files matching the <span class="code">config/autoload/*.global.php</span> pattern (baseline configuration) and that, in turn, they are both overwritten by the <span class="code">config/development.config.php</span> file.</p>
+      <p>The DI/IoC container we mentioned before is passed as an argument to Factories. Configuration parameters can then be extracted from it using the <span class="code">$container->get('config');</span> call within a Factory's invoke method (where $container is the invoke's method first parameter).</p>
+
+      <h3>Adding Middleware</h3>
+      <p>Our own middleware will generally reside within the <span class="code">src/App/Middleware</span> folder (or within the <span class="code">vendor</span> folder, if we rely on middleware from third parties).</p>
+      <p>Whatever the location of middleware on the file system, in order for it to be used in our applications, we need to deal with its creation (which is usually done through factories, within the <span class="code">src/App/Container/Middleware</span> folder - with actions being taken care of from the <span class="code">src/App/Container/Action</span> folder) and then activation, which can be system wide (Middleware will then be enabled through the (<span class="code">config/pipes.php</span>), or on a per route basis (through the <span class="code">config/routes.php</span> file).</p>
+
+      <h2>Frequent Issues</h2>
+      <h3>Fatal error: Uncaught ArgumentCountError: Too few arguments to function Something\Something::__construct()</h3>
+      <p>This error is usually caused by wrong configuration parameters. Configuration caching can be a source of pain here; a quick attempt to fix this kind of issue is to run the clear-config-cache.php script within the bin folder (IE invoke "php bin/clear-config-cache.php" from the CLI).</p><p>If you still cannot get things to work, make sure you check the content of your src/ConfigProvider.php file, especially in the getDependencies() method and namespace declarations.</p>
+
+      <h3>Fatal error: Uncaught Error: Class 'Something' not found in /home/websc/ze-workshop/config/container.php:31 Stack trace: #0</h3>
+      <p>When skipping from a banch to another, things might go awry with composer dependencies. Although we did the possible to always keep all dependencies, you might face some issues with missing dependencies. In such a situation, before you despair, remember you can invoke "composer install" and/or "composer update" from the project root. Most often than not this solves similar issues. If not, there might be something missing among your namespace declarations at the beginning of some file.</p>
+
+      </div>
+
+      <footer class="footer">
+        <div class="container">
+          <div class="row">
+            <div class="col col-12 col-lg-9 push-lg-3 text-lg-right">A workshop by <a href="http://mvlabs.it/" target="_blank" rel="noopener noreferrer" title="MVlabs"><img src="img/mv-logo.png" alt="MVlabs"></a>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/tether.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+  </body>
+</html>
