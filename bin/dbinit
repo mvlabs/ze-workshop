@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+psql -U websc phpmiddleware < data/dbdump/phpmiddleware.sql

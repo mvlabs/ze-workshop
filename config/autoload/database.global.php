@@ -11,7 +11,7 @@ return [
                 'port' => '5432',
                 'user' => 'websc',
                 'password' => 'websc',
-                'dbname' => 'ze-workshop'
+                'dbname' => 'phpmiddleware'
             ],
         ],
     ],
