@@ -61,7 +61,7 @@
      <h4>Alternative A - Implement JWT Authentication</h4>
       <p>Start from branch <span class="purple"><strong>17.1-jwt-authentication</strong></span> and replace basic http authentication with JWT based authentication for the routes where authentication is required.</p>
       <p>
-        Modify file <span class="code">config/autoload/dependencies.global.php</span> so to use <span class="code">App\Container\Middleware\JwtAuthenticationFactory</span>. Route <span class="purple">token</span> accepts a POST request with user credentials and returns a token, which we can then use for subsequent requests requiring authentication. In order to generate a token, you can use <span class="purple">postman</span>, with a <span class="purple">POST</span> action towards <span class="purple">http://phpmiddleware.websc/token/</span> with values <span class="purple">admin</span> as the username and <span class="purple">password</span> as the password. It's now time to take care of subsequent requests. On <span class="code">SubmitChocolateAction</span>, <span class="code">ApproveChocolateAction</span> and <span class="code">DeleteChocolateAction</span> (namespace <span class="code">App\Action</span>) you need to update the code retrieving the username from the request. To find out the name of such parameter within the request, you can take a look at <span class="code">App\Container\Middleware\JwtAuthenticationFactory</span> where the name of such parameter is defined through the <span class="purple">attribute</span> element in the array argument passed to the <span class="code">JwtAuthentication()</span> method. Also, <span class="code">Slim\Middleware\JwtAuthentication</span> requires some configuration. File <span class="code">config/local.php.dist</span> contains basic configuration structure. You need to modify it with a secret key, and ensure that the file is included within configuration (you can check out inclusion rules within <span class="code">config/config.php</span>).
+        Modify file <span class="code">config/autoload/dependencies.global.php</span> so to use <span class="code">App\Container\Middleware\JwtAuthenticationFactory</span>. Route <span class="purple">token</span> accepts a POST request with user credentials and returns a TOKEN_VALUE, which we can then use for subsequent requests requiring authentication. In order to generate a TOKEN_VALUE, you can use <span class="purple">postman</span>, with a <span class="purple">POST</span> action towards <span class="purple">http://phpmiddleware.websc/token/</span> with values <span class="purple">admin</span> as the username and <span class="purple">password</span> as the password. It's now time to take care of subsequent requests (where the generated token will need to be passed as an header: <span class="code">Authorization: Bearer TOKEN_VALUE</span>). On <span class="code">SubmitChocolateAction</span>, <span class="code">ApproveChocolateAction</span> and <span class="code">DeleteChocolateAction</span> (namespace <span class="code">App\Action</span>) you need to update the code retrieving the username from the request. To find out the name of such parameter within the request, you can take a look at <span class="code">App\Container\Middleware\JwtAuthenticationFactory</span> where the name of such parameter is defined through the <span class="purple">attribute</span> element in the array argument passed to the <span class="code">JwtAuthentication()</span> method. Also, <span class="code">Slim\Middleware\JwtAuthentication</span> requires some configuration. File <span class="code">config/local.php.dist</span> contains basic configuration structure. You need to modify it with a secret key, and ensure that the file is included within configuration (you can check out inclusion rules within <span class="code">config/config.php</span>).
       </p>
 
       <h4>Alternative B - Implement Authorization</h4>
@@ -148,9 +148,26 @@
         <li>Check out branch <span class="purple"><strong>05-domain</strong> (or later)</li>
         <li>Modify <span class="code">config/autoload/database.global.php</span> so that such db is referenced</li>
         <li>Execute <span class="code">php bin/migrations.php</span></li>
-        <li>Execute <span class="code">bin/seed</span> (available from branch <strong>06-chocolates-route</strong>)</li>
+        <li>Execurte <span class="code">bin/seed</span> (available from branch <strong>06-chocolates-route</strong>)</li>
       </ul>
       You're ready to go!
+      </p>
+
+      <h3>Postman</h3>
+      <p>Postman comes installed in the Workshop virtual machine. You can use following sample data (Body field, "Bulk Edit" option) to make chocolate submit requests:</p>
+      <p><span class="code">
+producer_name:MVLabs<br>
+producer_street:unknown<br>
+producer_number:0<br>
+producer_zip_code:33033<br>
+producer_city:Udine<br>
+producer_region:UD<br>
+producer_country:IT<br>
+chocolate_description:100% Italy<br>
+chocolate_percentage:100<br>
+chocolate_wrapper_type:box<br>
+chocolate_quantity:100<br>
+      </span>
       </p>
 
 
