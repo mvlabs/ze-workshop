@@ -70,7 +70,7 @@
 
       <h3>5.Testing (bonus)</h3>
       <p>Time's strict, so we focused on Middleware specific aspects. Also, we thought it would've been a good idea to interact with our application through Postman, so to get a glimpse of what's going on under the hood, at the http level. Tests were therefore a bit of an intentional leftover. We expect everyone's culture to drive daily development and are confident that proper care for code will be taken in everyday situations. With this said, if you've finished the exercises above early, and since it never hurts to do bit of testing, let's dig a bit into that too.</p>
-      <p>From branches <span class="purple"><strong>19-phpunit</strong></span> or <span class="purple"><strong>20-behat</strong></span>, head to <span class="code">test/AppTest/Middleware</span> (or <span class="code">features/bootrap</span>) folders and fill existing test cases for PHPUnit and Behat tests respectively.
+      <p>From branches <span class="purple"><strong>19-phpunit</strong></span> or <span class="purple"><strong>20-behat</strong></span>, head to <span class="code">test/AppTest/Middleware</span> (or <span class="code">features/bootrap</span>) folders and fill existing test cases for <a href="https://phpunit.de/">PHPUnit</a> and <a href="http://behat.org/en/latest/">Behat</a> tests respectively.
 
       <h2>Branch Recap</h2>
 
@@ -127,6 +127,15 @@
 
       <h3>18-authorization</h3>
       <p>Combines features of branches 1 to 15 with authentication (17), in order to enforce authentication for all actions which might results in data changes within the application. Provides a solution to <span class="purple"><strong>exercise 4B</strong></span>.</p>
+
+      <h3>19-phpunit (and related)</h3>
+      <p>Creates <a href="https://phpunit.de/">PHPUnit</a> tests within <span class="code">test/AppTest/Middleware</span> folder to test the previously created <span class="code">App\Middleware\Authorization</span> middleware. Provides part of the solution to <span class="purple"><strong>exercise 5</strong></span>.</p>
+
+      <h3>19-behat (and related)</h3>
+      <p>Creates <a href="http://behat.org/en/latest/">Behat</a> features within <span class="code">features</span> folder to test the previously created <span class="code">App\Middleware\Authorization</span> middleware. Provides part of the solution to <span class="purple"><strong>exercise 5</strong></span>.</p>
+
+      <h3>21-hal (and related)</h3>
+      <p><a href="https://en.wikipedia.org/wiki/Hypertext_Application_Language">HAL</a> is a simple format that gives a consistent and easy way to hyperlink between resources in your API. This branch implements responses for GET requests following the HAL specifications.</p>
 
 
       <h2>Environment</h2>
