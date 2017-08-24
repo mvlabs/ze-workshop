@@ -11,6 +11,8 @@ use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\JsonResponse;
+use Zend\Expressive\Hal\HalResponseFactory;
+use Zend\Expressive\Hal\ResourceGenerator;
 
 final class UserDetailsAction implements MiddlewareInterface
 {
@@ -19,9 +21,24 @@ final class UserDetailsAction implements MiddlewareInterface
      */
     private $usersService;
 
-    public function __construct(UsersServiceInterface $usersService)
-    {
+    /**
+     * @var ResourceGenerator
+     */
+    private $resourceGenerator;
+
+    /**
+     * @var HalResponseFactory
+     */
+    private $responseFactory;
+
+    public function __construct(
+        UsersServiceInterface $usersService,
+        ResourceGenerator $resourceGenerator,
+        HalResponseFactory $responseFactory
+    ) {
         $this->usersService = $usersService;
+        $this->resourceGenerator = $resourceGenerator;
+        $this->responseFactory = $responseFactory;
     }
 
     public function process(ServerRequestInterface $request, DelegateInterface $delegate): ResponseInterface
@@ -30,6 +47,8 @@ final class UserDetailsAction implements MiddlewareInterface
 
         $user = $this->usersService->getById($userId);
 
-        return new JsonResponse($user);
+        $resource = $this->resourceGenerator->fromObject($user, $request);
+
+        return $this->responseFactory->createResponse($request, $resource);
     }
 }

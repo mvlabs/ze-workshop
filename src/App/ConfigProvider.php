@@ -13,12 +13,14 @@ use App\Action\UsersAction;
 use App\Container\Action\ChocolatesActionFactory;
 use App\Container\Action\ChocolatesAndUsersActionFactory;
 use App\Container\Action\TokenActionFactory;
+use App\Container\Action\UsersActionFactory;
 use App\Container\Action\UsersServiceActionFactory;
 use App\Container\Domain\Service\ChocolatesServiceFactory;
 use App\Container\Domain\Service\UsersServiceFactory;
 use App\Container\Infrastructure\Hydrators\HydratorPluginManagerDelegatorFactory;
 use App\Container\Infrastructure\Repository\SqlRepositoryFactory;
 use App\Domain\Entity\Chocolate;
+use App\Domain\Entity\User;
 use App\Domain\Service\ChocolatesServiceInterface;
 use App\Domain\Service\UsersServiceInterface;
 use App\Infrastructure\Hydrators\SerializeExtractor;
@@ -67,7 +69,7 @@ class ConfigProvider
                 ChocolatesAction::class => ChocolatesActionFactory::class,
                 ChocolateDetailsAction::class => ChocolatesActionFactory::class,
                 UsersAction::class => UsersServiceActionFactory::class,
-                UserDetailsAction::class => UsersServiceActionFactory::class,
+                UserDetailsAction::class => UsersActionFactory::class,
                 SubmitChocolateAction::class => ChocolatesAndUsersActionFactory::class,
                 ApproveChocolateAction::class => ChocolatesAndUsersActionFactory::class,
                 DeleteChocolateAction::class => ChocolatesAndUsersActionFactory::class,
@@ -119,7 +121,13 @@ class ConfigProvider
                 'collection_class' => ChocolatesCollection::class,
                 'collection_relation' => 'chocolate_details',
                 'route' => 'chocolates',
-            ]
+            ],
+            [
+                '__class__' => RouteBasedResourceMetadata::class,
+                'resource_class' => User::class,
+                'route' => 'user-details',
+                'extractor' => SerializeExtractor::class,
+            ],
         ];
     }
 }
