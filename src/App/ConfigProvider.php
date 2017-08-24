@@ -25,6 +25,7 @@ use App\Domain\Service\ChocolatesServiceInterface;
 use App\Domain\Service\UsersServiceInterface;
 use App\Infrastructure\Hydrators\SerializeExtractor;
 use App\Infrastructure\Hydrators\ChocolatesCollection;
+use App\Infrastructure\Hydrators\UsersCollection;
 use App\Infrastructure\Repository\Chocolates;
 use App\Infrastructure\Repository\Users;
 use Zend\Expressive\Hal\Metadata\MetadataMap;
@@ -68,7 +69,7 @@ class ConfigProvider
                 // ACTIONS
                 ChocolatesAction::class => ChocolatesActionFactory::class,
                 ChocolateDetailsAction::class => ChocolatesActionFactory::class,
-                UsersAction::class => UsersServiceActionFactory::class,
+                UsersAction::class => UsersActionFactory::class,
                 UserDetailsAction::class => UsersActionFactory::class,
                 SubmitChocolateAction::class => ChocolatesAndUsersActionFactory::class,
                 ApproveChocolateAction::class => ChocolatesAndUsersActionFactory::class,
@@ -128,6 +129,12 @@ class ConfigProvider
                 'route' => 'user-details',
                 'extractor' => SerializeExtractor::class,
             ],
+            [
+                '__class__' => RouteBasedCollectionMetadata::class,
+                'collection_class' => UsersCollection::class,
+                'collection_relation' => 'user_details',
+                'route' => 'users',
+            ]
         ];
     }
 }
