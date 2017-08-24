@@ -1,0 +1,88 @@
+body {
+	color: #333;
+}
+
+h2 {
+	font-weight: bold;
+	margin-top: 3.25em;
+	margin-bottom: : 1em;
+}
+
+h3 {
+	margin-top: 1.65em;
+	margin-bottom: : 0;
+}
+
+h4 {
+	margin-top: 1.45em;
+	margin-bottom: : 0;
+	font-size: 1.15em;
+	font-weight: 700;
+}
+
+p {
+	margin-top: 1.20em;
+	margin-bottom: 1.15em;
+}
+
+p.thanks {
+	margin-top: 0.45em;
+	margin-bottom: 1.15em;
+	color: #7ab317;
+}
+a:link, a:visited, a:active {
+	color: #7ab317;
+ 	text-decoration: none;
+}
+
+a:hover {
+	color: #69a206;
+	text-decoration: none;
+}
+
+.purple {
+	color: #8c2f5e;
+}
+
+.code {
+	color: #8c2f5e;
+	background-color: #eee;
+	font-family: monospace;
+	font-size: 1.2em;
+}
+
+.title h1 {
+	font-size: 2.5em;
+	margin-top: 1em;
+}
+
+.title {
+	text-align: center;
+}
+
+.title h3 {
+	margin-top: 0;
+}
+
+.title h4 {
+	font-size: 1.25em;
+}
+
+.title p {
+	margin-top: 2.15em;
+	margin-bottom: 0.25em;
+}
+
+.title img {
+	width: 240px;
+}
+
+.footer {
+	margin-top: 10em;
+	padding-bottom: 2em;
+	font-size: 1em;
+}
+
+.footer img {
+	height: 24px;
+}
