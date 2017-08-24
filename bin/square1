@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+branchname=websc_`date '+%Y%m%d%H%M%S'`
+git checkout -b $branchname
+git add .
+git add -u .
+git commit -m "$branchname"
