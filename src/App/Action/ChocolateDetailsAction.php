@@ -11,6 +11,8 @@ use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\JsonResponse;
+use Zend\Expressive\Hal\HalResponseFactory;
+use Zend\Expressive\Hal\ResourceGenerator;
 
 final class ChocolateDetailsAction implements MiddlewareInterface
 {
@@ -19,9 +21,24 @@ final class ChocolateDetailsAction implements MiddlewareInterface
      */
     private $chocolatesService;
 
-    public function __construct(ChocolatesServiceInterface $chocolatesService)
-    {
+    /**
+     * @var ResourceGenerator
+     */
+    private $resourceGenerator;
+
+    /**
+     * @var HalResponseFactory
+     */
+    private $responseFactory;
+
+    public function __construct(
+        ChocolatesServiceInterface $chocolatesService,
+        ResourceGenerator $resourceGenerator,
+        HalResponseFactory $responseFactory
+    ) {
         $this->chocolatesService = $chocolatesService;
+        $this->resourceGenerator = $resourceGenerator;
+        $this->responseFactory = $responseFactory;
     }
 
     public function process(ServerRequestInterface $request, DelegateInterface $delegate): ResponseInterface
@@ -30,6 +47,8 @@ final class ChocolateDetailsAction implements MiddlewareInterface
 
         $chocolate = $this->chocolatesService->getChocolate($chocolateId);
 
-        return new JsonResponse($chocolate);
+        $resource = $this->resourceGenerator->fromObject($chocolate, $request);
+
+        return $this->responseFactory->createResponse($request, $resource);
     }
 }

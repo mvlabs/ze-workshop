@@ -10,17 +10,24 @@ use App\Action\SubmitChocolateAction;
 use App\Action\TokenAction;
 use App\Action\UserDetailsAction;
 use App\Action\UsersAction;
+use App\Container\Action\ChocolatesActionFactory;
 use App\Container\Action\ChocolatesAndUsersActionFactory;
 use App\Container\Action\ChocolatesServiceActionFactory;
 use App\Container\Action\TokenActionFactory;
 use App\Container\Action\UsersServiceActionFactory;
 use App\Container\Domain\Service\ChocolatesServiceFactory;
 use App\Container\Domain\Service\UsersServiceFactory;
+use App\Container\Infrastructure\Hydrators\HydratorPluginManagerDelegatorFactory;
 use App\Container\Infrastructure\Repository\SqlRepositoryFactory;
+use App\Domain\Entity\Chocolate;
 use App\Domain\Service\ChocolatesServiceInterface;
 use App\Domain\Service\UsersServiceInterface;
+use App\Infrastructure\Hydrators\ChocolateExtractor;
 use App\Infrastructure\Repository\Chocolates;
 use App\Infrastructure\Repository\Users;
+use Zend\Expressive\Hal\Metadata\MetadataMap;
+use Zend\Expressive\Hal\Metadata\RouteBasedResourceMetadata;
+use Zend\Hydrator\HydratorPluginManager;
 
 /**
  * The configuration provider for the App module
@@ -42,6 +49,7 @@ class ConfigProvider
         return [
             'dependencies' => $this->getDependencies(),
             'templates'    => $this->getTemplates(),
+            MetadataMap::class => $this->getMetadata(),
         ];
     }
 
@@ -56,7 +64,7 @@ class ConfigProvider
             'factories'  => [
                 // ACTIONS
                 ChocolatesAction::class => ChocolatesServiceActionFactory::class,
-                ChocolateDetailsAction::class => ChocolatesServiceActionFactory::class,
+                ChocolateDetailsAction::class => ChocolatesActionFactory::class,
                 UsersAction::class => UsersServiceActionFactory::class,
                 UserDetailsAction::class => UsersServiceActionFactory::class,
                 SubmitChocolateAction::class => ChocolatesAndUsersActionFactory::class,
@@ -72,6 +80,11 @@ class ConfigProvider
                 Chocolates::class => SqlRepositoryFactory::class,
                 Users::class => SqlRepositoryFactory::class,
             ],
+            'delegators' => [
+                HydratorPluginManager::class => [
+                    HydratorPluginManagerDelegatorFactory::class
+                ]
+            ]
         ];
     }
 
@@ -88,6 +101,18 @@ class ConfigProvider
                 'error'  => ['templates/error'],
                 'layout' => ['templates/layout'],
             ],
+        ];
+    }
+
+    private function getMetadata()
+    {
+        return [
+            [
+                '__class__' => RouteBasedResourceMetadata::class,
+                'resource_class' => Chocolate::class,
+                'route' => 'chocolate-details',
+                'extractor' => ChocolateExtractor::class,
+            ]
         ];
     }
 }
