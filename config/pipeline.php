@@ -48,7 +48,7 @@ $app->pipe(UrlHelperMiddleware::class);
 // - route-based authentication
 // - route-based validation
 // - etc.
-$app->pipe(\App\Middleware\ResponseCache::class);
+//$app->pipe(\App\Middleware\ResponseCache::class);
 
 // Register the dispatch middleware in the middleware pipeline
 $app->pipeDispatchMiddleware();
