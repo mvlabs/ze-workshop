@@ -12,7 +12,6 @@ use App\Action\UserDetailsAction;
 use App\Action\UsersAction;
 use App\Container\Action\ChocolatesActionFactory;
 use App\Container\Action\ChocolatesAndUsersActionFactory;
-use App\Container\Action\ChocolatesServiceActionFactory;
 use App\Container\Action\TokenActionFactory;
 use App\Container\Action\UsersServiceActionFactory;
 use App\Container\Domain\Service\ChocolatesServiceFactory;
@@ -23,9 +22,11 @@ use App\Domain\Entity\Chocolate;
 use App\Domain\Service\ChocolatesServiceInterface;
 use App\Domain\Service\UsersServiceInterface;
 use App\Infrastructure\Hydrators\ChocolateExtractor;
+use App\Infrastructure\Hydrators\ChocolatesCollection;
 use App\Infrastructure\Repository\Chocolates;
 use App\Infrastructure\Repository\Users;
 use Zend\Expressive\Hal\Metadata\MetadataMap;
+use Zend\Expressive\Hal\Metadata\RouteBasedCollectionMetadata;
 use Zend\Expressive\Hal\Metadata\RouteBasedResourceMetadata;
 use Zend\Hydrator\HydratorPluginManager;
 
@@ -63,7 +64,7 @@ class ConfigProvider
         return [
             'factories'  => [
                 // ACTIONS
-                ChocolatesAction::class => ChocolatesServiceActionFactory::class,
+                ChocolatesAction::class => ChocolatesActionFactory::class,
                 ChocolateDetailsAction::class => ChocolatesActionFactory::class,
                 UsersAction::class => UsersServiceActionFactory::class,
                 UserDetailsAction::class => UsersServiceActionFactory::class,
@@ -112,6 +113,12 @@ class ConfigProvider
                 'resource_class' => Chocolate::class,
                 'route' => 'chocolate-details',
                 'extractor' => ChocolateExtractor::class,
+            ],
+            [
+                '__class__' => RouteBasedCollectionMetadata::class,
+                'collection_class' => ChocolatesCollection::class,
+                'collection_relation' => 'chocolate_details',
+                'route' => 'chocolates',
             ]
         ];
     }
