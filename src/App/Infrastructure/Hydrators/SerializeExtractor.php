@@ -7,7 +7,7 @@ namespace App\Infrastructure\Hydrators;
 use App\Domain\Entity\Chocolate;
 use Zend\Hydrator\HydratorInterface;
 
-final class ChocolateExtractor implements HydratorInterface
+final class SerializeExtractor implements HydratorInterface
 {
     public function extract($object)
     {

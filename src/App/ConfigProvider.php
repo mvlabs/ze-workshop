@@ -21,7 +21,7 @@ use App\Container\Infrastructure\Repository\SqlRepositoryFactory;
 use App\Domain\Entity\Chocolate;
 use App\Domain\Service\ChocolatesServiceInterface;
 use App\Domain\Service\UsersServiceInterface;
-use App\Infrastructure\Hydrators\ChocolateExtractor;
+use App\Infrastructure\Hydrators\SerializeExtractor;
 use App\Infrastructure\Hydrators\ChocolatesCollection;
 use App\Infrastructure\Repository\Chocolates;
 use App\Infrastructure\Repository\Users;
@@ -112,7 +112,7 @@ class ConfigProvider
                 '__class__' => RouteBasedResourceMetadata::class,
                 'resource_class' => Chocolate::class,
                 'route' => 'chocolate-details',
-                'extractor' => ChocolateExtractor::class,
+                'extractor' => SerializeExtractor::class,
             ],
             [
                 '__class__' => RouteBasedCollectionMetadata::class,

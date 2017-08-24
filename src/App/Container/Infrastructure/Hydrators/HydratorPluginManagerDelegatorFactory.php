@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Container\Infrastructure\Hydrators;
 
-use App\Infrastructure\Hydrators\ChocolateExtractor;
+use App\Infrastructure\Hydrators\SerializeExtractor;
 use Interop\Container\ContainerInterface;
 use Zend\Hydrator\HydratorPluginManager;
 use Zend\ServiceManager\Factory\InvokableFactory;
@@ -21,7 +21,7 @@ final class HydratorPluginManagerDelegatorFactory
         $hydratorContainer = $callback();
 
         $hydratorContainer->setFactory(
-            ChocolateExtractor::class,
+            SerializeExtractor::class,
             InvokableFactory::class
         );
 
